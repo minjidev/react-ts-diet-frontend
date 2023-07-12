@@ -1,30 +1,43 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from 'react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import { Root } from './pages';
+import GlobalStyle from './styles/GlobalStyle';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0, // default 3
+      suspense: true,
+    },
+    mutations: {
+      // useErrorBoundary: true,
+    },
+  },
+});
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: [],
+  },
+]);
 
 const App = () => {
-  const options = {
-    method: "GET",
-    url: "https://api.edamam.com/api/food-database/v2/parser",
-    params: {
-      app_id: "5e33d82b",
-      app_key: "0723460ec4f5ef18dccf5031870bbaaa",
-      ingr: "apple",
-    },
-  };
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const { data } = await axios.request(options);
-        console.log(data);
-      } catch (error) {
-        console;
-      }
-    }
-    getData();
-  }, []);
-
-  return <>App</>;
+  return (
+    <>
+      <GlobalStyle />
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </RecoilRoot>
+    </>
+  );
 };
 
 export default App;

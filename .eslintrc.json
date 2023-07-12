@@ -6,6 +6,7 @@
     "es2022": true,
     "node": true
   },
+  "plugins": ["@tanstack/query"],
   "extends": [
     "airbnb-base",
     "airbnb-typescript",
@@ -13,7 +14,8 @@
     "plugin:import/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "settings": {
     "react": { "version": "detect" },
@@ -31,15 +33,12 @@
     "no-nested-ternary": "off",
     "import/no-cycle": "off",
     "import/no-extraneous-dependencies": "off",
-    "no-restricted-syntax": [
-      "error",
-      "ForInStatement",
-      "LabeledStatement",
-      "WithStatement"
-    ],
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     "react/react-in-jsx-scope": "off", // "React" must be in scope when using JSX
     "react/prop-types": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/prefer-query-object-syntax": "error"
     // "react-hooks/exhaustive-deps": ["warn", { additionalHooks: "useRecoilCallback" }], // for recoil
   }
 }
