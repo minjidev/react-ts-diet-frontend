@@ -10,7 +10,7 @@ export const signInSchema = z.object({
     .string({
       required_error: 'password is required',
     })
-    .min(8, 'Password must have more than 8 characters'),
+    .min(8, { message: 'Password must have more than 8 characters' }),
 });
 
 export type SignInSchema = z.infer<typeof signInSchema>;
@@ -22,11 +22,13 @@ export const signUpSchema = z
         required_error: 'email is required',
       })
       .email('Invalid email address'),
-    password: z.string({
-      required_error: 'password is required',
-    }),
+    password: z
+      .string({
+        required_error: 'password is required',
+      })
+      .min(8, { message: 'Password must have more than 8 characters' }),
     passwordConfirm: z.string(),
-    username: z.string().min(6, 'Username must have more than 6 characters'),
+    username: z.string().min(6, { message: 'Username must have more than 6 characters' }),
   })
   .refine(data => data.password === data.passwordConfirm, {
     message: "Passwords don't match",

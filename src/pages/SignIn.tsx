@@ -1,23 +1,14 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import { AuthForm } from '../components/index';
+import { AuthContainer } from '../styles/styled/Common';
 
 const SignIn = () => {
   return (
-    <Container>
+    <AuthContainer>
       <AuthForm formType="signin" />
-    </Container>
+    </AuthContainer>
   );
 };
-
-const Container = styled.div`
-  width: 60%;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default SignIn;

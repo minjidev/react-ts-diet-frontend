@@ -8,11 +8,14 @@ const GlobalStyle = createGlobalStyle`
     font-size: 2rem;
     font-family: 'Londrina Solid', 'Rubik', Inter, Avenir, Helvetica, Arial, sans-serif;
 
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    --red: #FC2B0A; 
+    --dark-red: #C32020;
+    --green: #22C745;
   }
 
   body[data-theme='light'] {
@@ -20,17 +23,20 @@ const GlobalStyle = createGlobalStyle`
     --bg-secondary-color: #fff;
 
     --font-color: #000;
-    --font-secondary: #d21312; 
 
     --button-color : #f8f8f8;
     --button-disabled-color : #c4bdbd;
     --button-hover-color: #f7f7f7;
     --button-click-color: #c4bdbd;
+    --button-point-color: #FFA202;
+    --button-dark-point-color: #E96002;
 
     --border: #ababab;
     --border-primary: #ababab;
     --border-secondary: #eee;
     --border-tertiary: #000;
+
+ 
   }
 
   body[data-theme='dark'] {
@@ -90,6 +96,16 @@ const GlobalStyle = createGlobalStyle`
 
   code {
     font-family: monospace; 
+  }
+  
+  button {
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #fff;
+    font-family: Rubik;
   }
 
   .sr-only {
