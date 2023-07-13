@@ -4,7 +4,15 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     min-height: 100%;
+    min-width: 100%;
     font-size: 2rem;
+    font-family: 'Londrina Solid', 'Rubik', Inter, Avenir, Helvetica, Arial, sans-serif;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   body[data-theme='light'] {
@@ -47,7 +55,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Londrina Solid', 'Rubik', Inter, Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
@@ -57,12 +64,11 @@ const GlobalStyle = createGlobalStyle`
 
     background-color: var(--bg-color);
     color: var(--font-color);
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-
-#root {
-    min-height: 100%
-    }
 
   html {
     height: 100%;
@@ -75,7 +81,7 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: inherit;
-    font-family: 'Noto Sans KR', sans-serif;
+    /* font-family: 'Noto Sans KR', sans-serif; */
 
     ::-webkit-scrollbar {
       display: none;
@@ -85,6 +91,16 @@ const GlobalStyle = createGlobalStyle`
   code {
     font-family: monospace; 
   }
+
+  .sr-only {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
 `;
 
 export default GlobalStyle;
