@@ -3,8 +3,9 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { Root } from './pages';
+import { Root, SignIn, SignUp } from './pages/index';
 import GlobalStyle from './styles/GlobalStyle';
+//data-theme='light'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,11 +23,24 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    children: [],
+    children: [
+      {
+        path: 'signup',
+        element: <SignUp />,
+      },
+      {
+        path: 'signin',
+        element: <SignIn />,
+      },
+    ],
   },
 ]);
 
 const App = () => {
+  React.useEffect(() => {
+    document.body.setAttribute('data-theme', 'light');
+  }, []);
+
   return (
     <>
       <GlobalStyle />
