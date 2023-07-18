@@ -18,11 +18,12 @@ interface InputProps {
   trigger: any;
   disabled?: boolean;
   onUpdate?: (isDuplicated: boolean) => void;
+  formType?: string;
 }
 
 const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
 
-const Input = ({ name, control, trigger, onUpdate, disabled = false }: InputProps) => {
+const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
 
   const {
@@ -68,7 +69,7 @@ const Input = ({ name, control, trigger, onUpdate, disabled = false }: InputProp
           }}
           disabled={disabled}
         />
-        {name === 'email' || name === 'username' ? (
+        {(formType === 'signup' && name === 'email') || name === 'username' ? (
           <>
             <CheckButton $isvalid={isDirty && !invalid} onClick={checkDuplicated(value)}>
               Check
@@ -80,7 +81,7 @@ const Input = ({ name, control, trigger, onUpdate, disabled = false }: InputProp
             )}
           </>
         ) : undefined}
-        {isDirty && error && !disabled && <Error>{error?.message}</Error>}
+        {formType === 'signup' && isDirty && error && !disabled && <Error>{error?.message}</Error>}
       </TextInputField>
     </>
   );
@@ -107,14 +108,15 @@ const CheckButton = styled(ConfirmButton).attrs({
   font-size: 1rem;
   font-weight: 400;
   position: absolute;
+  transform: translateY(50%);
   right: 2%;
-  top: 8px;
+  top: -30%;
   background-color: transparent;
   color: ${({ $isvalid }) => ($isvalid ? 'var(--button-point-color)' : 'var(--border)')};
 `;
 
 const TextInputField = styled.div`
-  margin: 0.2rem 0 1rem 0;
+  margin: 0.1rem 0 1rem 0;
   position: relative;
 `;
 
@@ -123,7 +125,7 @@ const TextInput = styled.input.attrs(props => ({
   placeholder: props.name,
 }))`
   width: 22rem;
-  height: 54px;
+  height: 3rem;
   border-radius: 6px;
   padding: 1rem 1rem;
   border: 1px solid var(--border);

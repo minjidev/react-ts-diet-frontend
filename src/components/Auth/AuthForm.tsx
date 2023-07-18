@@ -95,6 +95,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
         control={control}
         trigger={trigger}
         onUpdate={(isDuplicated: boolean) => setIsEmailDuplicated(isDuplicated)}
+        formType={formType}
       />
       <Input name="password" type="password" control={control} trigger={trigger} />
       {formType === 'signup' && (
@@ -128,6 +129,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
 const Title = styled.h1`
   font-weight: 500;
   font-size: 2.4rem;
+  margin: 1rem;
 `;
 
 const Form = styled.form`

@@ -13,7 +13,7 @@ const signUp = async ({ email, password, username }: { email: string; password: 
 };
 
 const signOut = async () => {
-  await axios.get(`${URL}/signout`);
+  await axios.post(`${URL}/signout`);
 };
 
 const checkEmailDuplicated = async (email: string) => {
