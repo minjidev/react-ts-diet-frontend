@@ -106,6 +106,11 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     color: #fff;
     font-family: Rubik;
+    cursor: pointer;
+
+    &:focus {
+      outline: 0;
+    }
   }
 
   .sr-only {

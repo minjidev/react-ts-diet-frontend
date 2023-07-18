@@ -1,8 +1,8 @@
 import { styled, css } from 'styled-components';
 
 export const AuthContainer = styled.div`
-  width: 60%;
-  max-width: 33rem;
+  width: 80%;
+  max-width: 36rem;
   border: 1px solid var(--border);
   border-radius: 6px;
   display: flex;
