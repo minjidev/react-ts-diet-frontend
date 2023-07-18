@@ -1,9 +1,9 @@
 import React from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { Root, SignIn, SignUp } from './pages/index';
+import { Root, SignIn, SignUp, Main, Home, Recipes, About, DashBoard } from './pages/index';
 import GlobalStyle from './styles/GlobalStyle';
 
 //data-theme='light'
@@ -26,12 +26,32 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: 'signup',
-        element: <SignUp />,
+        path: 'home',
+        element: <Home />,
+      },
+      {
+        path: 'main',
+        element: <Main />,
       },
       {
         path: 'signin',
         element: <SignIn />,
+      },
+      {
+        path: 'signup',
+        element: <SignUp />,
+      },
+      {
+        path: 'dashboard',
+        element: <DashBoard />,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'recipes',
+        element: <Recipes />,
       },
     ],
   },
@@ -40,6 +60,7 @@ const router = createBrowserRouter([
 const App = () => {
   React.useEffect(() => {
     document.body.setAttribute('data-theme', 'light');
+    window.scrollTo({ top: 0 });
   }, []);
 
   return (
