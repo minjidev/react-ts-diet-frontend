@@ -1,5 +1,4 @@
 import React from 'react';
-import { styled } from 'styled-components';
 import { AuthForm } from '../components/index';
 import { AuthContainer } from '../styles/styled/Common';
 

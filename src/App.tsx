@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { Root, SignIn, SignUp } from './pages/index';
 import GlobalStyle from './styles/GlobalStyle';
+
 //data-theme='light'
 
 const queryClient = new QueryClient({

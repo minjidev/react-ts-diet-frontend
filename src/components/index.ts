@@ -1,3 +1,3 @@
-export { default as Header } from './Common/Header';
-export { default as Input } from './Auth/Input';
-export { default as AuthForm } from './Auth/AuthForm';
+export { default as Header } from './common/Header';
+export { default as Input } from './auth/Input';
+export { default as AuthForm } from './auth/AuthForm';

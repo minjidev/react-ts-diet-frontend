@@ -5,68 +5,121 @@
  *    - signIn : (회원 정보 확인) 로그인
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, signInSchema, SignInSchema, SignUpSchema } from '../../schema/schema';
-import { Input } from '../../components/index';
-import { Link } from 'react-router-dom';
+import { Input } from '../index';
+import { Link, useNavigate } from 'react-router-dom';
+import { signIn, signUp } from '../../api/auth';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../../recoil/atoms/UserState';
+import { useLocation } from 'react-router-dom';
 
 interface AuthFormProps {
   formType: 'signin' | 'signup';
 }
 
+const defaultValues = {
+  email: '',
+  password: '',
+  passwordConfirm: '',
+  username: '',
+};
+
 const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
   const isSignUp = formType === 'signup';
-  const schema = isSignUp ? signUpSchema : signInSchema;
   type schemaType = typeof formType extends 'signin' ? SignInSchema : SignUpSchema;
-  const [isPasswordInvalid, setisPasswordInvalid] = React.useState(true);
+  const schema = isSignUp ? signUpSchema : signInSchema;
+
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const [isEmailDuplicated, setIsEmailDuplicated] = useState(false);
+  const [isUsernameDuplicated, setIsUsernameDuplicated] = useState(false);
+  const isDuplicated = isEmailDuplicated || isUsernameDuplicated;
+
+  const setUser = useSetRecoilState(userState);
 
   const {
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, isSubmitSuccessful },
+    getFieldState,
     control,
     trigger,
+    reset,
   } = useForm<schemaType>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      username: '',
-    },
+    defaultValues,
   });
 
-  const onSubmit = (data: schemaType) => {
-    // 회원 추가 api 요청
-    console.log(data);
+  const onSubmitSignIn = async (data: schemaType) => {
+    // 회원 로그인 api 요청
+    try {
+      const user = await signIn(data);
+      setUser(user); // localStorage에 저장
+
+      if (state) {
+        navigate(state);
+      } else navigate('/');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
+  const onSubmitSignUp = async (data: schemaType) => {
+    // 회원가입
+    try {
+      await signUp(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues);
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  const submitFn = isSignUp ? onSubmitSignUp : onSubmitSignIn;
+
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} name={formType}>
+    <Form onSubmit={handleSubmit(submitFn)} name={formType}>
       <Title>Logo</Title>
       <FormTitle>{formType.toUpperCase()}</FormTitle>
-      <Input name="email" control={control} trigger={trigger} />
       <Input
-        name="password"
+        name="email"
+        type="text"
         control={control}
         trigger={trigger}
-        onUpdate={isPasswordValid => {
-          setisPasswordInvalid(isPasswordValid);
-        }}
+        onUpdate={(isDuplicated: boolean) => setIsEmailDuplicated(isDuplicated)}
       />
+      <Input name="password" type="password" control={control} trigger={trigger} />
       {formType === 'signup' && (
         <>
-          <Input name="passwordConfirm" control={control} trigger={trigger} disabled={isPasswordInvalid} />
-          <Input name="username" control={control} trigger={trigger} />
+          <Input
+            name="passwordConfirm"
+            type="text"
+            control={control}
+            trigger={trigger}
+            disabled={getFieldState('password').invalid}
+          />
+          <Input
+            name="username"
+            type="text"
+            control={control}
+            trigger={trigger}
+            onUpdate={(isDuplicated: boolean) => setIsUsernameDuplicated(isDuplicated)}
+          />
         </>
       )}
       <BottomContainer>
         <Message to={isSignUp ? '/signin' : '/signup'}>
           {isSignUp ? 'Already have an account?' : 'Create an account'}
         </Message>
-        <ConfirmButton disabled={!isValid}>Next</ConfirmButton>
+        <ConfirmButton disabled={!isValid || isDuplicated}>Next</ConfirmButton>
       </BottomContainer>
     </Form>
   );
@@ -101,7 +154,9 @@ const Message = styled(Link)`
   }
 `;
 
-const ConfirmButton = styled.button`
+const ConfirmButton = styled.button.attrs({
+  type: 'submit',
+})`
   width: 5rem;
   height: 2.4rem;
   background-color: ${({ disabled }) => (disabled ? 'var(--border)' : 'var(--button-point-color)')};

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { useController, Control } from 'react-hook-form';
+import { AxiosError } from 'axios';
+import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 
 type FieldValues = {
   email: string;
@@ -11,26 +13,40 @@ type FieldValues = {
 
 interface InputProps {
   name: 'email' | 'password' | 'passwordConfirm' | 'username';
+  type: string;
   control: Control<FieldValues>;
   trigger: any;
   disabled?: boolean;
-  onUpdate?: (isPasswordValidated: boolean) => void;
+  onUpdate?: (isDuplicated: boolean) => void;
 }
 
+const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
+
 const Input = ({ name, control, trigger, onUpdate, disabled = false }: InputProps) => {
+  const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
+
   const {
     field: { value, onChange },
-    fieldState: { error, invalid },
+    fieldState: { error, invalid, isDirty },
   } = useController({
     name,
     control,
   });
 
-  React.useEffect(() => {
-    if (name !== 'password') return;
+  const checkDuplicated = (field: string) => async () => {
+    try {
+      const checkFn = emailRegex.test(field) ? checkEmailDuplicated : checkUsernameDuplicated;
+      await checkFn(field);
 
-    if (onUpdate) onUpdate(invalid);
-  }, [invalid]);
+      setDuplicatedResult('success');
+      if (onUpdate) onUpdate(false);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setDuplicatedResult(error.response?.data.message);
+        if (onUpdate) onUpdate(true);
+      }
+    }
+  };
 
   return (
     <>
@@ -47,11 +63,24 @@ const Input = ({ name, control, trigger, onUpdate, disabled = false }: InputProp
             if (name === 'password') {
               trigger('passwordConfirm');
             }
+            if (duplicatedResult) setDuplicatedResult(null);
             trigger(name);
           }}
           disabled={disabled}
         />
-        {error && !disabled && <Error>{error?.message}</Error>}
+        {name === 'email' || name === 'username' ? (
+          <>
+            <CheckButton $isvalid={isDirty && !invalid} onClick={checkDuplicated(value)}>
+              Check
+            </CheckButton>
+            {isDirty && !error && (
+              <Error $isvalid={duplicatedResult === 'success'}>
+                {duplicatedResult !== null && duplicatedResult === 'success' ? `Confirmed` : duplicatedResult}
+              </Error>
+            )}
+          </>
+        ) : undefined}
+        {isDirty && error && !disabled && <Error>{error?.message}</Error>}
       </TextInputField>
     </>
   );
@@ -61,8 +90,32 @@ const Label = styled.label`
   font-size: 1.2rem;
 `;
 
+const ConfirmButton = styled.button`
+  width: 5rem;
+  height: 2.4rem;
+  background-color: ${({ disabled }) => (disabled ? 'var(--border)' : 'var(--button-point-color)')};
+`;
+
+interface CheckButtonProps {
+  $isvalid: boolean;
+}
+
+const CheckButton = styled(ConfirmButton).attrs({
+  type: 'button',
+})<CheckButtonProps>`
+  width: 4rem;
+  font-size: 1rem;
+  font-weight: 400;
+  position: absolute;
+  right: 2%;
+  top: 8px;
+  background-color: transparent;
+  color: ${({ $isvalid }) => ($isvalid ? 'var(--button-point-color)' : 'var(--border)')};
+`;
+
 const TextInputField = styled.div`
   margin: 0.2rem 0 1rem 0;
+  position: relative;
 `;
 
 const TextInput = styled.input.attrs(props => ({
@@ -77,14 +130,17 @@ const TextInput = styled.input.attrs(props => ({
   font-size: 1rem;
 `;
 
-const Error = styled.div`
+interface ErrorProps {
+  $isvalid?: boolean;
+}
+const Error = styled.div<ErrorProps>`
   font-family: 'Rubik';
   font-size: 0.8rem;
   font-weight: 400;
   margin-right: auto;
   margin-top: 0.4rem;
   padding-left: 0.4rem;
-  color: var(--red);
+  color: ${({ $isvalid }) => ($isvalid ? 'var(--green)' : 'var(--red)')};
 `;
 
 export default Input;
