@@ -1,6 +1,6 @@
 import { atom, AtomEffect } from 'recoil';
 
-const localStorageEffect: <T>(key: string) => AtomEffect<T> =
+const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
   (key: string) =>
   ({ setSelf, onSet }) => {
     const user = localStorage.getItem(key);
@@ -18,8 +18,8 @@ interface User {
   username: string;
 }
 
-export const userState = atom<User[]>({
+export const userState = atom<User[] | null>({
   key: 'UserState',
-  default: [],
-  effects: [localStorageEffect<User[]>('userState')],
+  default: null,
+  effects: [localStorageEffect<User[]>('user')],
 });
