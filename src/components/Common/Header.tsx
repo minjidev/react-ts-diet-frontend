@@ -3,11 +3,11 @@ import { styled, css } from 'styled-components';
 import { RxDashboard } from 'react-icons/rx';
 import { BsSearch } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/UserState';
 import { signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
-import { Flex } from '../../styles/styled/Common';
+import { Flex, Color } from '../../styles/styled/Common';
 
 const menu = [
   { name: 'Home', path: '/home' },
@@ -18,14 +18,15 @@ const menu = [
 
 const Header = () => {
   const inputRef = useRef(null);
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       await signOut();
+      setUser(null);
       localStorage.removeItem('user');
-      navigate('/');
+      navigate('/home');
     } catch (error) {
       console.error(error);
     }
@@ -48,10 +49,12 @@ const Header = () => {
         )}
       </HeaderTop>
       <Content>
-        <Link to={'/home'}>/// Logo ///</Link>
+        <Link to={'/home'}>
+          <Title color="var(--button-point-color)">NutriNotes</Title>
+        </Link>
         <FlexToLeft>
           {menu.map(({ name, path }) => (
-            <TextLink key={name} to={path} paddingtop={2}>
+            <TextLink key={name} to={path} fontSize="1.3rem" paddingtop={2}>
               {name}
             </TextLink>
           ))}
@@ -64,6 +67,11 @@ const Header = () => {
     </Container>
   );
 };
+
+const Title = styled(Color)`
+  font-size: 2rem;
+  font-weight: 500;
+`;
 
 const FlexToLeft = styled(Flex)`
   margin-left: 12rem;
@@ -89,23 +97,25 @@ const HeaderTop = styled.div`
 
 const textStyle = css`
   font-size: 1rem;
+  font-family: 'Londrina Solid';
   cursor: pointer;
 `;
 
 const TextButton = styled.button`
   ${textStyle}
   background: none;
-  color: #000;
-  font-family: 'Londrina Solid';
+  padding: 0.6rem 1rem;
 `;
 
 interface TextLinkProps {
   paddingtop: number;
+  fontSize?: string;
 }
 
 const TextLink = styled(Link)<TextLinkProps>`
   ${textStyle}
   font-weight: 300;
+  font-size: ${({ fontSize }) => fontSize};
   padding: ${({ paddingtop }) => `0.6rem ${paddingtop}rem`};
 `;
 
@@ -148,14 +158,6 @@ const SearchIcon = styled(BsSearch)`
   transform: translateY(-50%);
   top: 50%;
   left: 6%;
-`;
-
-const DashBoardIcon = styled(RxDashboard)`
-  z-index: 1;
-  position: absolute;
-  right: 6%;
-  top: 50%;
-  transform: translateY(-50%);
 `;
 
 export default Header;
