@@ -3,7 +3,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { Root, SignIn, SignUp, Main, Home, Recipes, About, DashBoard } from './pages/index';
+import { Root, SignIn, SignUp, Main, Home, Recipes, About, DashBoard, Result } from './pages/index';
 import GlobalStyle from './styles/GlobalStyle';
 
 //data-theme='light'
@@ -54,6 +54,10 @@ const router = createBrowserRouter([
         element: <Recipes />,
       },
     ],
+  },
+  {
+    path: '/result/:resultString',
+    element: <Result />,
   },
 ]);
 

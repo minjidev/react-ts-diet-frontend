@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { useController, Control } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
+import Button from '../common/Button';
 
 type FieldValues = {
   email: string;
@@ -81,7 +82,7 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
             )}
           </>
         ) : undefined}
-        {formType === 'signup' && isDirty && error && !disabled && <Error>{error?.message}</Error>}
+        {formType === 'signup' && isDirty && error?.message && !disabled && <Error>{error?.message}</Error>}
       </TextInputField>
     </>
   );
@@ -89,30 +90,6 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
 
 const Label = styled.label`
   font-size: 1.2rem;
-`;
-
-const ConfirmButton = styled.button`
-  width: 5rem;
-  height: 2.4rem;
-  background-color: ${({ disabled }) => (disabled ? 'var(--border)' : 'var(--button-point-color)')};
-`;
-
-interface CheckButtonProps {
-  $isvalid: boolean;
-}
-
-const CheckButton = styled(ConfirmButton).attrs({
-  type: 'button',
-})<CheckButtonProps>`
-  width: 4rem;
-  font-size: 1rem;
-  font-weight: 400;
-  position: absolute;
-  transform: translateY(50%);
-  right: 2%;
-  top: -30%;
-  background-color: transparent;
-  color: ${({ $isvalid }) => ($isvalid ? 'var(--button-point-color)' : 'var(--border)')};
 `;
 
 const TextInputField = styled.div`
@@ -143,6 +120,20 @@ const Error = styled.div<ErrorProps>`
   margin-top: 0.4rem;
   padding-left: 0.4rem;
   color: ${({ $isvalid }) => ($isvalid ? 'var(--green)' : 'var(--red)')};
+`;
+
+interface CheckButtonProps {
+  $isvalid: boolean;
+  onClick: () => void;
+}
+
+const CheckButton = styled(Button)<CheckButtonProps>`
+  && {
+    position: absolute;
+    right: 2px;
+    top: 5px;
+    color: ${({ $isvalid }) => ($isvalid ? 'var(--button-point-color)' : 'var(--border)')};
+  }
 `;
 
 export default Input;

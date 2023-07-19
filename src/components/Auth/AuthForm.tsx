@@ -10,13 +10,12 @@ import { styled } from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, signInSchema, SignInSchema, SignUpSchema } from '../../schema/schema';
-import { Input } from '../index';
+import { Button, Input } from '../index';
 import { Link, useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../../api/auth';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/UserState';
 import { useLocation } from 'react-router-dom';
-
 interface AuthFormProps {
   formType: 'signin' | 'signup';
 }
@@ -62,7 +61,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
 
       if (state) {
         navigate(state);
-      } else navigate('/');
+      } else navigate('/home');
     } catch (e) {
       console.error(e);
     }
@@ -80,6 +79,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
+      navigate('/result/success');
     }
   }, [isSubmitSuccessful, reset]);
 
@@ -97,7 +97,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
         onUpdate={(isDuplicated: boolean) => setIsEmailDuplicated(isDuplicated)}
         formType={formType}
       />
-      <Input name="password" type="password" control={control} trigger={trigger} />
+      <Input name="password" type="password" control={control} trigger={trigger} formType={formType} />
       {formType === 'signup' && (
         <>
           <Input
@@ -106,6 +106,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
             control={control}
             trigger={trigger}
             disabled={getFieldState('password').invalid}
+            formType={formType}
           />
           <Input
             name="username"
@@ -113,6 +114,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
             control={control}
             trigger={trigger}
             onUpdate={(isDuplicated: boolean) => setIsUsernameDuplicated(isDuplicated)}
+            formType={formType}
           />
         </>
       )}
@@ -120,7 +122,9 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
         <Message to={isSignUp ? '/signin' : '/signup'}>
           {isSignUp ? 'Already have an account?' : 'Create an account'}
         </Message>
-        <ConfirmButton disabled={!isValid || isDuplicated}>Next</ConfirmButton>
+        <ConfirmButton disabled={!isValid || isDuplicated} type="submit">
+          Next
+        </ConfirmButton>
       </BottomContainer>
     </Form>
   );
@@ -156,12 +160,17 @@ const Message = styled(Link)`
   }
 `;
 
-const ConfirmButton = styled.button.attrs({
-  type: 'submit',
-})`
-  width: 5rem;
-  height: 2.4rem;
-  background-color: ${({ disabled }) => (disabled ? 'var(--border)' : 'var(--button-point-color)')};
+interface ConfirmButtonProps {
+  disabled: boolean;
+}
+
+const ConfirmButton = styled(Button)<ConfirmButtonProps>`
+  && {
+    color: #fff;
+    font-weight: 500;
+    border-radius: 1rem;
+    background-color: ${({ disabled }) => (disabled ? 'var(--border)' : 'var(--button-point-color)')};
+  }
 `;
 
 const BottomContainer = styled.div`
