@@ -23,3 +23,11 @@ export const Center = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+interface ColorProps {
+  color: string;
+}
+
+export const Color = styled.span<ColorProps>`
+  color: ${({ color }) => color};
+`;

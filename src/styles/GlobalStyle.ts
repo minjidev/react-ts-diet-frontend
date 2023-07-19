@@ -101,11 +101,7 @@ const GlobalStyle = createGlobalStyle`
   button {
     border: none;
     outline: none;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #fff;
-    font-family: Rubik;
+ 
     cursor: pointer;
 
     &:focus {
