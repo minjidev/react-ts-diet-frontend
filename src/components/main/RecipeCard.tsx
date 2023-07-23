@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { styled } from 'styled-components';
 
 import { Recipe } from '../../types/types';
@@ -11,7 +11,12 @@ const RecipeCard = ({
   return (
     <RecipeCardContainer>
       <Text>{calories}kcal</Text>
-      <RecipeImg src={image} />
+      <RecipeImg
+        src={image}
+        onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+          e.currentTarget.src = '/images/no_img.svg';
+        }}
+      />
       <LabelContainer>
         <RecipeLabel>{label}</RecipeLabel>
         <Tags>
@@ -42,12 +47,15 @@ const Text = styled.div`
 
 const RecipeCardContainer = styled.div`
   width: 15rem;
+  min-width: 15rem;
   height: 14rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background-image: linear-gradient(to bottom right, #fdfbfb, #ebedee);
   position: relative;
   border-radius: 1.2rem;
   cursor: pointer;
+
+  margin-right: 1rem;
 `;
 
 const RecipeImg = styled.img`
@@ -64,7 +72,6 @@ const LabelContainer = styled.div`
   position: absolute;
   width: 100%;
   top: 105%;
-  /* margin: 0.3rem 0; */
   font-family: 'Rubik';
   word-wrap: break-word;
 `;
