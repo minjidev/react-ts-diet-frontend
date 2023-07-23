@@ -31,8 +31,8 @@ const CardIcon = styled.img.attrs<CardIconProps>(({ $imgSrc, $imgDesc }) => ({
 }))`
   width: 11rem;
   position: absolute;
-  top: 0;
   /* transform: translate3D(-50%, -50%, 0); */
+
   left: 20%;
   top: -30%;
 `;

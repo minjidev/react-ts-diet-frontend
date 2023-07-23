@@ -9,7 +9,7 @@ interface ButtonProps {
 const buttonStyle = css`
   background: transparent;
   border: none;
-  border-radius: 2rem;
+  border-radius: 1rem;
   width: 5rem;
   height: 2.4rem;
   font-size: 1rem;

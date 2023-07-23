@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+   
 
     --red: #FC2B0A; 
     --dark-red: #C32020;
@@ -74,10 +75,12 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-x: scroll;
   }
 
   html {
     height: 100%;
+    
   }
 
   a {
