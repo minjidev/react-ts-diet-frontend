@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { RouterProvider, createBrowserRouter, useNavigate } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { Root, SignIn, SignUp, Main, Home, Recipes, About, DashBoard, Result } from './pages/index';
 import GlobalStyle from './styles/GlobalStyle';
@@ -13,6 +13,7 @@ const queryClient = new QueryClient({
     queries: {
       retry: 0, // default 3
       suspense: true,
+      refetchOnWindowFocus: false,
     },
     mutations: {
       // useErrorBoundary: true,
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: 'home',
+        path: '/',
         element: <Home />,
       },
       {
