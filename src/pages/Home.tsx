@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import { Card } from '../components';
-import { Color } from '../styles/styled/Common';
+import { Button, Card } from '../components';
+import { Link } from 'react-router-dom';
 
 const cardsInfo = [
   {
@@ -25,7 +25,7 @@ const cardsInfo = [
   {
     $imgSrc: '/react-ts-diet-icons/dashboard_1.png',
     $imgDesc: 'dashboard icon',
-    title: 'Assess the nutritional content ,',
+    title: 'Assess the nutritional content',
     desc: 'Gain insights into essential macronutrients, vitamins, and minerals',
   },
 ];
@@ -37,6 +37,9 @@ const Home = () => {
         <Title>
           <Underline color="var(--button-point-color)">NutriNotes,</Underline>Effortless Meal Tracker
           <Description>: All-in-one solution for effortless meal tracker and nutritional tracking</Description>
+          <Link to={'/main'}>
+            <MainButton>Get Started!</MainButton>
+          </Link>
         </Title>
       </TextContainer>
       <CardContainer>
@@ -85,6 +88,16 @@ const CardContainer = styled.div`
   margin: 2rem 4rem;
   width: 44rem;
   height: 40rem;
+`;
+
+const MainButton = styled(Button)`
+  && {
+    width: 10rem;
+    background: var(--button-point-color);
+    height: 3rem;
+    color: #fff;
+    font-weight: 500;
+  }
 `;
 
 export default Home;

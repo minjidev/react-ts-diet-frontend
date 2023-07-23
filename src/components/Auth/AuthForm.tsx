@@ -61,7 +61,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
 
       if (state) {
         navigate(state);
-      } else navigate('/home');
+      } else navigate('/');
     } catch (e) {
       console.error(e);
     }

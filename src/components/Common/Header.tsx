@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Flex, Color } from '../../styles/styled/Common';
 
 const menu = [
-  { name: 'Home', path: '/home' },
+  { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
   { name: 'Recipes', path: '/recipes' },
   { name: 'Dashboard', path: '/dashboard' },
@@ -26,7 +26,7 @@ const Header = () => {
       await signOut();
       setUser(null);
       localStorage.removeItem('user');
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
@@ -49,7 +49,7 @@ const Header = () => {
         )}
       </HeaderTop>
       <Content>
-        <Link to={'/home'}>
+        <Link to={'/'}>
           <Title color="var(--button-point-color)">NutriNotes</Title>
         </Link>
         <FlexToLeft>
@@ -124,7 +124,7 @@ const Content = styled.div`
   background: white;
   height: 3rem;
   border-radius: 2rem;
-  padding: 0.2rem 1.4rem;
+  /* padding: 0.2rem 1.4rem; */
 
   display: flex;
   align-items: center;
