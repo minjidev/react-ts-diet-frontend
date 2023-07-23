@@ -55,7 +55,7 @@ const RecipeCardContainer = styled.div`
   border-radius: 1.2rem;
   cursor: pointer;
 
-  margin-right: 1rem;
+  margin: 0 1rem;
 `;
 
 const RecipeImg = styled.img`

@@ -3,6 +3,7 @@ import useCategorizedRecipes from '../../hooks/useCategorizedRecipes';
 import { Button, RecipeCard } from '../../components/index';
 import styled from 'styled-components';
 import { Recipe } from '../../types/types';
+import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
@@ -25,13 +26,18 @@ const Carousel = ({ category }: { category: string }) => {
             <RecipeCard key={recipe.label} recipe={recipe} />
           ))}
         </CarouselSlides>
-      </CarouselWindow>
-      <ButtonContainer>
-        {currentPage > 0 && <PrevButton onClick={handleClick('prev')}>Prev</PrevButton>}
-        {currentPage < Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1 && (
-          <NextButton onClick={handleClick('next')}>Next</NextButton>
+        {currentPage > 0 && (
+          <IconBg type="prev">
+            {' '}
+            <PrevIcon onClick={handleClick('prev')} />
+          </IconBg>
         )}
-      </ButtonContainer>
+        {currentPage < Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1 && (
+          <IconBg type="next">
+            <NextIcon onClick={handleClick('next')} />
+          </IconBg>
+        )}
+      </CarouselWindow>
     </Container>
   );
 };
@@ -45,18 +51,9 @@ const Container = styled.div`
 
 const CarouselWindow = styled.div`
   overflow-x: hidden;
-  width: calc(15rem * 5 + 1rem * 5 - 0.2rem);
+  width: calc(15rem * 5 + 1rem * 10 - 0.2rem);
   height: 100%;
   position: relative;
-`;
-
-const ButtonContainer = styled.div`
-  background: white;
-  cursor: pointer;
-
-  position: absolute;
-  top: 0;
-  left: 10rem;
 `;
 
 const CarouselTitle = styled.div`
@@ -71,12 +68,35 @@ const CarouselSlides = styled.div<{ currentpage: number }>`
   transform: ${({ currentpage }) => `translate3D(calc(${currentpage} * -100%), 0, 0)`};
 `;
 
-interface ButtonProps {
+interface IconProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const PrevButton = styled(Button)<ButtonProps>``;
+const PrevIcon = styled(BsFillArrowLeftCircleFill)<IconProps>`
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+`;
 
-const NextButton = styled(Button)<ButtonProps>``;
+const NextIcon = styled(BsFillArrowRightCircleFill)<IconProps>`
+  position: absolute;
+  z-index: 10;
+  cursor: pointer;
+`;
+
+const IconBg = styled.div<{ type: string }>`
+  width: 4rem;
+  height: 4rem;
+  background: white;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 34%;
+  left: ${({ type }) => (type === 'prev' ? '-1rem' : '')};
+  right: ${({ type }) => (type === 'next' ? '-1rem' : '')};
+`;
 
 export default Carousel;
