@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Recipe, TotalDailyType } from '../types/types';
+import type { Recipe } from '../types/types';
 
 const APP_KEY = '010a67d393438f12e96197aaa8ec94c4';
 const APP_ID = '5242bf2f';
@@ -28,6 +28,7 @@ const getRecipes = (category: string) => async () => {
       totalNutrients,
       yield: servings,
     }) => ({
+      id: '' + label + calories,
       label,
       cuisineType,
       dietLabels,

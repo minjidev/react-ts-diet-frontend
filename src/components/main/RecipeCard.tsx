@@ -1,15 +1,39 @@
 import React, { SyntheticEvent } from 'react';
 import { styled } from 'styled-components';
-
 import { Recipe } from '../../types/types';
+import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atoms/UserState';
+import { useNavigate } from 'react-router-dom';
 
 const RecipeCard = ({
-  recipe: { label, calories, cuisineType, dietLabels, image, totalDaily, totalNutrients },
+  recipe: { id, label, calories, cuisineType, dietLabels, image, totalDaily, totalNutrients },
 }: {
   recipe: Recipe;
 }) => {
+  const [isSaved, setIsSaved] = React.useState(false);
+  const user = useRecoilValue(userState);
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (!user) navigate('/signin');
+    const recipe = {
+      id,
+      label,
+      calories,
+      cuisineType,
+      dietLabels,
+      image,
+      totalDaily,
+      totalNutrients,
+    };
+    // api 요청
+    console.log({ user, recipe, savedAt: Date.now() });
+    setIsSaved(true);
+  };
+
   return (
-    <RecipeCardContainer>
+    <RecipeCardContainer id="recipe-card" data-id={id}>
       <Text>{calories}kcal</Text>
       <RecipeImg
         src={image}
@@ -25,9 +49,22 @@ const RecipeCard = ({
           ))}
         </Tags>
       </LabelContainer>
+      <AddButtonContainer>{!isSaved ? <AddButton onClick={handleClick} /> : <SavedButton />}</AddButtonContainer>
     </RecipeCardContainer>
   );
 };
+
+const RecipeCardContainer = styled.div`
+  width: 15rem;
+  min-width: 15rem;
+  height: 14rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-image: linear-gradient(to bottom right, #fdfbfb, #ebedee);
+  border-radius: 1.2rem;
+  margin: 0 1rem;
+
+  position: relative;
+`;
 
 const Text = styled.div`
   font-size: 1.2rem;
@@ -45,27 +82,15 @@ const Text = styled.div`
   z-index: 1;
 `;
 
-const RecipeCardContainer = styled.div`
-  width: 15rem;
-  min-width: 15rem;
-  height: 14rem;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-image: linear-gradient(to bottom right, #fdfbfb, #ebedee);
-  position: relative;
-  border-radius: 1.2rem;
-  cursor: pointer;
-
-  margin: 0 1rem;
-`;
-
 const RecipeImg = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 1.2rem;
-  /* object-fit: cover; */
   position: absolute;
   top: 0;
   left: 0;
+
+  cursor: pointer;
 `;
 
 const LabelContainer = styled.div`
@@ -107,6 +132,29 @@ const Tag = styled.div`
   justify-content: center;
 
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 4px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+`;
+
+const AddButton = styled(BsFillPlusCircleFill)`
+  width: 2rem;
+  color: var(--border-secondary);
+`;
+
+const SavedButton = styled(BsFillCheckCircleFill)`
+  width: 2rem;
+  color: var(--border-secondary);
+  // 저장 취소 onClick
+`;
+
+const AddButtonContainer = styled.div`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #000;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.4rem;
+
+  cursor: pointer;
 `;
 
 export default RecipeCard;

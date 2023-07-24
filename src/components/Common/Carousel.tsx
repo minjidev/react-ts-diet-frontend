@@ -11,6 +11,7 @@ const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
+
   const [currentPage, setCurrentPage] = useState(0);
 
   const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -77,8 +78,12 @@ interface IconProps {
 
 const IconStyle = css<IconProps>`
   cursor: pointer;
-  color: ${({ disabled }) => (disabled ? `var(--border)` : '')};
+  opacity: ${({ disabled }) => (disabled ? '0.2' : '')};
   pointer-events: ${({ disabled }) => (disabled ? 'none' : 'initial')};
+
+  &:hover {
+    opacity: ${({ disabled }) => (disabled ? '' : '0.7')};
+  }
 `;
 
 const PrevIcon = styled(BsFillArrowLeftCircleFill)<IconProps>`
@@ -96,6 +101,8 @@ const IconContainer = styled.div`
   transform: translateX(-50%);
   margin: 0 auto;
   width: 12rem;
+  border-radius: 1rem;
+  border: 3px dashed black;
 
   display: flex;
   align-items: center;

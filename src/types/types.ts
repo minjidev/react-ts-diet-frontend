@@ -10,6 +10,7 @@ interface TotalNutrientsType {
 }
 
 interface Recipe {
+  id: string;
   label: string;
   calories: number;
   cuisineType: string[];
