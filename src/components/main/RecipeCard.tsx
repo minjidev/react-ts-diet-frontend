@@ -1,21 +1,26 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
 import { Recipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/UserState';
 import { useNavigate } from 'react-router-dom';
+import { ModalProps } from '../../types/types';
+
+interface RecipeCardProps {
+  recipe: Recipe;
+  onClick: ({ isModalOpen, content }: ModalProps) => void;
+}
 
 const RecipeCard = ({
-  recipe: { id, label, calories, cuisineType, dietLabels, image, totalDaily, totalNutrients },
-}: {
-  recipe: Recipe;
-}) => {
-  const [isSaved, setIsSaved] = React.useState(false);
+  recipe: { id, label, calories, cuisineType, dietLabels, healthLabels, image, totalDaily, totalNutrients },
+  onClick,
+}: RecipeCardProps) => {
+  const [isSaved, setIsSaved] = useState(false);
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
     const recipe = {
       id,
@@ -32,25 +37,45 @@ const RecipeCard = ({
     setIsSaved(true);
   };
 
+  const handleImgClick = (e: React.MouseEvent) => {
+    const content = {
+      id,
+      label,
+      calories,
+      cuisineType,
+      dietLabels,
+      healthLabels,
+      image,
+      totalDaily,
+      totalNutrients,
+    };
+    if (content) onClick({ isModalOpen: true, content });
+  };
+
   return (
-    <RecipeCardContainer id="recipe-card" data-id={id}>
-      <Text>{calories}kcal</Text>
-      <RecipeImg
-        src={image}
-        onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-          e.currentTarget.src = '/images/no_img.svg';
-        }}
-      />
-      <LabelContainer>
-        <RecipeLabel>{label}</RecipeLabel>
-        <Tags>
-          {dietLabels?.map(label => (
-            <Tag key={label}>#{label}</Tag>
-          ))}
-        </Tags>
-      </LabelContainer>
-      <AddButtonContainer>{!isSaved ? <AddButton onClick={handleClick} /> : <SavedButton />}</AddButtonContainer>
-    </RecipeCardContainer>
+    <>
+      <RecipeCardContainer id="recipe-card" data-id={id}>
+        <Text>{calories}kcal</Text>
+        <RecipeImg
+          src={image}
+          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+            e.currentTarget.src = '/images/no_img.svg';
+          }}
+          onClick={handleImgClick}
+        />
+        <LabelContainer>
+          <RecipeLabel>{label}</RecipeLabel>
+          <Tags>
+            {dietLabels?.map(label => (
+              <Tag key={label}>#{label}</Tag>
+            ))}
+          </Tags>
+        </LabelContainer>
+        <AddButtonContainer>
+          {!isSaved ? <AddButton onClick={handleAddButtonClick} /> : <SavedButton />}
+        </AddButtonContainer>
+      </RecipeCardContainer>
+    </>
   );
 };
 
@@ -87,6 +112,7 @@ const RecipeImg = styled.img`
   height: 100%;
   border-radius: 1.2rem;
   position: absolute;
+  object-fit: cover;
   top: 0;
   left: 0;
 

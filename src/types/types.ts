@@ -14,13 +14,20 @@ interface Recipe {
   label: string;
   calories: number;
   cuisineType: string[];
+  dishType: string[];
   dietLabels: string[];
-  healthLabels: string[];
+  healthLabels?: string[];
   image: string;
-  yield: number;
-  servings: number;
+  yield?: number;
+  servings?: number;
   totalDaily: (TotalDailyType | undefined)[]; // 1일 섭취 비율
   totalNutrients: (TotalNutrientsType | undefined)[]; // 1회 섭취량
 }
 
-export type { TotalDailyType, Recipe };
+interface ModalProps {
+  isModalOpen: boolean;
+  setIsModalOpen?: (isModalOpen: boolean) => void;
+  content: Recipe | {};
+}
+
+export type { TotalDailyType, Recipe, ModalProps };

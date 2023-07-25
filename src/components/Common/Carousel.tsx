@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import useCategorizedRecipes from '../../hooks/useCategorizedRecipes';
-import { Button, RecipeCard } from '../../components/index';
+import { Modal, RecipeCard } from '../../components/index';
 import styled, { css } from 'styled-components';
-import { Recipe } from '../../types/types';
+import { Recipe, ModalProps } from '../../types/types';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
 
@@ -12,6 +12,8 @@ const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
 
+  const [isModalOpen, setisModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
 
   const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -19,29 +21,37 @@ const Carousel = ({ category }: { category: string }) => {
     if (type === 'next') setCurrentPage(currentPage + 1);
   };
 
-  return (
-    <Container id="container">
-      <CarouselTitle>{category}</CarouselTitle>
-      <CarouselWindow>
-        <CarouselSlides id="recipe container" currentpage={currentPage}>
-          {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-            <RecipeCard key={recipe.label} recipe={recipe} />
-          ))}
-        </CarouselSlides>
+  const handleModalClick = ({ isModalOpen, content }: ModalProps) => {
+    setisModalOpen(isModalOpen);
+    setModalContent(content);
+  };
 
-        <IconContainer id="icon container">
-          <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
-          {Array.from({ length: 4 }).map((dot, index) => (
-            <IndexEmpty key={index} />
-          ))}
-          <IndexFill currentpage={currentPage} />
-          <NextIcon
-            disabled={currentPage === Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1}
-            onClick={handleClick('next')}
-          />
-        </IconContainer>
-      </CarouselWindow>
-    </Container>
+  return (
+    <>
+      <Container id="container">
+        <CarouselTitle>{category}</CarouselTitle>
+        <CarouselWindow>
+          <CarouselSlides id="recipe container" currentpage={currentPage}>
+            {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
+              <RecipeCard key={recipe.label} recipe={recipe} onClick={handleModalClick} />
+            ))}
+          </CarouselSlides>
+
+          <IconContainer id="icon container">
+            <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
+            {Array.from({ length: 4 }).map((dot, index) => (
+              <IndexEmpty key={index} />
+            ))}
+            <IndexFill currentpage={currentPage} />
+            <NextIcon
+              disabled={currentPage === Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1}
+              onClick={handleClick('next')}
+            />
+          </IconContainer>
+        </CarouselWindow>
+      </Container>
+      <Modal isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} content={modalContent} />
+    </>
   );
 };
 
