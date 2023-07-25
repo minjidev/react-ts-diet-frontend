@@ -1,1 +1,3 @@
-export const categorizedRecipesKey = ['categorizedRecipes'];
+const categorizedRecipesKey = ['categorizedRecipes'];
+
+export default categorizedRecipesKey;

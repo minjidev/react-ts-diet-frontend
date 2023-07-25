@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { categorizedRecipesKey } from '../constants/categorizedRecipesKey';
+import { categorizedRecipesKey } from '../constants/index';
 import { getRecipes } from '../api/recipes';
 import { AxiosError } from 'axios';
 import type { Recipe } from '../types/types';
