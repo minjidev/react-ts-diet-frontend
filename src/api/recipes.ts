@@ -1,9 +1,10 @@
 import axios from 'axios';
-import type { Recipe } from '../types/types';
+import { Recipe, User } from '../types/types';
 import { mainNutrients } from '../constants/index';
 
-const APP_KEY = '010a67d393438f12e96197aaa8ec94c4';
-const APP_ID = '5242bf2f';
+const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
+const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
+
 const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${APP_ID}&app_key=${APP_KEY}`;
 
 interface RecipeData {
@@ -67,4 +68,17 @@ const getRecipes = (category: string) => async () => {
   return recipesData;
 };
 
-export { getRecipes };
+interface savedRecipeProps {
+  user: User | undefined;
+  recipe: Recipe;
+  date: Date | undefined;
+  savedAt: number;
+}
+
+const postSavedRecipe = async (savedRecipe: savedRecipeProps) => {
+  const { data } = await axios.post('/api/recipes', savedRecipe);
+
+  return data;
+};
+
+export { getRecipes, postSavedRecipe };
