@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
 import { AddModalState } from '../../types/types';
 import { AiOutlineClose } from 'react-icons/ai';
 import DatePicker from '../modal/DatePicker';
-
+import { Button } from '../../components/index';
+import { postSavedRecipe } from '../../api/recipes';
 interface AddModalProps {
   modalState: AddModalState;
   onAddModalClick: (newModalState: AddModalState) => void;
 }
 
 const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: AddModalProps) => {
+  const [selected, setSelected] = useState<Date>();
   if (!isOpen) return;
   if (!content) return;
 
@@ -25,19 +27,52 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
    * - 저장하는 시간 같이 보내기
    */
 
+  const handleConfirmButtonClick = async (e: React.MouseEvent) => {
+    try {
+      await postSavedRecipe({ user, recipe, date: selected, savedAt: Date.now() });
+      handleCloseButtonClick(e);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <Container>
       <CloseButton onClick={handleCloseButtonClick} />
+      <Text>Please select a date you would like to add this dish to your dashboard.</Text>
+      <Divider />
+      <Label>{recipe?.label}</Label>
+      <RecipeImg
+        src={recipe?.image}
+        onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+          e.currentTarget.src = '/images/no_img.svg';
+        }}
+      />
+      <DatePicker selected={selected} setSelected={setSelected} />
 
-      <DatePicker />
+      <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
     </Container>
   );
 };
 
+const Text = styled.div`
+  font-size: 1.1rem;
+  line-height: 140%;
+  margin: 1rem 0;
+  color: #555555;
+`;
+
+const RecipeImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 1.2rem;
+  object-fit: cover;
+`;
+
 const Container = styled.section`
-  min-width: 30rem;
-  max-width: 30rem;
-  height: 30rem;
+  min-width: 24rem;
+  max-width: 24rem;
+  height: 44rem;
 
   background: #fff;
   border: 1px solid #eee;
@@ -48,27 +83,32 @@ const Container = styled.section`
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
-  padding: 1rem;
+  padding: 2rem;
   z-index: 999;
 
   font-family: 'Rubik';
   font-size: 1.4rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CloseButton = styled(AiOutlineClose)`
   width: 1.3rem;
   display: block;
+  margin-left: auto;
 
   cursor: pointer;
-  position: absolute;
-  right: 0.8rem;
-  top: 0.8rem;
 `;
 
 const Label = styled.h2`
   font-size: 1.4rem;
   font-size: 24px;
   font-weight: 400;
+  font-family: 'Londrina Solid';
+
+  margin: 1rem 0 0.6rem 0;
 `;
 
 const LabelText = styled.span`
@@ -87,8 +127,26 @@ const LabelText = styled.span`
   }
 `;
 
-const RecipeEmoji = styled.span`
-  margin: 0 0.2rem;
+interface ConfirmButtonProps {
+  onClick: (e: React.MouseEvent) => void;
+}
+
+const ConfirmButton = styled(Button)<ConfirmButtonProps>`
+  && {
+    color: #fff;
+    font-weight: 500;
+    border-radius: 1rem;
+    background-color: var(--button-point-color);
+    width: 6rem;
+    height: 5rem;
+  }
+`;
+
+const Divider = styled.hr`
+  height: 1px;
+  width: 100%;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+  margin: 0;
 `;
 
 export default AddRecipeModal;
