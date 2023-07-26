@@ -29,9 +29,38 @@ interface RecipeDetailModalState {
   content?: Recipe;
 }
 
-interface ModalProps {
+interface RecipeDetailModalProps {
   modalState: RecipeDetailModalState;
-  onClick?: (newModalState: RecipeDetailModalState) => void;
+  onRecipeModalClick?: (newModalState: RecipeDetailModalState) => void;
 }
 
-export type { TotalDailyType, Recipe, RecipeDetailModalState, ModalProps };
+interface User {
+  email: string;
+  username: string;
+}
+
+interface UserData {
+  user: User;
+  message: string;
+}
+
+interface AddModalContent {
+  user: User | undefined;
+  recipe: Recipe;
+}
+
+interface AddModalState {
+  isOpen?: boolean;
+  content?: AddModalContent;
+}
+
+export type {
+  TotalDailyType,
+  Recipe,
+  RecipeDetailModalState,
+  RecipeDetailModalProps,
+  User,
+  UserData,
+  AddModalContent,
+  AddModalState,
+};

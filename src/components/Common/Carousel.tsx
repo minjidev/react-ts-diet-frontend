@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import useCategorizedRecipes from '../../hooks/useCategorizedRecipes';
 import { RecipeCard, RecipeDetailModal } from '../../components/index';
 import styled, { css } from 'styled-components';
-import { RecipeDetailModalState, Recipe } from '../../types/types';
+import { RecipeDetailModalState, Recipe, AddModalState } from '../../types/types';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
+import AddRecipeModal from '../main/AddRecipeModal';
 
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
-const defaultModalContent = {
+const defaultRecipeModalContent = {
   id: '0',
   label: '',
   calories: 0,
@@ -22,6 +23,10 @@ const defaultModalContent = {
   totalDaily: [], // 1일 섭취 비율
   totalNutrients: [], // 1회 섭취량
 };
+const defaultAddModalContent = {
+  user: { email: '', username: '' },
+  recipe: defaultRecipeModalContent,
+};
 
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
@@ -29,7 +34,12 @@ const Carousel = ({ category }: { category: string }) => {
 
   const [recipeDetailModalState, setRecipeDetailModalState] = useState<RecipeDetailModalState>({
     isOpen: false,
-    content: defaultModalContent,
+    content: defaultRecipeModalContent,
+  });
+
+  const [addModalState, setAddModalState] = useState<AddModalState>({
+    isOpen: false,
+    content: defaultAddModalContent,
   });
 
   const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,8 +47,12 @@ const Carousel = ({ category }: { category: string }) => {
     if (type === 'next') setCurrentPage(currentPage + 1);
   };
 
-  const handleModalClick = (newModalState: RecipeDetailModalState) => {
+  const handleRecipeModalClick = (newModalState: RecipeDetailModalState) => {
     setRecipeDetailModalState({ ...recipeDetailModalState, ...newModalState });
+  };
+
+  const handleAddModalClick = (newModalState: AddModalState) => {
+    setAddModalState({ ...addModalState, ...newModalState });
   };
 
   return (
@@ -48,7 +62,12 @@ const Carousel = ({ category }: { category: string }) => {
         <CarouselWindow>
           <CarouselSlides id="recipe container" currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-              <RecipeCard key={recipe.label} recipe={recipe} onClick={handleModalClick} />
+              <RecipeCard
+                key={recipe.label}
+                recipe={recipe}
+                onRecipeModalClick={handleRecipeModalClick}
+                onAddModalClick={handleAddModalClick}
+              />
             ))}
           </CarouselSlides>
 
@@ -65,7 +84,8 @@ const Carousel = ({ category }: { category: string }) => {
           </IconContainer>
         </CarouselWindow>
       </Container>
-      <RecipeDetailModal modalState={recipeDetailModalState} onClick={handleModalClick} />
+      <RecipeDetailModal modalState={recipeDetailModalState} onRecipeModalClick={handleRecipeModalClick} />
+      <AddRecipeModal modalState={addModalState} onAddModalClick={handleAddModalClick} />
     </>
   );
 };

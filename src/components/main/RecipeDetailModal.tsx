@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
-import { ModalProps } from '../../types/types';
+import { RecipeDetailModalProps } from '../../types/types';
 import { AiOutlineClose } from 'react-icons/ai';
 
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
-const RecipeDetailModal = ({ modalState, onClick }: ModalProps) => {
+const RecipeDetailModal = ({ modalState, onRecipeModalClick }: RecipeDetailModalProps) => {
   const { isOpen, content } = modalState;
 
   if (!isOpen) return;
 
   const handleCloseButtonClick = (e: React.MouseEvent) => {
-    if (onClick) onClick({ isOpen: false });
+    if (onRecipeModalClick) onRecipeModalClick({ isOpen: false });
   };
 
   const cuisineTypeTexts = content?.cuisineType.map((cuisine: string) =>
@@ -62,35 +62,6 @@ const RecipeDetailModal = ({ modalState, onClick }: ModalProps) => {
   );
 };
 
-const Tag = styled.span<{ color: string }>`
-  width: fit-content;
-  padding: 0.3rem 0.6rem;
-  height: 1.6rem;
-  font-size: 1rem;
-  font-weight: 400;
-  background: var(--border-secondary);
-  border-radius: 1rem;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0.2rem;
-  margin-left: 0;
-
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px -1px, rgba(0, 0, 0, 0.06) 0px 2px 2px -1px;
-`;
-
-const DescText = styled.div`
-  font-family: 'Rubik';
-  font-size: 1.2rem;
-  font-weight: 200;
-  line-height: 130%;
-`;
-
-const RecipeEmoji = styled.span`
-  margin: 0 0.2rem;
-`;
-
 const Flex = styled.div`
   display: flex;
   justify-content: space-between;
@@ -134,6 +105,10 @@ const LabelText = styled.span`
     opacity: 0.4;
     z-index: -10;
   }
+`;
+
+const RecipeEmoji = styled.span`
+  margin: 0 0.2rem;
 `;
 
 const CloseButton = styled(AiOutlineClose)`
@@ -211,6 +186,31 @@ const Ratio = styled.div<{ color: string }>`
 
   border-radius: 50%;
   background: ${({ color }) => color};
+`;
+
+const Tag = styled.span<{ color: string }>`
+  width: fit-content;
+  padding: 0.3rem 0.6rem;
+  height: 1.6rem;
+  font-size: 1rem;
+  font-weight: 400;
+  background: var(--border-secondary);
+  border-radius: 1rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2rem;
+  margin-left: 0;
+
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px -1px, rgba(0, 0, 0, 0.06) 0px 2px 2px -1px;
+`;
+
+const DescText = styled.div`
+  font-family: 'Rubik';
+  font-size: 1.2rem;
+  font-weight: 200;
+  line-height: 130%;
 `;
 
 export default RecipeDetailModal;

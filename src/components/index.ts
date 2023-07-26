@@ -6,3 +6,4 @@ export { default as Button } from './common/Button';
 export { default as Loader } from './common/Loader';
 export { default as RecipeCard } from './main/RecipeCard';
 export { default as RecipeDetailModal } from './main/RecipeDetailModal';
+export { default as DatePicker } from './modal/DatePicker';

@@ -1,31 +1,34 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { RecipeDetailModalState, Recipe } from '../../types/types';
+import { RecipeDetailModalState, Recipe, AddModalState, User } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/UserState';
 import { useNavigate } from 'react-router-dom';
-import { ModalProps } from '../../types/types';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onClick: (newModalState: RecipeDetailModalState) => void;
+  onRecipeModalClick: (newModalState: RecipeDetailModalState) => void;
+  onAddModalClick: (newModalState: AddModalState) => void;
 }
 
-const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardProps) => {
   const [isSaved, setIsSaved] = useState(false);
-  const user = useRecoilValue(userState);
+  const userData = useRecoilValue(userState);
   const navigate = useNavigate();
+  const user = userData?.user;
 
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
-    console.log({ user, recipe, savedAt: Date.now() });
+    const newModalState = { isOpen: true, content: { user, recipe } };
+    onAddModalClick(newModalState);
+
     setIsSaved(true);
   };
 
   const handleImgClick = (e: React.MouseEvent) => {
     const newModalState = { isOpen: true, content: recipe };
-    onClick(newModalState);
+    onRecipeModalClick(newModalState);
   };
 
   const { id, label, calories, cuisineType, dishType, dietLabels, healthLabels, image, totalDaily, totalNutrients } =

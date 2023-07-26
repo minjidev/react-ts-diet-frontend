@@ -1,4 +1,5 @@
 import { atom, AtomEffect } from 'recoil';
+import { UserData } from '../../types/types';
 
 const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
   (key: string) =>
@@ -13,13 +14,8 @@ const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
     });
   };
 
-interface User {
-  email: string;
-  username: string;
-}
-
-export const userState = atom<User[] | null>({
+export const userState = atom<UserData | null>({
   key: 'UserState',
   default: null,
-  effects: [localStorageEffect<User[]>('user')],
+  effects: [localStorageEffect<UserData>('user')],
 });

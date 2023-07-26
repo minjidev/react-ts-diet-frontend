@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
 import { styled, css } from 'styled-components';
-import { RxDashboard } from 'react-icons/rx';
 import { BsSearch } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/UserState';
 import { signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +10,6 @@ import { Flex, Color } from '../../styles/styled/Common';
 
 const menu = [
   { name: 'Home', path: '/main' },
-  // { name: 'Main', path: '/main' },
   { name: 'About', path: '/about' },
   { name: 'Recipes', path: '/recipes' },
   { name: 'Dashboard', path: '/dashboard' },
@@ -21,8 +19,6 @@ const Header = () => {
   const inputRef = useRef(null);
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
-  const currentPath = window.location.pathname;
-  console.log(currentPath);
 
   const handleSignOut = async () => {
     try {
@@ -56,24 +52,6 @@ const Header = () => {
           <Title color="var(--button-point-color)">NutriNotes</Title>
         </Link>
         <FlexToLeft>
-          {/* {menu.map(({ name, path }) => {
-            if (currentPath === '/' || currentPath === '/main') {
-              if (currentPath !== path) {
-                return (
-                  <TextLink key={name} to={path} fontSize="1.3rem" paddingtop={2}>
-                    {name}
-                  </TextLink>
-                );
-              }
-            } else {
-              return (
-                <TextLink key={name} to={path} fontSize="1.3rem" paddingtop={2}>
-                  {name}
-                </TextLink>
-              );
-            }
-          })} */}
-
           {menu.map(({ name, path }) => (
             <TextLink key={name} to={path} fontSize="1.3rem" paddingtop={2}>
               {name}
