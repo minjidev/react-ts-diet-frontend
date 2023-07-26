@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { Recipe } from '../../types/types';
+import { RecipeDetailModalState, Recipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/UserState';
@@ -9,49 +9,27 @@ import { ModalProps } from '../../types/types';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onClick: ({ isModalOpen, content }: ModalProps) => void;
+  onClick: (newModalState: RecipeDetailModalState) => void;
 }
 
-const RecipeCard = ({
-  recipe: { id, label, calories, cuisineType, dietLabels, healthLabels, image, totalDaily, totalNutrients },
-  onClick,
-}: RecipeCardProps) => {
+const RecipeCard = ({ recipe, onClick }: RecipeCardProps) => {
   const [isSaved, setIsSaved] = useState(false);
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
-    const recipe = {
-      id,
-      label,
-      calories,
-      cuisineType,
-      dietLabels,
-      image,
-      totalDaily,
-      totalNutrients,
-    };
-    // api 요청
     console.log({ user, recipe, savedAt: Date.now() });
     setIsSaved(true);
   };
 
   const handleImgClick = (e: React.MouseEvent) => {
-    const content = {
-      id,
-      label,
-      calories,
-      cuisineType,
-      dietLabels,
-      healthLabels,
-      image,
-      totalDaily,
-      totalNutrients,
-    };
-    if (content) onClick({ isModalOpen: true, content });
+    const newModalState = { isOpen: true, content: recipe };
+    onClick(newModalState);
   };
 
+  const { id, label, calories, cuisineType, dishType, dietLabels, healthLabels, image, totalDaily, totalNutrients } =
+    recipe;
   return (
     <>
       <RecipeCardContainer id="recipe-card" data-id={id}>

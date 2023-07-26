@@ -1,29 +1,44 @@
 import React, { useState } from 'react';
 import useCategorizedRecipes from '../../hooks/useCategorizedRecipes';
-import { Modal, RecipeCard } from '../../components/index';
+import { RecipeCard, RecipeDetailModal } from '../../components/index';
 import styled, { css } from 'styled-components';
-import { Recipe, ModalProps } from '../../types/types';
+import { RecipeDetailModalState, Recipe } from '../../types/types';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
 
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
+const defaultModalContent = {
+  id: '0',
+  label: '',
+  calories: 0,
+  cuisineType: [],
+  dishType: [],
+  dietLabels: [],
+  healthLabels: [],
+  image: '',
+  yield: 0,
+  servings: 0,
+  totalDaily: [], // 1일 섭취 비율
+  totalNutrients: [], // 1회 섭취량
+};
 
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
-
-  const [isModalOpen, setisModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
+
+  const [recipeDetailModalState, setRecipeDetailModalState] = useState<RecipeDetailModalState>({
+    isOpen: false,
+    content: defaultModalContent,
+  });
 
   const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
     if (type === 'prev') setCurrentPage(currentPage - 1);
     if (type === 'next') setCurrentPage(currentPage + 1);
   };
 
-  const handleModalClick = ({ isModalOpen, content }: ModalProps) => {
-    setisModalOpen(isModalOpen);
-    setModalContent(content);
+  const handleModalClick = (newModalState: RecipeDetailModalState) => {
+    setRecipeDetailModalState({ ...recipeDetailModalState, ...newModalState });
   };
 
   return (
@@ -50,7 +65,7 @@ const Carousel = ({ category }: { category: string }) => {
           </IconContainer>
         </CarouselWindow>
       </Container>
-      <Modal isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} content={modalContent} />
+      <RecipeDetailModal modalState={recipeDetailModalState} onClick={handleModalClick} />
     </>
   );
 };

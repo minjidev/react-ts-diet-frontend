@@ -24,10 +24,14 @@ interface Recipe {
   totalNutrients: (TotalNutrientsType | undefined)[]; // 1회 섭취량
 }
 
-interface ModalProps {
-  isModalOpen: boolean;
-  setIsModalOpen?: (isModalOpen: boolean) => void;
-  content: Recipe | {};
+interface RecipeDetailModalState {
+  isOpen: boolean;
+  content?: Recipe;
 }
 
-export type { TotalDailyType, Recipe, ModalProps };
+interface ModalProps {
+  modalState: RecipeDetailModalState;
+  onClick?: (newModalState: RecipeDetailModalState) => void;
+}
+
+export type { TotalDailyType, Recipe, RecipeDetailModalState, ModalProps };
