@@ -6,6 +6,8 @@ import DatePicker from '../modal/DatePicker';
 import { Button } from '../../components/index';
 import { postSavedRecipe } from '../../api/recipes';
 import { Divider } from '../../styles/styled/Common';
+import { userState } from '../../recoil/atoms/userState';
+import { useRecoilState } from 'recoil';
 
 interface AddModalProps {
   modalState: AddModalState;
@@ -14,10 +16,11 @@ interface AddModalProps {
 
 const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: AddModalProps) => {
   const [selected, setSelected] = useState<Date>();
+  const [user, setUser] = useRecoilState(userState);
   if (!isOpen) return;
   if (!content) return;
 
-  const { user, recipe } = content;
+  const { user: userData, recipe } = content;
 
   const handleCloseButtonClick = (e: React.MouseEvent) => {
     if (onAddModalClick) onAddModalClick({ isOpen: false });
@@ -29,9 +32,20 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
    * - 저장하는 시간 같이 보내기
    */
 
+  const generateNewRecipeId = () => {
+    if (user) return Math.max(...user.savedRecipes.map(({ recipeId }) => recipeId), 0) + 1;
+  };
+
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
     try {
-      await postSavedRecipe({ user, recipe, date: selected, savedAt: Date.now() });
+      const newlySavedRecipe = { user: userData, recipe, date: selected ? selected : new Date(), savedAt: Date.now() };
+      await postSavedRecipe(newlySavedRecipe);
+      if (user) {
+        setUser({
+          ...user,
+          ...{ ...newlySavedRecipe, recipeId: generateNewRecipeId() },
+        });
+      }
       handleCloseButtonClick(e);
     } catch (e) {
       console.error(e);

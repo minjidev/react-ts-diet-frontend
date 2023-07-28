@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { RecipeDetailModalState, Recipe, AddModalState, User } from '../../types/types';
+import { RecipeDetailModalState, Recipe, AddModalState } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
@@ -8,26 +8,27 @@ import { useNavigate } from 'react-router-dom';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onRecipeModalClick: (newModalState: RecipeDetailModalState) => void;
-  onAddModalClick: (newModalState: AddModalState) => void;
+  onRecipeModalClick?: (newModalState: RecipeDetailModalState) => void;
+  onAddModalClick?: (newModalState: AddModalState) => void;
+  onRemoveClick?: () => void;
 }
 
 const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardProps) => {
-  const [isSaved, setIsSaved] = useState(false);
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
+
+  const checkRecipeSaved = (label: string) =>
+    user?.savedRecipes?.find(savedRecipe => savedRecipe.recipe.label === label);
 
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
     const newModalState = { isOpen: true, content: { user, recipe } };
-    onAddModalClick(newModalState);
-
-    setIsSaved(true);
+    if (onAddModalClick) onAddModalClick(newModalState);
   };
 
   const handleImgClick = (e: React.MouseEvent) => {
     const newModalState = { isOpen: true, content: recipe };
-    onRecipeModalClick(newModalState);
+    if (onRecipeModalClick) onRecipeModalClick(newModalState);
   };
 
   const { id, label, calories, cuisineType, dishType, dietLabels, healthLabels, image, totalDaily, totalNutrients } =
@@ -52,7 +53,7 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
           </Tags>
         </LabelContainer>
         <AddButtonContainer>
-          {!isSaved ? <AddButton onClick={handleAddButtonClick} /> : <SavedButton />}
+          {!checkRecipeSaved(label) ? <AddButton onClick={handleAddButtonClick} /> : <SavedButton />}
         </AddButtonContainer>
       </RecipeCardContainer>
     </>
@@ -85,6 +86,8 @@ const Text = styled.div`
   background: var(--border-secondary);
   border-radius: 1rem;
   z-index: 1;
+  font-family: 'Londrina Solid';
+  font-weight: 400;
 `;
 
 const RecipeImg = styled.img`
@@ -130,7 +133,7 @@ const Tag = styled.div`
   height: 1.6rem;
   font-size: 0.8rem;
   background: var(--border-secondary);
-  margin: 0.3rem 0.3rem 0 0;
+  margin: 0.3rem 0.3rem 0.3rem 0;
   border-radius: 1rem;
 
   display: flex;
@@ -141,13 +144,16 @@ const Tag = styled.div`
 `;
 
 const AddButton = styled(BsFillPlusCircleFill)`
-  width: 2rem;
+  width: 100%;
+  height: 100%;
   color: var(--border-secondary);
 `;
 
 const SavedButton = styled(BsFillCheckCircleFill)`
-  width: 2rem;
+  width: 100%;
+  height: 100%;
   color: var(--border-secondary);
+
   // 저장 취소 onClick
 `;
 
@@ -158,9 +164,12 @@ const AddButtonContainer = styled.div`
   background-color: #000;
   position: absolute;
   top: 0.3rem;
-  right: 0.4rem;
+  right: 0.3rem;
 
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default RecipeCard;
