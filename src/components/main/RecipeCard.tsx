@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { RecipeDetailModalState, Recipe, AddModalState, User } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atoms/UserState';
+import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
 
 interface RecipeCardProps {
@@ -14,9 +14,8 @@ interface RecipeCardProps {
 
 const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardProps) => {
   const [isSaved, setIsSaved] = useState(false);
-  const userData = useRecoilValue(userState);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
-  const user = userData?.user;
 
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');

@@ -69,7 +69,7 @@ const getRecipes = (category: string) => async () => {
 };
 
 interface savedRecipeProps {
-  user: User | undefined;
+  user: User | null;
   recipe: Recipe;
   date: Date | undefined;
   savedAt: number;
@@ -81,4 +81,10 @@ const postSavedRecipe = async (savedRecipe: savedRecipeProps) => {
   return data;
 };
 
-export { getRecipes, postSavedRecipe };
+const getSavedRecipesByDate = async (date: Date) => {
+  const { data } = await axios.get(`/api/recipes?date=${date}`);
+
+  return data;
+};
+
+export { getRecipes, postSavedRecipe, getSavedRecipesByDate };

@@ -14,8 +14,10 @@ import { Button, Input } from '../index';
 import { Link, useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../../api/auth';
 import { useSetRecoilState } from 'recoil';
-import { userState } from '../../recoil/atoms/UserState';
+import { userState } from '../../recoil/atoms/userState';
 import { useLocation } from 'react-router-dom';
+import { User } from '../../types/types';
+
 interface AuthFormProps {
   formType: 'signin' | 'signup';
 }
@@ -56,8 +58,12 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
   const onSubmitSignIn = async (data: schemaType) => {
     // 회원 로그인 api 요청
     try {
-      const user = await signIn(data);
-      setUser(user); // localStorage에 저장
+      const { user } = await signIn(data);
+      const userInfo = Object.entries(user).filter(([key]) => key !== 'savedRecipes');
+      const newUser = Object.fromEntries(userInfo);
+      console.log('user: ', newUser);
+
+      setUser(newUser);
 
       if (state) {
         navigate(state);

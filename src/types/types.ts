@@ -37,15 +37,16 @@ interface RecipeDetailModalProps {
 interface User {
   email: string;
   username: string;
+  savedRecipes?: Recipe[];
 }
 
 interface UserData {
   user: User;
-  message: string;
+  message?: string;
 }
 
 interface AddModalContent {
-  user: User | undefined;
+  user: User | null;
   recipe: Recipe;
 }
 

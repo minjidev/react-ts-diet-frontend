@@ -3,7 +3,7 @@ import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { userState } from '../../recoil/atoms/UserState';
+import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Color } from '../../styles/styled/Common';
