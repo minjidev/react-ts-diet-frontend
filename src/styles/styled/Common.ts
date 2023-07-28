@@ -31,3 +31,10 @@ interface ColorProps {
 export const Color = styled.span<ColorProps>`
   color: ${({ color }) => color};
 `;
+
+export const Divider = styled.hr`
+  height: 1px;
+  width: 100%;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+  margin: 1rem;
+`;

@@ -5,6 +5,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 import DatePicker from '../modal/DatePicker';
 import { Button } from '../../components/index';
 import { postSavedRecipe } from '../../api/recipes';
+import { Divider } from '../../styles/styled/Common';
+
 interface AddModalProps {
   modalState: AddModalState;
   onAddModalClick: (newModalState: AddModalState) => void;
@@ -48,7 +50,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
           e.currentTarget.src = '/images/no_img.svg';
         }}
       />
-      <DatePicker selected={selected} setSelected={setSelected} />
+      <DatePicker selected={selected} setSelected={setSelected} direction="top" />
 
       <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
     </Container>
@@ -111,22 +113,6 @@ const Label = styled.h2`
   margin: 1rem 0 0.6rem 0;
 `;
 
-const LabelText = styled.span`
-  position: relative;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background-color: var(--button-dark-point-color);
-    opacity: 0.4;
-    z-index: -10;
-  }
-`;
-
 interface ConfirmButtonProps {
   onClick: (e: React.MouseEvent) => void;
 }
@@ -140,13 +126,6 @@ const ConfirmButton = styled(Button)<ConfirmButtonProps>`
     width: 6rem;
     height: 5rem;
   }
-`;
-
-const Divider = styled.hr`
-  height: 1px;
-  width: 100%;
-  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
-  margin: 0;
 `;
 
 export default AddRecipeModal;

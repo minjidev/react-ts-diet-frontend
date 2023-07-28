@@ -73,7 +73,7 @@ const GlobalStyle = createGlobalStyle`
     color: var(--font-color);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     overflow-x: scroll;
   }
