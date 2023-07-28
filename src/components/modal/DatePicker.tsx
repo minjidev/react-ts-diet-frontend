@@ -1,23 +1,35 @@
-import React, { useState, useRef, ChangeEventHandler } from 'react';
+import React, { useState, ChangeEventHandler } from 'react';
 import { styled } from 'styled-components';
 import 'react-day-picker/dist/style.css';
 import '../../styles/calendar.css';
 import { format, isValid, parse } from 'date-fns';
-import { DayPicker, useInput } from 'react-day-picker';
+import { DayPicker } from 'react-day-picker';
 import { ko } from 'date-fns/locale';
 import { BsCalendarPlus } from 'react-icons/bs';
 
 interface DatePickerProps {
   selected: Date | undefined;
   setSelected: (newDate: Date | undefined) => void;
+  direction: string;
+  selectedDefault?: boolean;
+  isInputDisplayed?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
 }
 
-function DatePicker({ selected, setSelected }: DatePickerProps) {
+function DatePicker({
+  selected,
+  setSelected,
+  direction,
+  setIsOpen,
+  selectedDefault = false,
+  isInputDisplayed = true,
+}: DatePickerProps) {
   const [inputValue, setInputValue] = useState<string>('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(selectedDefault);
 
   const closePicker = () => {
-    setIsOpen(false);
+    setIsCalendarOpen(false);
+    if (setIsOpen) setIsOpen(false);
   };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = e => {
@@ -32,7 +44,7 @@ function DatePicker({ selected, setSelected }: DatePickerProps) {
   };
 
   const handleInputClick = () => {
-    setIsOpen(true);
+    setIsCalendarOpen(true);
   };
 
   const handleDaySelect = (date: Date | undefined) => {
@@ -48,18 +60,24 @@ function DatePicker({ selected, setSelected }: DatePickerProps) {
   return (
     <>
       <InputGroup>
-        <DateInput
-          type="text"
-          name="text"
-          autoComplete="off"
-          value={inputValue}
-          placeholder={format(new Date(), 'y-MM-dd')}
-          onChange={handleInputChange}
-          onClick={handleInputClick}
-        />
-        <CalendarIcon role="image" aria-label="recipe book" />
-        <DayPickerContainer>
-          {isOpen && <DayPicker mode="single" defaultMonth={selected} selected={selected} onSelect={handleDaySelect} />}
+        {isInputDisplayed && (
+          <>
+            <DateInput
+              type="text"
+              name="text"
+              autoComplete="off"
+              value={inputValue}
+              placeholder={format(new Date(), 'y-MM-dd')}
+              onChange={handleInputChange}
+              onClick={handleInputClick}
+            />
+            <CalendarIcon role="image" aria-label="recipe book" />
+          </>
+        )}
+        <DayPickerContainer direction={direction}>
+          {isCalendarOpen && (
+            <DayPicker mode="single" defaultMonth={selected} selected={selected} onSelect={handleDaySelect} />
+          )}
         </DayPickerContainer>
       </InputGroup>
     </>
@@ -70,6 +88,7 @@ const InputGroup = styled.div`
   position: relative;
   margin: 1rem 0;
   width: 100%;
+  z-index: 10;
 `;
 
 const DateInput = styled.input`
@@ -92,9 +111,10 @@ const CalendarIcon = styled(BsCalendarPlus)`
   width: 1.4rem;
 `;
 
-const DayPickerContainer = styled.div`
+const DayPickerContainer = styled.div<{ direction: string }>`
   position: absolute;
-  bottom: 0;
+  top: ${({ direction }) => (direction === 'bottom' ? '-6px' : '')};
+  bottom: ${({ direction }) => (direction === 'top' ? '0' : '')};
   left: 0;
 `;
 
