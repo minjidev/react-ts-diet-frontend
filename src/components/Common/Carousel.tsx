@@ -60,7 +60,7 @@ const Carousel = ({ category }: { category: string }) => {
       <Container id="container">
         <CarouselTitle>{category}</CarouselTitle>
         <CarouselWindow>
-          <CarouselSlides id="recipe container" currentpage={currentPage}>
+          <CarouselSlides id="recipe container" $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
               <RecipeCard
                 key={recipe.label}
@@ -76,7 +76,7 @@ const Carousel = ({ category }: { category: string }) => {
             {Array.from({ length: 4 }).map((dot, index) => (
               <IndexEmpty key={index} />
             ))}
-            <IndexFill currentpage={currentPage} />
+            <IndexFill $currentpage={currentPage} />
             <NextIcon
               disabled={currentPage === Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1}
               onClick={handleClick('next')}
@@ -110,10 +110,10 @@ const CarouselTitle = styled.div`
   padding: 1rem 0;
 `;
 
-const CarouselSlides = styled.div<{ currentpage: number }>`
+const CarouselSlides = styled.div<{ $currentpage: number }>`
   display: flex;
   transition: transform 0.4s ease-in;
-  transform: ${({ currentpage }) => `translate3D(calc(${currentpage} * -100%), 0, 0)`};
+  transform: ${({ $currentpage }) => `translate3D(calc(${$currentpage} * -100%), 0, 0)`};
 `;
 
 interface IconProps {
@@ -160,7 +160,7 @@ const IndexEmpty = styled(GoDot)`
 `;
 
 interface IndexFillProps {
-  currentpage: number;
+  $currentpage: number;
 }
 
 const IndexFill = styled(GoDotFill)<IndexFillProps>`
@@ -170,7 +170,7 @@ const IndexFill = styled(GoDotFill)<IndexFillProps>`
   left: calc(100% / 4 - 0.4rem);
   color: var(--font-color);
 
-  transform: ${({ currentpage }) => `translate3d(calc(${currentpage}*140%), -50%, 0)`};
+  transform: ${({ $currentpage }) => `translate3d(calc(${$currentpage}*140%), -50%, 0)`};
   transition: transform 0.4s ease-in-out;
 `;
 
