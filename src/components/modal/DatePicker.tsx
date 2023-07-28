@@ -6,6 +6,7 @@ import { format, isValid, parse } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { ko } from 'date-fns/locale';
 import { BsCalendarPlus } from 'react-icons/bs';
+import { formatDate } from '../../utils/formatDate';
 
 interface DatePickerProps {
   selected: Date | undefined;
@@ -67,7 +68,7 @@ function DatePicker({
               name="text"
               autoComplete="off"
               value={inputValue}
-              placeholder={format(new Date(), 'y-MM-dd')}
+              placeholder={formatDate(new Date())}
               onChange={handleInputChange}
               onClick={handleInputClick}
             />

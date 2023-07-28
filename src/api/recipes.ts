@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Recipe, User } from '../types/types';
 import { mainNutrients } from '../constants/index';
+import { formatDate } from '../utils/formatDate';
 
 const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
 const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
@@ -68,21 +69,22 @@ const getRecipes = (category: string) => async () => {
   return recipesData;
 };
 
-interface savedRecipeProps {
+interface SavedRecipeProps {
   user: User | null;
   recipe: Recipe;
   date: Date | undefined;
   savedAt: number;
 }
 
-const postSavedRecipe = async (savedRecipe: savedRecipeProps) => {
+const postSavedRecipe = async (savedRecipe: SavedRecipeProps) => {
+  console.log('saved: ', savedRecipe);
   const { data } = await axios.post('/api/recipes', savedRecipe);
 
   return data;
 };
 
-const getSavedRecipesByDate = async (date: Date) => {
-  const { data } = await axios.get(`/api/recipes?date=${date}`);
+const getSavedRecipesByDate = (date: Date | undefined) => async () => {
+  const { data } = await axios.get(`/api/recipes?date=${date ? date : formatDate(new Date())}`);
 
   return data;
 };
