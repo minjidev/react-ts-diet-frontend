@@ -24,6 +24,18 @@ interface Recipe {
   totalNutrients: (TotalNutrientsType | undefined)[]; // 1회 섭취량
 }
 
+interface SavedRecipe extends Recipe {
+  recipeId: number;
+}
+
+interface SavedRecipes {
+  date: Date;
+  recipe: SavedRecipe;
+  recipeId: number;
+  savedAt: string;
+  user: string;
+}
+
 interface RecipeDetailModalState {
   isOpen: boolean;
   content?: Recipe;
@@ -37,7 +49,7 @@ interface RecipeDetailModalProps {
 interface User {
   email: string;
   username: string;
-  savedRecipes?: Recipe[];
+  savedRecipes: SavedRecipes[];
 }
 
 interface UserData {
@@ -55,6 +67,12 @@ interface AddModalState {
   content?: AddModalContent;
 }
 
+interface SavedRecipesByDate {
+  recipesByDate: SavedRecipes[];
+  totalDailyByDate: (TotalDailyType | undefined)[];
+  totalNutrientsByDate: (TotalNutrientsType | undefined)[]; // 1회 섭취량
+}
+
 export type {
   TotalDailyType,
   Recipe,
@@ -64,4 +82,5 @@ export type {
   UserData,
   AddModalContent,
   AddModalState,
+  SavedRecipesByDate,
 };
