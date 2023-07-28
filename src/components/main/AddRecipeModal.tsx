@@ -25,12 +25,6 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
   const handleCloseButtonClick = (e: React.MouseEvent) => {
     if (onAddModalClick) onAddModalClick({ isOpen: false });
   };
-  /**
-   * 추가 모달
-   * - datepicker(오늘 기준 렌더)
-   * - recipe label
-   * - 저장하는 시간 같이 보내기
-   */
 
   const generateNewRecipeId = () => {
     if (user) return Math.max(...user.savedRecipes.map(({ recipeId }) => recipeId), 0) + 1;

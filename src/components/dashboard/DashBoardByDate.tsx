@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { DatePicker } from '../../components/index';
+import { DatePicker, RecipeCard } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
+import useSavedRecipesByDate from '../../hooks/useSavedRecipesByDate';
+import { formatDate } from '../../utils/formatDate';
 
 const DashBoardByDate = () => {
-  // 오늘 기준으로 api 요청 (선택한 날짜 있으면 그걸로 요청 )
-  const [selected, setSelected] = useState<Date | undefined>(new Date());
+  const [selected, setSelected] = useState<Date | undefined>();
   const [isOpen, setIsOpen] = useState(false);
+  const { data: savedRecipes } = useSavedRecipesByDate(selected);
 
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
   };
+
   return (
     <Container>
-      <Relative id="relative">
+      <Relative>
         <Flex onClick={handleDateClick}>
           <ArrowIcon />
-          <SelectedDate>
-            {selected?.toLocaleDateString('default', { day: 'numeric', month: 'short', year: 'numeric' })}
-          </SelectedDate>
+          <SelectedDate>{selected ? formatDate(selected) : formatDate(new Date())}</SelectedDate>
         </Flex>
         {isOpen && (
           <DatePicker
@@ -33,6 +34,20 @@ const DashBoardByDate = () => {
         )}
       </Relative>
       <Divider />
+      <Content>
+        {!savedRecipes || Object.keys(savedRecipes).length === 0 || savedRecipes.recipesByDate?.length === 0 ? (
+          <SubTitle>Nothing saved yet ! </SubTitle>
+        ) : (
+          <>
+            <SubTitle>Your Meals</SubTitle>
+            <Flex>
+              {savedRecipes?.recipesByDate.map(savedRecipe => (
+                <RecipeCard key={savedRecipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
+              ))}
+            </Flex>
+          </>
+        )}
+      </Content>
     </Container>
   );
 };
@@ -71,6 +86,7 @@ const Content = styled.div`
 const SubTitle = styled.div`
   font-size: 1.4rem;
   font-weight: 400;
+  padding: 1rem 0;
 `;
 
 const SavedRecipes = styled.div``;

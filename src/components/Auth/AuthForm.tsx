@@ -59,11 +59,8 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
     // 회원 로그인 api 요청
     try {
       const { user } = await signIn(data);
-      const userInfo = Object.entries(user).filter(([key]) => key !== 'savedRecipes');
-      const newUser = Object.fromEntries(userInfo);
-      console.log('user: ', newUser);
 
-      setUser(newUser);
+      setUser(user);
 
       if (state) {
         navigate(state);
