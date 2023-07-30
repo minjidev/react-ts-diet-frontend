@@ -22,7 +22,9 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
 
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
+
     const newModalState = { isOpen: true, content: { user, recipe } };
+
     if (onAddModalClick) onAddModalClick(newModalState);
   };
 

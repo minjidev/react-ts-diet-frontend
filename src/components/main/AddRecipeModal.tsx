@@ -27,19 +27,30 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
   };
 
   const generateNewRecipeId = () => {
-    if (user) return Math.max(...user.savedRecipes.map(({ recipeId }) => recipeId), 0) + 1;
+    return Math.max(...user!.savedRecipes.map(({ recipeId }) => recipeId), 0) + 1;
   };
 
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
+    if (!user) return;
+
     try {
-      const newlySavedRecipe = { user: userData, recipe, date: selected ? selected : new Date(), savedAt: Date.now() };
-      await postSavedRecipe(newlySavedRecipe);
-      if (user) {
-        setUser({
-          ...user,
-          ...{ ...newlySavedRecipe, recipeId: generateNewRecipeId() },
-        });
-      }
+      const newlySavedUser = {
+        recipeId: generateNewRecipeId(),
+        user: userData!.email,
+        recipe,
+        date: selected ? selected : new Date(),
+        savedAt: Date.now(),
+      };
+
+      await postSavedRecipe(newlySavedUser);
+
+      const newUser = {
+        ...user,
+        savedRecipes: [...user.savedRecipes, newlySavedUser],
+      };
+
+      setUser(newUser);
+
       handleCloseButtonClick(e);
     } catch (e) {
       console.error(e);
@@ -48,7 +59,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
 
   return (
     <Container>
-      <CloseButton onClick={handleCloseButtonClick} />
+      <CloseButton onClick={handleCloseButtonClick} id="close button" />
       <Text>Please select a date you would like to add this dish to your dashboard.</Text>
       <Divider />
       <Label>{recipe?.label}</Label>
@@ -74,7 +85,7 @@ const Text = styled.div`
 
 const RecipeImg = styled.img`
   width: 100%;
-  height: 100%;
+  height: 18rem;
   border-radius: 1.2rem;
   object-fit: cover;
 `;
@@ -82,7 +93,6 @@ const RecipeImg = styled.img`
 const Container = styled.section`
   min-width: 24rem;
   max-width: 24rem;
-  height: 44rem;
 
   background: #fff;
   border: 1px solid #eee;
@@ -105,7 +115,7 @@ const Container = styled.section`
 `;
 
 const CloseButton = styled(AiOutlineClose)`
-  width: 1.3rem;
+  width: 2rem;
   display: block;
   margin-left: auto;
 
@@ -132,7 +142,7 @@ const ConfirmButton = styled(Button)<ConfirmButtonProps>`
     border-radius: 1rem;
     background-color: var(--button-point-color);
     width: 6rem;
-    height: 5rem;
+    height: 3rem;
   }
 `;
 

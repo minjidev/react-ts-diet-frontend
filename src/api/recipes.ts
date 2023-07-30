@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Recipe, User } from '../types/types';
+import { Recipe, SavedRecipe, User } from '../types/types';
 import { mainNutrients } from '../constants/index';
 import { formatDate } from '../utils/formatDate';
 
@@ -71,13 +71,12 @@ const getRecipes = (category: string) => async () => {
 
 interface SavedRecipeProps {
   user: User | null;
-  recipe: Recipe;
+  savedRecipes: SavedRecipe[];
   date: Date | undefined;
   savedAt: number;
 }
 
-const postSavedRecipe = async (savedRecipe: SavedRecipeProps) => {
-  console.log('saved: ', savedRecipe);
+const postSavedRecipe = async (savedRecipe: SavedRecipe) => {
   const { data } = await axios.post('/api/recipes', savedRecipe);
 
   return data;

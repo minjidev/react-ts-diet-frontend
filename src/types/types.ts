@@ -9,6 +9,7 @@ interface TotalNutrientsType {
   unit: string;
 }
 
+// edmam에서 받아오는 각 레시피 상세
 interface Recipe {
   id: string;
   label: string;
@@ -24,15 +25,12 @@ interface Recipe {
   totalNutrients: (TotalNutrientsType | undefined)[]; // 1회 섭취량
 }
 
-interface SavedRecipe extends Recipe {
+// 유저가 저장한 레시피 (날짜, 시간, 유저)
+interface SavedRecipe {
   recipeId: number;
-}
-
-interface SavedRecipes {
   date: Date;
-  recipe: SavedRecipe;
-  recipeId: number;
-  savedAt: string;
+  recipe: Recipe;
+  savedAt: number;
   user: string;
 }
 
@@ -49,7 +47,7 @@ interface RecipeDetailModalProps {
 interface User {
   email: string;
   username: string;
-  savedRecipes: SavedRecipes[];
+  savedRecipes: SavedRecipe[];
 }
 
 interface UserData {
@@ -68,7 +66,7 @@ interface AddModalState {
 }
 
 interface SavedRecipesByDate {
-  recipesByDate: SavedRecipes[];
+  recipesByDate: SavedRecipe[];
   totalDailyByDate: (TotalDailyType | undefined)[];
   totalNutrientsByDate: (TotalNutrientsType | undefined)[]; // 1회 섭취량
 }
@@ -78,6 +76,7 @@ export type {
   Recipe,
   RecipeDetailModalState,
   RecipeDetailModalProps,
+  SavedRecipe,
   User,
   UserData,
   AddModalContent,
