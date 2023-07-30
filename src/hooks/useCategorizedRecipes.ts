@@ -15,7 +15,7 @@ const query = (category: string) => ({
 const useCategorizedRecipes = (category: string) =>
   useQuery<Recipe[], AxiosError>([...categorizedRecipesKey, category], getRecipes(category), {
     onError: (error: AxiosError) => console.error(error),
-    staleTime: 5000,
+    staleTime: 1000 * 60 * 10,
     cacheTime: Infinity,
   });
 
