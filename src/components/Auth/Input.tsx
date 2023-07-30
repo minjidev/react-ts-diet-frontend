@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { styled } from 'styled-components';
 import { useController, Control } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
+import useDebounce from '../../hooks/useDebounce';
 
 type FieldValues = {
   email: string;
@@ -23,7 +24,7 @@ interface InputProps {
 }
 
 const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
-
+const TRIGGER_DEBOUNCE_DELAY_TIME = 3000;
 const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
 
@@ -50,6 +51,8 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
     }
   };
 
+  const deboucedPwCheckTrigger = useDebounce(() => trigger('passwordConfirm'), TRIGGER_DEBOUNCE_DELAY_TIME);
+  const debouncedTrigger = useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);
   return (
     <>
       <Label htmlFor={name} className="sr-only">
@@ -63,10 +66,10 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value);
             if (name === 'password') {
-              trigger('passwordConfirm');
+              deboucedPwCheckTrigger();
             }
             if (duplicatedResult) setDuplicatedResult(null);
-            trigger(name);
+            debouncedTrigger();
           }}
           disabled={disabled}
         />
