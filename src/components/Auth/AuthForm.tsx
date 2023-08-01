@@ -82,7 +82,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset(defaultValues);
-      navigate('/result/success');
+      navigate('/signin');
     }
   }, [isSubmitSuccessful, reset]);
 

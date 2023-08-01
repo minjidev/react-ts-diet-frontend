@@ -9,10 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import { Flex, Color } from '../../styles/styled/Common';
 
 const menu = [
-  { name: 'Home', path: '/main' },
-  { name: 'About', path: '/about' },
-  { name: 'Recipes', path: '/recipes' },
-  { name: 'Dashboard', path: '/dashboard' },
+  { name: 'Home', path: '/main', isAuthorizationNeeded: false },
+  { name: 'About', path: '/about', isAuthorizationNeeded: false },
+  { name: 'Recipes', path: '/recipes', isAuthorizationNeeded: false },
+  { name: 'Dashboard', path: '/dashboard', isAuthorizationNeeded: true },
 ];
 
 const Header = () => {
@@ -30,6 +30,8 @@ const Header = () => {
       console.error(error);
     }
   };
+
+  const authorizedPath = (path: string) => (user ? path : '/signin');
 
   return (
     <Container>
@@ -52,8 +54,12 @@ const Header = () => {
           <Title color="var(--button-point-color)">NutriNotes</Title>
         </Link>
         <FlexToLeft>
-          {menu.map(({ name, path }) => (
-            <TextLink key={name} to={path} fontSize="1.3rem" paddingtop={2}>
+          {menu.map(({ name, path, isAuthorizationNeeded }) => (
+            <TextLink
+              key={name}
+              to={isAuthorizationNeeded ? authorizedPath(path) : path}
+              fontSize="1.3rem"
+              paddingtop={2}>
               {name}
             </TextLink>
           ))}

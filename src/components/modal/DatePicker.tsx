@@ -4,7 +4,6 @@ import 'react-day-picker/dist/style.css';
 import '../../styles/calendar.css';
 import { format, isValid, parse } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
-import { ko } from 'date-fns/locale';
 import { BsCalendarPlus } from 'react-icons/bs';
 import { formatDate } from '../../utils/formatDate';
 
@@ -77,7 +76,7 @@ function DatePicker({
         )}
         <DayPickerContainer direction={direction}>
           {isCalendarOpen && (
-            <DayPicker mode="single" defaultMonth={selected} selected={selected} onSelect={handleDaySelect} />
+            <DayPicker mode="single" defaultMonth={new Date()} selected={selected} onSelect={handleDaySelect} />
           )}
         </DayPickerContainer>
       </InputGroup>

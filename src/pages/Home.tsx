@@ -2,6 +2,8 @@ import React from 'react';
 import { styled } from 'styled-components';
 import { Button, Card } from '../components';
 import { Link } from 'react-router-dom';
+import { userState } from '../recoil/atoms/userState';
+import { useRecoilValue } from 'recoil';
 
 const cardsInfo = [
   {
@@ -9,42 +11,55 @@ const cardsInfo = [
     $imgDesc: 'burger icon',
     title: 'Plan your dietary habits',
     desc: 'Jot down daily meal adventures effortlessly',
+    path: '/main',
+    isAuthoriationNeeded: false,
   },
   {
     $imgSrc: '/react-ts-diet-icons/calendar_2.png',
     $imgDesc: 'calendar icon',
     title: 'Keep track of your meals',
     desc: 'Record and Organize your meals to achieve your wellness goals.',
+    path: '/main',
+    isAuthoriationNeeded: false,
   },
   {
     $imgSrc: '/react-ts-diet-icons/recipe_1.png',
     $imgDesc: 'recipe icon',
     title: 'Discover Culinary Inspiration',
     desc: 'Browse a Diverse Collection of Tasty Recipes',
+    path: '/recipes',
+    isAuthoriationNeeded: false,
   },
   {
     $imgSrc: '/react-ts-diet-icons/dashboard_1.png',
     $imgDesc: 'dashboard icon',
     title: 'Assess the nutritional content',
     desc: 'Gain insights into essential macronutrients, vitamins, and minerals',
+    path: '/dashboard',
+    isAuthoriationNeeded: true,
   },
 ];
 
 const Home = () => {
+  const user = useRecoilValue(userState);
+  const authroizedPath = (path: string) => (user ? path : '/signin');
+
   return (
     <Container>
       <TextContainer>
         <Title>
           <Underline color="var(--button-point-color)">NutriNotes,</Underline>Effortless Meal Tracker
           <Description>: All-in-one solution for effortless meal tracker and nutritional tracking</Description>
-          <Link to={'/main'}>
+          <Link to={authroizedPath('/main')}>
             <MainButton>Get Started!</MainButton>
           </Link>
         </Title>
       </TextContainer>
       <CardContainer>
-        {cardsInfo.map(({ $imgSrc, $imgDesc, title, desc }) => (
-          <Card key={title} $imgSrc={$imgSrc} $imgDesc={$imgDesc} title={title} desc={desc} />
+        {cardsInfo.map(({ $imgSrc, $imgDesc, title, desc, path, isAuthoriationNeeded }) => (
+          <Link key={title} to={isAuthoriationNeeded ? authroizedPath(path) : path}>
+            <Card $imgSrc={$imgSrc} $imgDesc={$imgDesc} title={title} desc={desc} />
+          </Link>
         ))}
       </CardContainer>
     </Container>
