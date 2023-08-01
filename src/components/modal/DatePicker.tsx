@@ -76,7 +76,12 @@ function DatePicker({
         )}
         <DayPickerContainer direction={direction}>
           {isCalendarOpen && (
-            <DayPicker mode="single" defaultMonth={new Date()} selected={selected} onSelect={handleDaySelect} />
+            <DayPicker
+              mode="single"
+              defaultMonth={new Date()}
+              selected={selected ? selected : new Date()}
+              onSelect={handleDaySelect}
+            />
           )}
         </DayPickerContainer>
       </InputGroup>
