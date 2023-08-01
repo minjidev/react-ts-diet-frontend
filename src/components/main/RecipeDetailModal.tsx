@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { RecipeDetailModalProps } from '../../types/types';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -6,6 +6,12 @@ import { AiOutlineClose } from 'react-icons/ai';
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
 const RecipeDetailModal = ({ modalState, onRecipeModalClick }: RecipeDetailModalProps) => {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
   const { isOpen, content } = modalState;
 
   if (!isOpen) return;
@@ -19,48 +25,64 @@ const RecipeDetailModal = ({ modalState, onRecipeModalClick }: RecipeDetailModal
   );
 
   return (
-    <Container>
-      <CloseButton onClick={handleCloseButtonClick} />
-      <Label>
-        <RecipeEmoji role="image" aria-label="recipe book">
-          📙
-        </RecipeEmoji>
-        <LabelText>{content?.label}</LabelText>
-      </Label>
-      <Flex>
-        <Img src={content?.image} />
-        <Description>
-          <SubTitle>Nutrients</SubTitle>
-          <Nutrients>
-            {content?.totalNutrients.map((nutrient, index) => (
-              <Nutrient key={nutrient?.label}>
-                <NutrientLabel>{nutrient?.label}</NutrientLabel>
-                <Quantity>
-                  {nutrient?.quantity} {nutrient?.unit}
-                </Quantity>
-                <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
-              </Nutrient>
-            ))}
-          </Nutrients>
-          <SubTitle>Detail</SubTitle>
-          <DescText>
-            {cuisineTypeTexts?.map((cuisine: string) => (
-              <Tag key={cuisine} color="var(--border-secondary)">
-                # {cuisine}
-              </Tag>
-            ))}{' '}
-            {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
-            {content?.healthLabels?.slice(0, 5).map((label: string) => (
-              <Tag key={label} color="#fff">
-                # {label}
-              </Tag>
-            ))}
-          </DescText>
-        </Description>
-      </Flex>
-    </Container>
+    <>
+      <Container>
+        <CloseButton onClick={handleCloseButtonClick} />
+        <Label>
+          <RecipeEmoji role="image" aria-label="recipe book">
+            📙
+          </RecipeEmoji>
+          <LabelText>{content?.label}</LabelText>
+        </Label>
+        <Flex>
+          <Img src={content?.image} />
+          <Description>
+            <SubTitle>Nutrients</SubTitle>
+            <Nutrients>
+              {content?.totalNutrients.map((nutrient, index) => (
+                <Nutrient key={nutrient?.label}>
+                  <NutrientLabel>{nutrient?.label}</NutrientLabel>
+                  <Quantity>
+                    {nutrient?.quantity} {nutrient?.unit}
+                  </Quantity>
+                  <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
+                </Nutrient>
+              ))}
+            </Nutrients>
+            <SubTitle>Detail</SubTitle>
+            <DescText>
+              {cuisineTypeTexts?.map((cuisine: string) => (
+                <Tag key={cuisine} color="var(--border-secondary)">
+                  # {cuisine}
+                </Tag>
+              ))}{' '}
+              {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
+              {content?.healthLabels?.slice(0, 5).map((label: string) => (
+                <Tag key={label} color="#fff">
+                  # {label}
+                </Tag>
+              ))}
+            </DescText>
+          </Description>
+        </Flex>
+      </Container>
+      <Dimmed />
+    </>
   );
 };
+
+const Dimmed = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--border-secondary);
+  opacity: 0.1;
+  z-index: 99;
+`;
 
 const Flex = styled.div`
   display: flex;

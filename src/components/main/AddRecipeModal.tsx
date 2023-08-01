@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { AddModalState } from '../../types/types';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -15,6 +15,12 @@ interface AddModalProps {
 }
 
 const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: AddModalProps) => {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
   const [selected, setSelected] = useState<Date>();
   const [user, setUser] = useRecoilState(userState);
   if (!isOpen) return;
@@ -58,23 +64,39 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
   };
 
   return (
-    <Container>
-      <CloseButton onClick={handleCloseButtonClick} id="close button" />
-      <Text>Please select a date you would like to add this dish to your dashboard.</Text>
-      <Divider />
-      <Label>{recipe?.label}</Label>
-      <RecipeImg
-        src={recipe?.image}
-        onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-          e.currentTarget.src = '/images/no_img.svg';
-        }}
-      />
-      <DatePicker selected={selected} setSelected={setSelected} direction="top" />
+    <>
+      <Container>
+        <CloseButton onClick={handleCloseButtonClick} id="close button" />
+        <Text>Please select a date you would like to add this dish to your dashboard.</Text>
+        <Divider />
+        <Label>{recipe?.label}</Label>
+        <RecipeImg
+          src={recipe?.image}
+          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+            e.currentTarget.src = '/images/no_img.svg';
+          }}
+        />
+        <DatePicker selected={selected} setSelected={setSelected} direction="top" />
 
-      <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
-    </Container>
+        <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
+      </Container>
+      <Dimmed />
+    </>
   );
 };
+
+const Dimmed = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--border-secondary);
+  opacity: 0.1;
+  z-index: 99;
+`;
 
 const Text = styled.div`
   font-size: 1.1rem;
