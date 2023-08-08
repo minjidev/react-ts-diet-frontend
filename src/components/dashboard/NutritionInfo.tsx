@@ -3,6 +3,8 @@ import { SavedRecipesByDate } from '../../types/types';
 import { styled } from 'styled-components';
 import { Chart } from 'react-chartjs-2';
 import type { ChartData, ChartOptions } from 'chart.js';
+import { Context } from 'chartjs-plugin-datalabels';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {
   Chart as ChartJS,
   LinearScale,
@@ -16,7 +18,6 @@ import {
   BarController,
   Title as ChartTitle,
 } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 interface NutritionInfoProps {
   savedRecipes: SavedRecipesByDate;
@@ -69,7 +70,7 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
         datalabels: {
           anchor: 'start' as const,
           align: 'end' as const,
-          formatter: function (value, context) {
+          formatter: function (value: number, context: Context) {
             return (
               savedRecipes.totalNutrientsByDate[context.dataIndex]?.quantity! +
               savedRecipes.totalNutrientsByDate[context.dataIndex]?.unit!

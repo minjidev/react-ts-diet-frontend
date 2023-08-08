@@ -47,7 +47,7 @@ interface RecipeDetailModalProps {
 interface User {
   email: string;
   username: string;
-  savedRecipes: SavedRecipe[];
+  savedRecipes?: SavedRecipe[];
 }
 
 interface UserData {
