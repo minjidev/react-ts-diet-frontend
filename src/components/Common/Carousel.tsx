@@ -67,6 +67,7 @@ const Carousel = ({ category }: { category: string }) => {
                 recipe={recipe}
                 onRecipeModalClick={handleRecipeModalClick}
                 onAddModalClick={handleAddModalClick}
+                margin="0 1rem"
               />
             ))}
           </CarouselSlides>
@@ -84,8 +85,10 @@ const Carousel = ({ category }: { category: string }) => {
           </IconContainer>
         </CarouselWindow>
       </Container>
-      <RecipeDetailModal modalState={recipeDetailModalState} onRecipeModalClick={handleRecipeModalClick} />
-      <AddRecipeModal modalState={addModalState} onAddModalClick={handleAddModalClick} />
+      {recipeDetailModalState.isOpen && (
+        <RecipeDetailModal modalState={recipeDetailModalState} onRecipeModalClick={handleRecipeModalClick} />
+      )}
+      {addModalState.isOpen && <AddRecipeModal modalState={addModalState} onAddModalClick={handleAddModalClick} />}
     </>
   );
 };
@@ -93,7 +96,7 @@ const Carousel = ({ category }: { category: string }) => {
 const Container = styled.div`
   margin: 2rem 0 6rem 0;
   width: 100%;
-  height: 25rem;
+  height: 28rem;
   position: relative;
 `;
 
