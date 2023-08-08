@@ -8,3 +8,4 @@ export { default as RecipeCard } from './main/RecipeCard';
 export { default as RecipeDetailModal } from './main/RecipeDetailModal';
 export { default as DatePicker } from './modal/DatePicker';
 export { default as DashBoardByDate } from './dashboard/DashBoardByDate';
+export { default as NutritionInfo } from './dashboard/NutritionInfo';

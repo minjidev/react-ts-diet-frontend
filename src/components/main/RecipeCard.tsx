@@ -54,6 +54,7 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
             ))}
           </Tags>
         </LabelContainer>
+
         <AddButtonContainer>
           {!checkRecipeSaved(label) ? <AddButton onClick={handleAddButtonClick} /> : <SavedButton />}
         </AddButtonContainer>
@@ -65,9 +66,7 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
 const RecipeCardContainer = styled.div`
   width: 15rem;
   min-width: 15rem;
-  height: 14rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  background-image: linear-gradient(to bottom right, #fdfbfb, #ebedee);
   border-radius: 1.2rem;
   margin: 0 1rem;
 
@@ -93,23 +92,20 @@ const Text = styled.div`
 `;
 
 const RecipeImg = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 1.2rem;
-  position: absolute;
+  width: 15rem;
+  height: 15rem;
+  border-top-right-radius: 1.2rem;
+  border-top-left-radius: 1.2rem;
   object-fit: cover;
-  top: 0;
-  left: 0;
 
   cursor: pointer;
 `;
 
 const LabelContainer = styled.div`
-  position: absolute;
   width: 100%;
-  top: 105%;
   font-family: 'Rubik';
   word-wrap: break-word;
+  padding: 0.2rem 1rem;
 `;
 
 const RecipeLabel = styled.div`

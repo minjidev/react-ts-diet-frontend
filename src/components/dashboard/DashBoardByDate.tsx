@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { DatePicker, RecipeCard } from '../../components/index';
+import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
 import useSavedRecipesByDate from '../../hooks/useSavedRecipesByDate';
 import { formatDate } from '../../utils/formatDate';
@@ -10,7 +10,6 @@ const DashBoardByDate = () => {
   const [selected, setSelected] = useState<Date | undefined>();
   const [isOpen, setIsOpen] = useState(false);
   const { data: savedRecipes } = useSavedRecipesByDate(selected);
-
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
   };
@@ -45,6 +44,8 @@ const DashBoardByDate = () => {
                 <RecipeCard key={savedRecipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
               ))}
             </Flex>
+            <Divider />
+            <NutritionInfo savedRecipes={savedRecipes} />
           </>
         )}
       </Content>
@@ -67,6 +68,7 @@ const Relative = styled.div`
 const Flex = styled.div`
   display: flex;
   cursor: pointer;
+  margin-bottom: 2rem;
 `;
 
 const SelectedDate = styled.div`
