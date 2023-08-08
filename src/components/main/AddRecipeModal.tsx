@@ -21,6 +21,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
       document.body.style.overflow = 'unset';
     };
   }, []);
+
   const [selected, setSelected] = useState<Date>();
   const [user, setUser] = useRecoilState(userState);
   if (!isOpen) return;
@@ -33,7 +34,8 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
   };
 
   const generateNewRecipeId = () => {
-    return Math.max(...user!.savedRecipes.map(({ recipeId }) => recipeId), 0) + 1;
+    const savedReipces = user?.savedRecipes ?? [];
+    return Math.max(...savedReipces.map(({ recipeId }) => recipeId), 0) + 1;
   };
 
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
@@ -52,7 +54,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
 
       const newUser = {
         ...user,
-        savedRecipes: [...user.savedRecipes, newlySavedUser],
+        savedRecipes: user.savedRecipes ? [...user.savedRecipes, newlySavedUser] : [newlySavedUser],
       };
 
       setUser(newUser);

@@ -39,7 +39,7 @@ const DashBoardByDate = () => {
         ) : (
           <>
             <SubTitle>Your Meals</SubTitle>
-            <Flex>
+            <Flex align="space-around">
               {savedRecipes?.recipesByDate.map(savedRecipe => (
                 <RecipeCard key={savedRecipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
               ))}
@@ -75,13 +75,13 @@ const Relative = styled.div`
   position: relative;
 `;
 
-const Flex = styled.div`
+const Flex = styled.div<{ align?: string }>`
   display: flex;
 
   margin-bottom: 2rem;
   flex-wrap: wrap;
 
-  justify-content: space-around;
+  justify-content: ${({ align }) => (align ? align : 'flex-start')};
   gap: 1rem 0;
   cursor: pointer;
 `;

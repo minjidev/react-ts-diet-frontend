@@ -11,9 +11,10 @@ interface RecipeCardProps {
   onRecipeModalClick?: (newModalState: RecipeDetailModalState) => void;
   onAddModalClick?: (newModalState: AddModalState) => void;
   onRemoveClick?: () => void;
+  margin?: string;
 }
 
-const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, margin }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
@@ -28,6 +29,8 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
     if (onAddModalClick) onAddModalClick(newModalState);
   };
 
+  const handleCancelButtonClick = () => {};
+
   const handleImgClick = (e: React.MouseEvent) => {
     const newModalState = { isOpen: true, content: recipe };
     if (onRecipeModalClick) onRecipeModalClick(newModalState);
@@ -37,7 +40,7 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
     recipe;
   return (
     <>
-      <RecipeCardContainer id="recipe-card" data-id={id}>
+      <RecipeCardContainer id="recipe-card" data-id={id} margin={margin}>
         <Text>{calories}kcal</Text>
         <RecipeImg
           src={image}
@@ -63,13 +66,14 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick }: RecipeCardP
   );
 };
 
-const RecipeCardContainer = styled.div`
+const RecipeCardContainer = styled.div<{ margin?: string }>`
   width: 15rem;
   min-width: 15rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 1.2rem;
 
   position: relative;
+  margin: ${({ margin }) => (margin ? margin : 0)};
 `;
 
 const Text = styled.div`

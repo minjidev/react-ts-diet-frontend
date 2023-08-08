@@ -5,16 +5,16 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
-const RecipeDetailModal = ({ modalState, onRecipeModalClick }: RecipeDetailModalProps) => {
+const RecipeDetailModal = ({ modalState: { isOpen, content }, onRecipeModalClick }: RecipeDetailModalProps) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, []);
-  const { isOpen, content } = modalState;
 
   if (!isOpen) return;
+  if (!content) return;
 
   const handleCloseButtonClick = (e: React.MouseEvent) => {
     if (onRecipeModalClick) onRecipeModalClick({ isOpen: false });
