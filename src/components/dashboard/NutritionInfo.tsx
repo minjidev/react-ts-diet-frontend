@@ -52,7 +52,7 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
         datalabels: {
           anchor: 'end' as const,
           align: 'right' as const,
-          formatter: function (value, context) {
+          formatter: function (value: number) {
             return value + '%';
           },
           font: {

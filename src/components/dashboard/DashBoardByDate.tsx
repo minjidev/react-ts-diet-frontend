@@ -43,6 +43,11 @@ const DashBoardByDate = () => {
               {savedRecipes?.recipesByDate.map(savedRecipe => (
                 <RecipeCard key={savedRecipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
               ))}
+              {Array(4)
+                .fill(null)
+                .map((_, index) => (
+                  <Filler key={index} id="filler" />
+                ))}
             </Flex>
             <Divider />
             <NutritionInfo savedRecipes={savedRecipes} />
@@ -52,6 +57,11 @@ const DashBoardByDate = () => {
     </Container>
   );
 };
+
+const Filler = styled.div`
+  width: 15rem;
+  height: 0;
+`;
 
 const Container = styled.div`
   height: 100%;
@@ -67,8 +77,13 @@ const Relative = styled.div`
 
 const Flex = styled.div`
   display: flex;
-  cursor: pointer;
+
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  justify-content: space-around;
+  gap: 1rem 0;
+  cursor: pointer;
 `;
 
 const SelectedDate = styled.div`
@@ -81,16 +96,12 @@ const ArrowIcon = styled(MdKeyboardArrowDown)`
   margin: 0 1rem;
 `;
 
-const Content = styled.div`
-  padding: 0 1.4rem;
-`;
+const Content = styled.div``;
 
 const SubTitle = styled.div`
   font-size: 1.4rem;
   font-weight: 400;
   padding: 1rem 0;
 `;
-
-const SavedRecipes = styled.div``;
 
 export default DashBoardByDate;
