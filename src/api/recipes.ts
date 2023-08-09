@@ -7,9 +7,17 @@ const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
 const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
 const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${APP_ID}&app_key=${APP_KEY}`;
+const idRegExr = /(?<=v2\/)[A-Za-z0-9]+/;
+
+interface RecipeLink {
+  self: {
+    href: string;
+    title: string;
+  };
+}
 
 interface RecipeData {
-  hits: { recipe: Recipe }[];
+  hits: { recipe: Recipe; _links: RecipeLink }[];
 }
 
 // 카테고리별 랜덤 20개
@@ -17,20 +25,25 @@ const getRecipes = (category: string) => async () => {
   const { data } = await axios.get(`${url}&diet=${category}&random=true`);
   console.log('raw: ', data);
   const recipes = (data as RecipeData).hits.map(hit => hit.recipe);
+  const recipeIds = (data as RecipeData).hits.map(hit => hit._links.self.href.match(idRegExr)![0]);
+
   const recipesData = recipes.map(
-    ({
-      label,
-      calories,
-      cuisineType,
-      dietLabels,
-      healthLabels,
-      dishType,
-      image,
-      totalDaily,
-      totalNutrients,
-      yield: servings,
-    }) => ({
-      id: String(label) + String(calories),
+    (
+      {
+        label,
+        calories,
+        cuisineType,
+        dietLabels,
+        healthLabels,
+        dishType,
+        image,
+        totalDaily,
+        totalNutrients,
+        yield: servings,
+      },
+      idx
+    ) => ({
+      recipeId: recipeIds[idx],
       label,
       cuisineType,
       dishType,
@@ -69,17 +82,14 @@ const getRecipes = (category: string) => async () => {
   return recipesData;
 };
 
-interface SavedRecipeProps {
-  user: User | null;
-  savedRecipes: SavedRecipe[];
-  date: Date | undefined;
-  savedAt: number;
-}
-
 const postSavedRecipe = async (savedRecipe: SavedRecipe) => {
   const { data } = await axios.post('/api/recipes', savedRecipe);
 
   return data;
+};
+
+const deleteSavedRecipe = async (recipeId: string) => {
+  await axios.delete(`/api/recipes/${recipeId}`);
 };
 
 const getSavedRecipesByDate = (date: Date | undefined) => async () => {
@@ -88,4 +98,4 @@ const getSavedRecipesByDate = (date: Date | undefined) => async () => {
   return data;
 };
 
-export { getRecipes, postSavedRecipe, getSavedRecipesByDate };
+export { getRecipes, postSavedRecipe, getSavedRecipesByDate, deleteSavedRecipe };

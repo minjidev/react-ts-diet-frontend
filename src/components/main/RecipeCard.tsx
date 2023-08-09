@@ -2,9 +2,10 @@ import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
 import { RecipeDetailModalState, Recipe, AddModalState } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
+import { deleteSavedRecipe } from '../../api/recipes';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -15,7 +16,7 @@ interface RecipeCardProps {
 }
 
 const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, margin }: RecipeCardProps) => {
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
   const checkRecipeSaved = (label: string) =>
@@ -29,18 +30,31 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, margin }: Rec
     if (onAddModalClick) onAddModalClick(newModalState);
   };
 
-  const handleCancelButtonClick = () => {};
+  const handleCancelButtonClick = (recipeId: string) => async () => {
+    try {
+      if (!user) return;
+
+      await deleteSavedRecipe(recipeId);
+
+      const newUser = {
+        ...user,
+        savedRecipes: user?.savedRecipes?.filter(saved => saved.recipe.recipeId !== recipeId),
+      };
+      setUser(newUser);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleImgClick = (e: React.MouseEvent) => {
     const newModalState = { isOpen: true, content: recipe };
     if (onRecipeModalClick) onRecipeModalClick(newModalState);
   };
 
-  const { id, label, calories, cuisineType, dishType, dietLabels, healthLabels, image, totalDaily, totalNutrients } =
-    recipe;
+  const { recipeId, label, calories, dietLabels, image } = recipe;
   return (
     <>
-      <RecipeCardContainer id="recipe-card" data-id={id} margin={margin}>
+      <RecipeCardContainer id="recipe-card" data-id={recipeId} margin={margin}>
         <Text>{calories}kcal</Text>
         <RecipeImg
           src={image}
@@ -59,7 +73,11 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, margin }: Rec
         </LabelContainer>
 
         <AddButtonContainer>
-          {!checkRecipeSaved(label) ? <AddButton onClick={handleAddButtonClick} /> : <SavedButton />}
+          {!checkRecipeSaved(label) ? (
+            <AddButton onClick={handleAddButtonClick} />
+          ) : (
+            <SavedButton onClick={handleCancelButtonClick(recipeId)} />
+          )}
         </AddButtonContainer>
       </RecipeCardContainer>
     </>

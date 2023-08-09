@@ -11,7 +11,7 @@ interface TotalNutrientsType {
 
 // edmam에서 받아오는 각 레시피 상세
 interface Recipe {
-  id: string;
+  recipeId: string;
   label: string;
   calories: number;
   cuisineType: string[];
@@ -27,7 +27,6 @@ interface Recipe {
 
 // 유저가 저장한 레시피 (날짜, 시간, 유저)
 interface SavedRecipe {
-  recipeId: number;
   date: Date;
   recipe: Recipe;
   savedAt: number;

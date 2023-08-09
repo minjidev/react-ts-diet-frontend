@@ -10,7 +10,7 @@ import AddRecipeModal from '../main/AddRecipeModal';
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 const defaultRecipeModalContent = {
-  id: '0',
+  recipeId: '0',
   label: '',
   calories: 0,
   cuisineType: [],
@@ -63,7 +63,7 @@ const Carousel = ({ category }: { category: string }) => {
           <CarouselSlides id="recipe container" $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
               <RecipeCard
-                key={recipe.label}
+                key={recipe.recipeId}
                 recipe={recipe}
                 onRecipeModalClick={handleRecipeModalClick}
                 onAddModalClick={handleAddModalClick}

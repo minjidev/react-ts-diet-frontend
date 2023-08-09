@@ -10,6 +10,7 @@ const DashBoardByDate = () => {
   const [selected, setSelected] = useState<Date | undefined>();
   const [isOpen, setIsOpen] = useState(false);
   const { data: savedRecipes } = useSavedRecipesByDate(selected);
+
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
   };
@@ -41,7 +42,7 @@ const DashBoardByDate = () => {
             <SubTitle>Your Meals</SubTitle>
             <Flex align="space-around">
               {savedRecipes?.recipesByDate.map(savedRecipe => (
-                <RecipeCard key={savedRecipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
+                <RecipeCard key={savedRecipe.recipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
               ))}
               {Array(4)
                 .fill(null)

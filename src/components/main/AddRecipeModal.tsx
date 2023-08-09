@@ -33,17 +33,11 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
     if (onAddModalClick) onAddModalClick({ isOpen: false });
   };
 
-  const generateNewRecipeId = () => {
-    const savedReipces = user?.savedRecipes ?? [];
-    return Math.max(...savedReipces.map(({ recipeId }) => recipeId), 0) + 1;
-  };
-
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
     if (!user) return;
 
     try {
       const newlySavedUser = {
-        recipeId: generateNewRecipeId(),
         user: userData!.email,
         recipe,
         date: selected ? selected : new Date(),

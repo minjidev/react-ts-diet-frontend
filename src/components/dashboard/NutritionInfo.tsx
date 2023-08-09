@@ -2,7 +2,6 @@ import React from 'react';
 import { SavedRecipesByDate } from '../../types/types';
 import { styled } from 'styled-components';
 import { Chart } from 'react-chartjs-2';
-import type { ChartData, ChartOptions } from 'chart.js';
 import { Context } from 'chartjs-plugin-datalabels';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {
@@ -21,11 +20,6 @@ import {
 
 interface NutritionInfoProps {
   savedRecipes: SavedRecipesByDate;
-}
-
-interface ChartProps {
-  options: ChartOptions<'bar'>;
-  data: ChartData<'bar'>;
 }
 
 ChartJS.register(
@@ -54,7 +48,7 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
           anchor: 'end' as const,
           align: 'right' as const,
           formatter: function (value: number) {
-            return value + '%';
+            return `${value} %`;
           },
           font: {
             weight: 'bold' as const,
@@ -86,7 +80,8 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
   };
 
   const options = {
-    // responsive: true,
+    responsive: true,
+    maintainAspectRatio: false,
     elements: {
       bar: {
         borderWidth: 2,
@@ -112,6 +107,12 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
         },
       },
       y: {},
+    },
+    layout: {
+      padding: {
+        left: 20,
+        right: 60,
+      },
     },
   };
 
