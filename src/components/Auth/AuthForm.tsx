@@ -1,10 +1,3 @@
-/**
- * - onChange일 때 validate -> 에러 메시지 표시
- * - onSubmit일 때 validate -> formState가 valid하면 버튼 활성화
- *    - signUp : (email 중복 확인) 회원 추가
- *    - signIn : (회원 정보 확인) 로그인
- */
-
 import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useForm } from 'react-hook-form';
@@ -16,7 +9,7 @@ import { signIn, signUp } from '../../api/auth';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useLocation } from 'react-router-dom';
-import { User } from '../../types/types';
+import { notify } from '../../utils/notify';
 
 interface AuthFormProps {
   formType: 'signin' | 'signup';
@@ -61,12 +54,15 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
       const { user } = await signIn(data);
 
       setUser(user);
+      notify({ status: 'success', message: 'Successfully Signed In! ', icon: '✅' });
 
       if (state) {
         navigate(state);
       } else navigate('/');
     } catch (e) {
       console.error(e);
+      notify({ status: 'error', message: 'Sign In Failed..', icon: '🥹' });
+    } finally {
     }
   };
 
@@ -74,8 +70,19 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
     // 회원가입
     try {
       await signUp(data);
+      notify({
+        status: 'success',
+        message: 'Successfully Signed Up!',
+        icon: '🎉',
+      });
     } catch (e) {
       console.error(e);
+      notify({
+        status: 'error',
+        message: 'Sign Up Failed..',
+        icon: '🥹',
+      });
+    } finally {
     }
   };
 

@@ -7,6 +7,7 @@ import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Color } from '../../styles/styled/Common';
+import { notify } from '../../utils/notify';
 
 const menu = [
   { name: 'Home', path: '/main', isAuthorizationNeeded: false },
@@ -26,8 +27,20 @@ const Header = () => {
       setUser(null);
       localStorage.removeItem('user');
       navigate('/');
+
+      notify({
+        status: 'success',
+        message: 'Successfully Signed Out !',
+        icon: '✅',
+      });
     } catch (error) {
       console.error(error);
+
+      notify({
+        status: 'error',
+        message: 'Something Went Wrong!',
+        icon: '🤪',
+      });
     }
   };
 

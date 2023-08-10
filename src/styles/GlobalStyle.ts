@@ -73,7 +73,6 @@ const GlobalStyle = createGlobalStyle`
     color: var(--font-color);
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
     overflow-x: scroll;
   }
@@ -95,7 +94,6 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: inherit;
-    /* font-family: 'Noto Sans KR', sans-serif; */
 
     ::-webkit-scrollbar {
       display: none;
@@ -115,6 +113,12 @@ const GlobalStyle = createGlobalStyle`
     &:focus {
       outline: 0;
     }
+  }
+
+  .Toastify__toast-body {
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-family: 'Rubik';
   }
 
   .sr-only {

@@ -2,7 +2,8 @@ import React, { Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header, Loader } from '../components/index';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Root = () => {
   return (
@@ -13,6 +14,15 @@ const Root = () => {
           <Outlet />
         </Suspense>
       </TopMargin>
+      <ToastContainer
+        draggablePercent={60}
+        role="alert"
+        closeOnClick
+        autoClose={1000}
+        transition={Slide}
+        position="bottom-right"
+        hideProgressBar={true}
+      />
     </>
   );
 };
