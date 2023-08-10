@@ -97,7 +97,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
 
   return (
     <Form onSubmit={handleSubmit(submitFn)} name={formType}>
-      <Title>Logo</Title>
+      <Title>NutriNotes</Title>
       <FormTitle>{formType.toUpperCase()}</FormTitle>
       <Input
         name="email"
@@ -143,7 +143,9 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
 const Title = styled.h1`
   font-weight: 500;
   font-size: 2.4rem;
-  margin: 1rem;
+  padding-bottom: 1rem;
+
+  color: var(--button-point-color);
 `;
 
 const Form = styled.form`
@@ -157,6 +159,7 @@ const Form = styled.form`
 const FormTitle = styled.h2`
   font-weight: 400;
   font-size: 2rem;
+  padding: 1.2rem;
 `;
 
 const Message = styled(Link)`
