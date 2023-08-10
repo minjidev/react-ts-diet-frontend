@@ -20,7 +20,7 @@ const DashBoardByDate = () => {
   };
 
   const handleCancelButtonClick = () => {
-    queryClient.invalidateQueries([...savedRecipesByDateKey, selected?.toLocaleDateString()]);
+    queryClient.invalidateQueries([...savedRecipesByDateKey, selected ? formatDate(selected) : formatDate(new Date())]);
   };
 
   return (
