@@ -6,7 +6,6 @@ import { Divider } from '../../styles/styled/Common';
 import useSavedRecipesByDate from '../../hooks/useSavedRecipesByDate';
 import { formatDate } from '../../utils/formatDate';
 import { useQueryClient } from '@tanstack/react-query';
-import { SavedRecipe } from '../../types/types';
 import { savedRecipesByDateKey } from '../../constants';
 
 const DashBoardByDate = () => {

@@ -5,7 +5,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import DatePicker from '../modal/DatePicker';
 import { Button } from '../../components/index';
 import { postSavedRecipe } from '../../api/recipes';
-import { Divider } from '../../styles/styled/Common';
+import { Divider, Dimmed } from '../../styles/styled/Common';
 import { userState } from '../../recoil/atoms/userState';
 import { useRecoilState } from 'recoil';
 
@@ -29,7 +29,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
 
   const { user: userData, recipe } = content;
 
-  const handleCloseButtonClick = (e: React.MouseEvent) => {
+  const handleCloseClick = () => {
     if (onAddModalClick) onAddModalClick({ isOpen: false });
   };
 
@@ -53,7 +53,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
 
       setUser(newUser);
 
-      handleCloseButtonClick(e);
+      handleCloseClick();
     } catch (e) {
       console.error(e);
     }
@@ -62,7 +62,7 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
   return (
     <>
       <Container>
-        <CloseButton onClick={handleCloseButtonClick} id="close button" />
+        <CloseButton onClick={handleCloseClick} id="close button" />
         <Text>Please select a date you would like to add this dish to your dashboard.</Text>
         <Divider />
         <Label>{recipe?.label}</Label>
@@ -76,37 +76,10 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
 
         <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
       </Container>
-      <Dimmed />
+      <Dimmed onClick={handleCloseClick} />
     </>
   );
 };
-
-const Dimmed = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--border-secondary);
-  opacity: 0.1;
-  z-index: 99;
-`;
-
-const Text = styled.div`
-  font-size: 1.1rem;
-  line-height: 140%;
-  margin: 1rem 0;
-  color: #555555;
-`;
-
-const RecipeImg = styled.img`
-  width: 100%;
-  height: 18rem;
-  border-radius: 1.2rem;
-  object-fit: cover;
-`;
 
 const Container = styled.section`
   min-width: 24rem;
@@ -130,6 +103,20 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Text = styled.div`
+  font-size: 1.1rem;
+  line-height: 140%;
+  margin: 1rem 0;
+  color: #555555;
+`;
+
+const RecipeImg = styled.img`
+  width: 100%;
+  height: 18rem;
+  border-radius: 1.2rem;
+  object-fit: cover;
 `;
 
 const CloseButton = styled(AiOutlineClose)`

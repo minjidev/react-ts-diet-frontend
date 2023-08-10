@@ -1,4 +1,4 @@
-import { styled, css } from 'styled-components';
+import { styled } from 'styled-components';
 
 export const AuthContainer = styled.div`
   width: 80%;
@@ -37,4 +37,17 @@ export const Divider = styled.hr`
   width: 100%;
   box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
   margin: 1rem;
+`;
+
+export const Dimmed = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--border-secondary);
+  opacity: 0.2;
+  z-index: 99;
 `;

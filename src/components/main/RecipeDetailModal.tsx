@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { RecipeDetailModalProps } from '../../types/types';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Dimmed } from '../../styles/styled/Common';
 
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
@@ -16,7 +17,7 @@ const RecipeDetailModal = ({ modalState: { isOpen, content }, onRecipeModalClick
   if (!isOpen) return;
   if (!content) return;
 
-  const handleCloseButtonClick = (e: React.MouseEvent) => {
+  const handleCloseClick = () => {
     if (onRecipeModalClick) onRecipeModalClick({ isOpen: false });
   };
 
@@ -27,7 +28,7 @@ const RecipeDetailModal = ({ modalState: { isOpen, content }, onRecipeModalClick
   return (
     <>
       <Container>
-        <CloseButton onClick={handleCloseButtonClick} />
+        <CloseButton onClick={handleCloseClick} />
         <Label>
           <RecipeEmoji role="image" aria-label="recipe book">
             📙
@@ -66,28 +67,10 @@ const RecipeDetailModal = ({ modalState: { isOpen, content }, onRecipeModalClick
           </Description>
         </Flex>
       </Container>
-      <Dimmed />
+      <Dimmed onClick={handleCloseClick} />
     </>
   );
 };
-
-const Dimmed = styled.div`
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--border-secondary);
-  opacity: 0.1;
-  z-index: 99;
-`;
-
-const Flex = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 const Container = styled.section`
   min-width: 50rem;
@@ -105,6 +88,11 @@ const Container = styled.section`
   transform: translate3d(-50%, -50%, 0);
   padding: 1rem;
   z-index: 999;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Label = styled.h2`
