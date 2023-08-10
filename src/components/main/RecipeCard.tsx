@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { RecipeDetailModalState, Recipe, AddModalState } from '../../types/types';
+import { RecipeDetailModalState, Recipe, AddModalState, SavedRecipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
@@ -11,11 +11,11 @@ interface RecipeCardProps {
   recipe: Recipe;
   onRecipeModalClick?: (newModalState: RecipeDetailModalState) => void;
   onAddModalClick?: (newModalState: AddModalState) => void;
-  onRemoveClick?: () => void;
+  onCancelButtonClick?: () => void;
   margin?: string;
 }
 
-const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, margin }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, onCancelButtonClick, margin }: RecipeCardProps) => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
@@ -35,12 +35,15 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, margin }: Rec
       if (!user) return;
 
       await deleteSavedRecipe(recipeId);
+      const savedRecipes = user.savedRecipes!.filter(saved => saved.recipe.recipeId !== recipeId);
 
       const newUser = {
         ...user,
-        savedRecipes: user?.savedRecipes?.filter(saved => saved.recipe.recipeId !== recipeId),
+        savedRecipes,
       };
+
       setUser(newUser);
+      if (onCancelButtonClick) onCancelButtonClick();
     } catch (e) {
       console.error(e);
     }

@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
 import useSavedRecipesByDate from '../../hooks/useSavedRecipesByDate';
 import { formatDate } from '../../utils/formatDate';
+import { useQueryClient } from '@tanstack/react-query';
+import { SavedRecipe } from '../../types/types';
+import { savedRecipesByDateKey } from '../../constants';
 
 const DashBoardByDate = () => {
+  const queryClient = useQueryClient();
   const [selected, setSelected] = useState<Date | undefined>();
   const [isOpen, setIsOpen] = useState(false);
+
   const { data: savedRecipes } = useSavedRecipesByDate(selected);
 
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
+  };
+
+  const handleCancelButtonClick = () => {
+    queryClient.invalidateQueries([...savedRecipesByDateKey, selected?.toLocaleDateString()]);
   };
 
   return (
@@ -40,9 +49,13 @@ const DashBoardByDate = () => {
         ) : (
           <>
             <SubTitle>Your Meals</SubTitle>
-            <Flex align="space-around">
+            <Flex $align="space-around">
               {savedRecipes?.recipesByDate.map(savedRecipe => (
-                <RecipeCard key={savedRecipe.recipe.recipeId} recipe={savedRecipe.recipe} onRemoveClick={() => {}} />
+                <RecipeCard
+                  key={savedRecipe.recipe.recipeId}
+                  recipe={savedRecipe.recipe}
+                  onCancelButtonClick={handleCancelButtonClick}
+                />
               ))}
               {Array(4)
                 .fill(null)
@@ -76,13 +89,13 @@ const Relative = styled.div`
   position: relative;
 `;
 
-const Flex = styled.div<{ align?: string }>`
+const Flex = styled.div<{ $align?: string }>`
   display: flex;
 
   margin-bottom: 2rem;
   flex-wrap: wrap;
 
-  justify-content: ${({ align }) => (align ? align : 'flex-start')};
+  justify-content: ${({ $align }) => ($align ? $align : 'flex-start')};
   gap: 1rem 0;
   cursor: pointer;
 `;
