@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
-import useSavedRecipesByDate from '../../hooks/useSavedRecipesByDate';
+import { useSavedRecipesByDate } from '../../hooks/index';
 import { formatDate } from '../../utils/formatDate';
 import { useQueryClient } from '@tanstack/react-query';
 import { savedRecipesByDateKey } from '../../constants';

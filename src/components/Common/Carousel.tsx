@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useCategorizedRecipes from '../../hooks/useCategorizedRecipes';
+import { useCategorizedRecipes } from '../../hooks/index';
 import { RecipeCard, RecipeDetailModal } from '../../components/index';
 import styled, { css } from 'styled-components';
 import { RecipeDetailModalState, Recipe, AddModalState } from '../../types/types';

@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { useController, Control } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
-import useDebounce from '../../hooks/useDebounce';
+import { useDebounce } from '../../hooks/index';
 
 type FieldValues = {
   email: string;
@@ -24,7 +24,8 @@ interface InputProps {
 }
 
 const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
-const TRIGGER_DEBOUNCE_DELAY_TIME = 3000;
+const TRIGGER_DEBOUNCE_DELAY_TIME = 200;
+
 const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
 
@@ -50,6 +51,9 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
       }
     }
   };
+  // const debounedFn = useMemo((name: string) => useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME), []);
+
+  // console.log(debounedFn);
 
   const deboucedPwCheckTrigger = useDebounce(() => trigger('passwordConfirm'), TRIGGER_DEBOUNCE_DELAY_TIME);
   const debouncedTrigger = useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);
