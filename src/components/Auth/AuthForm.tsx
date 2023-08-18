@@ -49,7 +49,6 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
   });
 
   const onSubmitSignIn = async (data: schemaType) => {
-    // 회원 로그인 api 요청
     try {
       const { user } = await signIn(data);
 
@@ -132,7 +131,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
         <Message to={isSignUp ? '/signin' : '/signup'}>
           {isSignUp ? 'Already have an account?' : 'Create an account'}
         </Message>
-        <ConfirmButton disabled={!isValid || isDuplicated} type="submit">
+        <ConfirmButton disabled={isSignUp ? !isValid || isDuplicated : false} type="submit">
           Next
         </ConfirmButton>
       </BottomContainer>

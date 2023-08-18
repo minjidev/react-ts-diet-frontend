@@ -38,9 +38,9 @@ interface RecipeDetailModalState {
   content?: Recipe;
 }
 
-interface RecipeDetailModalProps {
-  modalState: RecipeDetailModalState;
-  onRecipeModalClick?: (newModalState: RecipeDetailModalState) => void;
+interface RecipeModalProps {
+  content: Recipe | undefined;
+  close: () => void;
 }
 
 interface User {
@@ -74,7 +74,7 @@ export type {
   TotalDailyType,
   Recipe,
   RecipeDetailModalState,
-  RecipeDetailModalProps,
+  RecipeModalProps,
   SavedRecipe,
   User,
   UserData,

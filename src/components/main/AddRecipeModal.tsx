@@ -1,37 +1,24 @@
-import React, { SyntheticEvent, useState, useEffect } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { AddModalState } from '../../types/types';
-import { AiOutlineClose } from 'react-icons/ai';
-import DatePicker from '../modal/DatePicker';
-import { Button } from '../../components/index';
+import { AddModalContent } from '../../types/types';
+import { Button, DatePicker, Modal } from '../../components/index';
 import { postSavedRecipe } from '../../api/recipes';
-import { Divider, Dimmed } from '../../styles/styled/Common';
+import { Divider } from '../../styles/styled/Common';
 import { userState } from '../../recoil/atoms/userState';
 import { useRecoilState } from 'recoil';
 
 interface AddModalProps {
-  modalState: AddModalState;
-  onAddModalClick: (newModalState: AddModalState) => void;
+  content: AddModalContent | undefined;
+  close: () => void;
 }
 
-const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: AddModalProps) => {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
+const AddRecipeModal = ({ content, close }: AddModalProps) => {
+  if (!content) return;
 
   const [selected, setSelected] = useState<Date>();
   const [user, setUser] = useRecoilState(userState);
-  if (!isOpen) return;
-  if (!content) return;
 
   const { user: userData, recipe } = content;
-
-  const handleCloseClick = () => {
-    if (onAddModalClick) onAddModalClick({ isOpen: false });
-  };
 
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
     if (!user) return;
@@ -53,57 +40,28 @@ const AddRecipeModal = ({ modalState: { isOpen, content }, onAddModalClick }: Ad
 
       setUser(newUser);
 
-      handleCloseClick();
+      close();
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <>
-      <Container>
-        <CloseButton onClick={handleCloseClick} id="close button" />
-        <Text>Please select a date you would like to add this dish to your dashboard.</Text>
-        <Divider />
-        <Label>{recipe?.label}</Label>
-        <RecipeImg
-          src={recipe?.image}
-          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-            e.currentTarget.src = '/images/no_img.svg';
-          }}
-        />
-        <DatePicker selected={selected} setSelected={setSelected} direction="top" />
-
-        <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
-      </Container>
-      <Dimmed onClick={handleCloseClick} />
-    </>
+    <Modal close={close} styles={{ minWidth: '24rem', maxWidth: '24rem' }}>
+      <Text>Please select a date you would like to add this dish to your dashboard.</Text>
+      <Divider />
+      <Label>{recipe?.label}</Label>
+      <RecipeImg
+        src={recipe?.image}
+        onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
+          e.currentTarget.src = '/images/no_img.svg';
+        }}
+      />
+      <DatePicker selected={selected} setSelected={setSelected} direction="top" />
+      <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
+    </Modal>
   );
 };
-
-const Container = styled.section`
-  min-width: 24rem;
-  max-width: 24rem;
-
-  background: #fff;
-  border: 1px solid #eee;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  border-radius: 1rem;
-
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  padding: 2rem;
-  z-index: 999;
-
-  font-family: 'Rubik';
-  font-size: 1.4rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const Text = styled.div`
   font-size: 1.1rem;
@@ -117,14 +75,6 @@ const RecipeImg = styled.img`
   height: 18rem;
   border-radius: 1.2rem;
   object-fit: cover;
-`;
-
-const CloseButton = styled(AiOutlineClose)`
-  width: 2rem;
-  display: block;
-  margin-left: auto;
-
-  cursor: pointer;
 `;
 
 const Label = styled.h2`

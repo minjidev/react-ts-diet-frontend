@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent } from 'react';
 import { styled } from 'styled-components';
-import { RecipeDetailModalState, Recipe, AddModalState, SavedRecipe } from '../../types/types';
+import { Recipe, AddModalContent } from '../../types/types';
 import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
@@ -9,13 +9,23 @@ import { deleteSavedRecipe } from '../../api/recipes';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onRecipeModalClick?: (newModalState: RecipeDetailModalState) => void;
-  onAddModalClick?: (newModalState: AddModalState) => void;
+  onRecipeModalClick?: (newRecipe: Recipe) => void;
+  onAddModalClick?: (newAddition: AddModalContent) => void;
   onCancelButtonClick?: () => void;
+  openAddModal?: () => void;
+  openRecipeModal?: () => void;
   margin?: string;
 }
 
-const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, onCancelButtonClick, margin }: RecipeCardProps) => {
+const RecipeCard = ({
+  recipe,
+  onRecipeModalClick,
+  onAddModalClick,
+  onCancelButtonClick,
+  openAddModal,
+  openRecipeModal,
+  margin,
+}: RecipeCardProps) => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
@@ -25,9 +35,8 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, onCancelButto
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
 
-    const newModalState = { isOpen: true, content: { user, recipe } };
-
-    if (onAddModalClick) onAddModalClick(newModalState);
+    if (openAddModal) openAddModal();
+    if (onAddModalClick) onAddModalClick({ user, recipe });
   };
 
   const handleCancelButtonClick = (recipeId: string) => async () => {
@@ -50,8 +59,8 @@ const RecipeCard = ({ recipe, onRecipeModalClick, onAddModalClick, onCancelButto
   };
 
   const handleImgClick = (e: React.MouseEvent) => {
-    const newModalState = { isOpen: true, content: recipe };
-    if (onRecipeModalClick) onRecipeModalClick(newModalState);
+    if (openRecipeModal) openRecipeModal();
+    if (onRecipeModalClick) onRecipeModalClick(recipe);
   };
 
   const { recipeId, label, calories, dietLabels, image } = recipe;
@@ -175,8 +184,6 @@ const SavedButton = styled(BsFillCheckCircleFill)`
   width: 100%;
   height: 100%;
   color: var(--border-secondary);
-
-  // 저장 취소 onClick
 `;
 
 const AddButtonContainer = styled.div`

@@ -6,6 +6,8 @@ export { default as Button } from './common/Button';
 export { default as Loader } from './common/Loader';
 export { default as RecipeCard } from './main/RecipeCard';
 export { default as RecipeDetailModal } from './main/RecipeDetailModal';
+export { default as AddRecipeModal } from './main/AddRecipeModal';
 export { default as DatePicker } from './modal/DatePicker';
 export { default as DashBoardByDate } from './dashboard/DashBoardByDate';
 export { default as NutritionInfo } from './dashboard/NutritionInfo';
+export { default as Modal } from './common/Modal';

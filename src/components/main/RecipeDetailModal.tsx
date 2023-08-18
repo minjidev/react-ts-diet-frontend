@@ -1,94 +1,59 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
-import { RecipeDetailModalProps } from '../../types/types';
-import { AiOutlineClose } from 'react-icons/ai';
-import { Dimmed } from '../../styles/styled/Common';
+import { RecipeModalProps } from '../../types/types';
+import { Modal } from '../index';
 
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
-const RecipeDetailModal = ({ modalState: { isOpen, content }, onRecipeModalClick }: RecipeDetailModalProps) => {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
-  if (!isOpen) return;
+const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
   if (!content) return;
-
-  const handleCloseClick = () => {
-    if (onRecipeModalClick) onRecipeModalClick({ isOpen: false });
-  };
 
   const cuisineTypeTexts = content?.cuisineType.map((cuisine: string) =>
     cuisine.replace(/^\w/, (firstLetter: string) => firstLetter.toUpperCase())
   );
 
   return (
-    <>
-      <Container>
-        <CloseButton onClick={handleCloseClick} />
-        <Label>
-          <RecipeEmoji role="image" aria-label="recipe book">
-            📙
-          </RecipeEmoji>
-          <LabelText>{content?.label}</LabelText>
-        </Label>
-        <Flex>
-          <Img src={content?.image} />
-          <Description>
-            <SubTitle>Nutrients</SubTitle>
-            <Nutrients>
-              {content?.totalNutrients.map((nutrient, index) => (
-                <Nutrient key={nutrient?.label}>
-                  <NutrientLabel>{nutrient?.label}</NutrientLabel>
-                  <Quantity>
-                    {nutrient?.quantity} {nutrient?.unit}
-                  </Quantity>
-                  <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
-                </Nutrient>
-              ))}
-            </Nutrients>
-            <SubTitle>Detail</SubTitle>
-            <DescText>
-              {cuisineTypeTexts?.map((cuisine: string) => (
-                <Tag key={cuisine} color="var(--border-secondary)">
-                  # {cuisine}
-                </Tag>
-              ))}{' '}
-              {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
-              {content?.healthLabels?.slice(0, 5).map((label: string) => (
-                <Tag key={label} color="#fff">
-                  # {label}
-                </Tag>
-              ))}
-            </DescText>
-          </Description>
-        </Flex>
-      </Container>
-      <Dimmed onClick={handleCloseClick} />
-    </>
+    <Modal close={close} styles={{ minWidth: '50rem', maxWidth: '50rem' }}>
+      <Label>
+        <RecipeEmoji role="image" aria-label="recipe book">
+          📙
+        </RecipeEmoji>
+        <LabelText>{content?.label}</LabelText>
+      </Label>
+      <Flex>
+        <Img src={content?.image} />
+        <Description>
+          <SubTitle>Nutrients</SubTitle>
+          <Nutrients>
+            {content?.totalNutrients.map((nutrient, index) => (
+              <Nutrient key={nutrient?.label}>
+                <NutrientLabel>{nutrient?.label}</NutrientLabel>
+                <Quantity>
+                  {nutrient?.quantity} {nutrient?.unit}
+                </Quantity>
+                <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
+              </Nutrient>
+            ))}
+          </Nutrients>
+          <SubTitle>Detail</SubTitle>
+          <DescText>
+            {cuisineTypeTexts?.map((cuisine: string) => (
+              <Tag key={cuisine} color="var(--border-secondary)">
+                # {cuisine}
+              </Tag>
+            ))}{' '}
+            {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
+            {content?.healthLabels?.slice(0, 5).map((label: string) => (
+              <Tag key={label} color="#fff">
+                # {label}
+              </Tag>
+            ))}
+          </DescText>
+        </Description>
+      </Flex>
+    </Modal>
   );
 };
-
-const Container = styled.section`
-  min-width: 50rem;
-  max-width: 50rem;
-  height: 25rem;
-
-  background: #fff;
-  border: 1px solid #eee;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  border-radius: 1rem;
-
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  padding: 1rem;
-  z-index: 999;
-`;
 
 const Flex = styled.div`
   display: flex;
@@ -119,16 +84,6 @@ const LabelText = styled.span`
 
 const RecipeEmoji = styled.span`
   margin: 0 0.2rem;
-`;
-
-const CloseButton = styled(AiOutlineClose)`
-  width: 1.3rem;
-  display: block;
-
-  cursor: pointer;
-  position: absolute;
-  right: 0.8rem;
-  top: 0.8rem;
 `;
 
 const Img = styled.img`
