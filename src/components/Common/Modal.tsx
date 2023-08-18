@@ -19,11 +19,13 @@ const Modal = ({ children, close, styles }: ModalProps) => {
   }, []);
 
   return (
-    <Container $styles={styles}>
-      <CloseButton onClick={close} id="close button" />
-      {children}
+    <>
+      <Container $styles={styles}>
+        <CloseButton onClick={close} id="close button" />
+        {children}
+      </Container>
       <Dimmed onClick={close} />
-    </Container>
+    </>
   );
 };
 
