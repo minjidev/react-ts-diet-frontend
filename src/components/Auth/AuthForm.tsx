@@ -12,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 import { notify } from '../../utils/notify';
 
 interface AuthFormProps {
-  formType: 'signin' | 'signup';
+  formType: 'login' | 'register';
 }
 
 const defaultValues = {
@@ -22,9 +22,9 @@ const defaultValues = {
   username: '',
 };
 
-const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
-  const isSignUp = formType === 'signup';
-  type schemaType = typeof formType extends 'signin' ? SignInSchema : SignUpSchema;
+const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
+  const isSignUp = formType === 'register';
+  type schemaType = typeof formType extends 'register' ? SignInSchema : SignUpSchema;
   const schema = isSignUp ? signUpSchema : signInSchema;
 
   const navigate = useNavigate();
@@ -53,14 +53,14 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
       const { user } = await signIn(data);
 
       setUser(user);
-      notify({ status: 'success', message: 'Successfully Signed In! ', icon: '✅' });
+      notify({ status: 'success', message: 'Successfully Logged In! ', icon: '✅' });
 
       if (state) {
         navigate(state);
       } else navigate('/');
     } catch (e) {
       console.error(e);
-      notify({ status: 'error', message: 'Sign In Failed..', icon: '🥹' });
+      notify({ status: 'error', message: 'Log In Failed..', icon: '🥹' });
     } finally {
     }
   };
@@ -71,14 +71,14 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
       await signUp(data);
       notify({
         status: 'success',
-        message: 'Successfully Signed Up!',
+        message: 'Successfully Registered!',
         icon: '🎉',
       });
     } catch (e) {
       console.error(e);
       notify({
         status: 'error',
-        message: 'Sign Up Failed..',
+        message: 'Registration Failed..',
         icon: '🥹',
       });
     } finally {
@@ -107,7 +107,7 @@ const AuthForm = ({ formType = 'signup' }: AuthFormProps) => {
         formType={formType}
       />
       <Input name="password" type="password" control={control} trigger={trigger} formType={formType} />
-      {formType === 'signup' && (
+      {isSignUp && (
         <>
           <Input
             name="passwordConfirm"

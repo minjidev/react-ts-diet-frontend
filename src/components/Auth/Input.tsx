@@ -28,6 +28,7 @@ const TRIGGER_DEBOUNCE_DELAY_TIME = 200;
 
 const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
+  const isSignUp = formType === 'login';
 
   const {
     field: { value, onChange },
@@ -77,7 +78,7 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
           }}
           disabled={disabled}
         />
-        {(formType === 'signup' && name === 'email') || name === 'username' ? (
+        {isSignUp && (name === 'email' || name === 'username') ? (
           <>
             <CheckButton $isvalid={isDirty && !invalid} onClick={checkDuplicated(value)}>
               Check
@@ -89,7 +90,7 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
             )}
           </>
         ) : undefined}
-        {formType === 'signup' && isDirty && error?.message && !disabled && <Error>{error?.message}</Error>}
+        {isSignUp && isDirty && error?.message && !disabled && <Error>{error?.message}</Error>}
       </TextInputField>
     </>
   );

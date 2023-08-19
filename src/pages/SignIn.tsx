@@ -5,7 +5,7 @@ import { AuthContainer } from '../styles/styled/Common';
 const SignIn = () => {
   return (
     <AuthContainer>
-      <AuthForm formType="signin" />
+      <AuthForm formType="login" />
     </AuthContainer>
   );
 };
