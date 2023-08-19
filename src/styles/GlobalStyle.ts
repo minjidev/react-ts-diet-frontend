@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
 
   #root {
-    min-height: 100%;
+    min-height: 100vh;
     min-width: 100%;
     font-size: 2rem;
     font-family: 'Londrina Solid', 'Rubik', Inter, Avenir, Helvetica, Arial, sans-serif;

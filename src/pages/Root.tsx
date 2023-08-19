@@ -28,7 +28,7 @@ const Root = () => {
 };
 
 const TopMargin = styled.div`
-  margin-top: 8rem;
+  margin-top: 6rem;
   width: 80%;
   display: flex;
   flex-direction: column;
