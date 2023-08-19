@@ -39,6 +39,7 @@ const CardIcon = styled.img.attrs<CardIconProps>(({ $imgSrc, $imgDesc }) => ({
 
 const Container = styled.div`
   width: 20rem;
+  min-height: 18rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   background-image: linear-gradient(to bottom right, #fdfbfb, #ebedee);
   position: relative;
