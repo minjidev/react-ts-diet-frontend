@@ -1,21 +1,21 @@
 import React, { SyntheticEvent } from 'react';
 import { styled } from 'styled-components';
-import { Recipe, AddModalContent } from '../../types/types';
+import { Recipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
-import { deleteSavedRecipe } from '../../api/recipes';
 import { useModal } from '../../hooks';
-import { RecipeDetailModal, AddRecipeModal } from '../index';
+import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal } from '../index';
+import { isCancel } from 'axios';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onCancelButtonClick?: () => void;
+  selected: Date | undefined;
   margin?: string;
 }
 
-const RecipeCard = ({ recipe, onCancelButtonClick, margin }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
@@ -33,7 +33,15 @@ const RecipeCard = ({ recipe, onCancelButtonClick, margin }: RecipeCardProps) =>
     close: closeAddModal,
     content: addContent,
     setContent: setAddContent,
-  } = useModal<AddModalContent>();
+  } = useModal<Recipe>();
+
+  const {
+    isOpen: isCancelModalOpen,
+    open: openCancelModal,
+    close: closeCancelModal,
+    content: cancelContent,
+    setContent: setCancelContent,
+  } = useModal<Recipe>();
 
   const checkRecipeSaved = (label: string) =>
     user?.savedRecipes?.find(savedRecipe => savedRecipe.recipe.label === label);
@@ -42,26 +50,15 @@ const RecipeCard = ({ recipe, onCancelButtonClick, margin }: RecipeCardProps) =>
     if (!user) navigate('/signin');
 
     openAddModal();
-    setAddContent({ user, recipe });
+    setAddContent(recipe);
   };
 
-  const handleCancelButtonClick = (recipeId: string) => async () => {
-    try {
-      if (!user) return;
+  const handleCancelButtonClick = () => {
+    console.log('clicking: ', recipe);
+    if (!user) navigate('/signin');
 
-      await deleteSavedRecipe(recipeId);
-      const savedRecipes = user.savedRecipes!.filter(saved => saved.recipe.recipeId !== recipeId);
-
-      const newUser = {
-        ...user,
-        savedRecipes,
-      };
-
-      setUser(newUser);
-      if (onCancelButtonClick) onCancelButtonClick();
-    } catch (e) {
-      console.error(e);
-    }
+    openCancelModal();
+    setCancelContent(recipe);
   };
 
   const handleImgClick = (e: React.MouseEvent) => {
@@ -94,12 +91,13 @@ const RecipeCard = ({ recipe, onCancelButtonClick, margin }: RecipeCardProps) =>
           {!checkRecipeSaved(label) ? (
             <AddButton onClick={handleAddButtonClick} />
           ) : (
-            <SavedButton onClick={handleCancelButtonClick(recipeId)} />
+            <SavedButton onClick={handleCancelButtonClick} />
           )}
         </AddButtonContainer>
       </RecipeCardContainer>
       {isRecipeModalOpen && <RecipeDetailModal content={recipeContent} close={closeRecipeModal} />}
-      {isAddModalOpen && <AddRecipeModal content={addContent} close={closeAddModal} />}
+      {isAddModalOpen && <AddRecipeModal recipe={addContent} close={closeAddModal} />}
+      {isCancelModalOpen && <CancelRecipeModal recipe={cancelContent} close={closeCancelModal} selected={selected} />}
     </>
   );
 };

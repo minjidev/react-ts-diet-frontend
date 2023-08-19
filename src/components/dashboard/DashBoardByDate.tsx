@@ -5,11 +5,8 @@ import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
 import { useSavedRecipesByDate } from '../../hooks/index';
 import { formatDate } from '../../utils/formatDate';
-import { useQueryClient } from '@tanstack/react-query';
-import { savedRecipesByDateKey } from '../../constants';
 
 const DashBoardByDate = () => {
-  const queryClient = useQueryClient();
   const [selected, setSelected] = useState<Date | undefined>();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,10 +14,6 @@ const DashBoardByDate = () => {
 
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
-  };
-
-  const handleCancelButtonClick = () => {
-    queryClient.invalidateQueries([...savedRecipesByDateKey, selected ? formatDate(selected) : formatDate(new Date())]);
   };
 
   return (
@@ -50,11 +43,7 @@ const DashBoardByDate = () => {
             <SubTitle>Your Meals</SubTitle>
             <Flex $align="space-around">
               {savedRecipes?.recipesByDate.map(savedRecipe => (
-                <RecipeCard
-                  key={savedRecipe.recipe.recipeId}
-                  recipe={savedRecipe.recipe}
-                  onCancelButtonClick={handleCancelButtonClick}
-                />
+                <RecipeCard key={savedRecipe.recipe.recipeId} recipe={savedRecipe.recipe} selected={selected} />
               ))}
               {Array(4)
                 .fill(null)

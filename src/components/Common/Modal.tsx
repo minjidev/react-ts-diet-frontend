@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 interface ModalProps {
   children: React.ReactNode;
   close: () => void;
-  styles: Styles<object>;
+  styles?: Styles<object>;
 }
 
 const Modal = ({ children, close, styles }: ModalProps) => {
@@ -60,6 +60,7 @@ const Container = styled.section<{ $styles?: Styles<object> }>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   ${containerStyles}
 `;

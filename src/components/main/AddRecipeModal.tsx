@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { AddModalContent } from '../../types/types';
+import { AddModalContent, Recipe } from '../../types/types';
 import { Button, DatePicker, Modal } from '../../components/index';
 import { postSavedRecipe } from '../../api/recipes';
 import { Divider } from '../../styles/styled/Common';
@@ -8,24 +8,22 @@ import { userState } from '../../recoil/atoms/userState';
 import { useRecoilState } from 'recoil';
 
 interface AddModalProps {
-  content: AddModalContent | undefined;
+  recipe: Recipe | undefined;
   close: () => void;
 }
 
-const AddRecipeModal = ({ content, close }: AddModalProps) => {
-  if (!content) return;
+const AddRecipeModal = ({ recipe, close }: AddModalProps) => {
+  if (!recipe) return;
 
   const [selected, setSelected] = useState<Date>();
   const [user, setUser] = useRecoilState(userState);
-
-  const { user: userData, recipe } = content;
 
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
     if (!user) return;
 
     try {
       const newlySavedUser = {
-        user: userData!.email,
+        user: user.email,
         recipe,
         date: selected ? selected : new Date(),
         savedAt: Date.now(),
