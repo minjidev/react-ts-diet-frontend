@@ -13,45 +13,47 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
   );
 
   return (
-    <Modal close={close} styles={{ minWidth: '50rem', maxWidth: '50rem' }}>
-      <Label>
-        <RecipeEmoji role="image" aria-label="recipe book">
-          📙
-        </RecipeEmoji>
-        <LabelText>{content?.label}</LabelText>
-      </Label>
-      <Flex>
-        <Img src={content?.image} />
-        <Description>
-          <SubTitle>Nutrients</SubTitle>
-          <Nutrients>
-            {content?.totalNutrients.map((nutrient, index) => (
-              <Nutrient key={nutrient?.label}>
-                <NutrientLabel>{nutrient?.label}</NutrientLabel>
-                <Quantity>
-                  {nutrient?.quantity} {nutrient?.unit}
-                </Quantity>
-                <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
-              </Nutrient>
-            ))}
-          </Nutrients>
-          <SubTitle>Detail</SubTitle>
-          <DescText>
-            {cuisineTypeTexts?.map((cuisine: string) => (
-              <Tag key={cuisine} color="var(--border-secondary)">
-                # {cuisine}
-              </Tag>
-            ))}{' '}
-            {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
-            {content?.healthLabels?.slice(0, 5).map((label: string) => (
-              <Tag key={label} color="#fff">
-                # {label}
-              </Tag>
-            ))}
-          </DescText>
-        </Description>
-      </Flex>
-    </Modal>
+    <>
+      <Modal close={close} styles={{ minWidth: '50rem', maxWidth: '50rem' }}>
+        <Label>
+          <RecipeEmoji role="image" aria-label="recipe book">
+            📙
+          </RecipeEmoji>
+          <LabelText>{content?.label}</LabelText>
+        </Label>
+        <Flex>
+          <Img src={content?.image} />
+          <Description>
+            <SubTitle>Nutrients</SubTitle>
+            <Nutrients>
+              {content?.totalNutrients.map((nutrient, index) => (
+                <Nutrient key={nutrient?.label}>
+                  <NutrientLabel>{nutrient?.label}</NutrientLabel>
+                  <Quantity>
+                    {nutrient?.quantity} {nutrient?.unit}
+                  </Quantity>
+                  <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
+                </Nutrient>
+              ))}
+            </Nutrients>
+            <SubTitle>Detail</SubTitle>
+            <DescText>
+              {cuisineTypeTexts?.map((cuisine: string) => (
+                <Tag key={cuisine} color="var(--border-secondary)">
+                  # {cuisine}
+                </Tag>
+              ))}{' '}
+              {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
+              {content?.healthLabels?.slice(0, 5).map((label: string) => (
+                <Tag key={label} color="#fff">
+                  # {label}
+                </Tag>
+              ))}
+            </DescText>
+          </Description>
+        </Flex>
+      </Modal>
+    </>
   );
 };
 

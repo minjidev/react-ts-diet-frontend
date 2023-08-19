@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { Dimmed } from '../../styles/styled/Common';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Styles } from 'styled-components/dist/types';
-
+import { createPortal } from 'react-dom';
 interface ModalProps {
   children: React.ReactNode;
   close: () => void;
@@ -20,11 +20,16 @@ const Modal = ({ children, close, styles }: ModalProps) => {
 
   return (
     <>
-      <Container $styles={styles}>
-        <CloseButton onClick={close} id="close button" />
-        {children}
-      </Container>
-      <Dimmed onClick={close} />
+      {createPortal(
+        <>
+          <Container $styles={styles}>
+            <CloseButton onClick={close} id="close button" />
+            {children}
+          </Container>
+          <Dimmed onClick={close} />
+        </>,
+        document.body
+      )}
     </>
   );
 };

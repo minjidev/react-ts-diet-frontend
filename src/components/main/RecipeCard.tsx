@@ -1,33 +1,39 @@
 import React, { SyntheticEvent } from 'react';
 import { styled } from 'styled-components';
 import { Recipe, AddModalContent } from '../../types/types';
-import { BsFillPlusCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
+import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
 import { deleteSavedRecipe } from '../../api/recipes';
+import { useModal } from '../../hooks';
+import { RecipeDetailModal, AddRecipeModal } from '../index';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onRecipeModalClick?: (newRecipe: Recipe) => void;
-  onAddModalClick?: (newAddition: AddModalContent) => void;
   onCancelButtonClick?: () => void;
-  openAddModal?: () => void;
-  openRecipeModal?: () => void;
   margin?: string;
 }
 
-const RecipeCard = ({
-  recipe,
-  onRecipeModalClick,
-  onAddModalClick,
-  onCancelButtonClick,
-  openAddModal,
-  openRecipeModal,
-  margin,
-}: RecipeCardProps) => {
+const RecipeCard = ({ recipe, onCancelButtonClick, margin }: RecipeCardProps) => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
+
+  const {
+    isOpen: isRecipeModalOpen,
+    open: openRecipeModal,
+    close: closeRecipeModal,
+    content: recipeContent,
+    setContent: setRecipeContent,
+  } = useModal<Recipe>();
+
+  const {
+    isOpen: isAddModalOpen,
+    open: openAddModal,
+    close: closeAddModal,
+    content: addContent,
+    setContent: setAddContent,
+  } = useModal<AddModalContent>();
 
   const checkRecipeSaved = (label: string) =>
     user?.savedRecipes?.find(savedRecipe => savedRecipe.recipe.label === label);
@@ -35,8 +41,8 @@ const RecipeCard = ({
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
 
-    if (openAddModal) openAddModal();
-    if (onAddModalClick) onAddModalClick({ user, recipe });
+    openAddModal();
+    setAddContent({ user, recipe });
   };
 
   const handleCancelButtonClick = (recipeId: string) => async () => {
@@ -59,8 +65,8 @@ const RecipeCard = ({
   };
 
   const handleImgClick = (e: React.MouseEvent) => {
-    if (openRecipeModal) openRecipeModal();
-    if (onRecipeModalClick) onRecipeModalClick(recipe);
+    openRecipeModal();
+    setRecipeContent(recipe);
   };
 
   const { recipeId, label, calories, dietLabels, image } = recipe;
@@ -92,6 +98,8 @@ const RecipeCard = ({
           )}
         </AddButtonContainer>
       </RecipeCardContainer>
+      {isRecipeModalOpen && <RecipeDetailModal content={recipeContent} close={closeRecipeModal} />}
+      {isAddModalOpen && <AddRecipeModal content={addContent} close={closeAddModal} />}
     </>
   );
 };
@@ -180,9 +188,9 @@ const AddButton = styled(BsFillPlusCircleFill)`
   color: var(--border-secondary);
 `;
 
-const SavedButton = styled(BsFillCheckCircleFill)`
-  width: 100%;
-  height: 100%;
+const SavedButton = styled(BsTrash3Fill)`
+  width: 70%;
+  height: 70%;
   color: var(--border-secondary);
 `;
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { useCategorizedRecipes, useModal } from '../../hooks/index';
-import { RecipeCard, RecipeDetailModal, AddRecipeModal } from '../../components/index';
-import { Recipe, AddModalContent } from '../../types/types';
+import { useCategorizedRecipes } from '../../hooks/index';
+import { RecipeCard } from '../../components/index';
+import { Recipe } from '../../types/types';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
 
@@ -12,21 +12,6 @@ const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
   const [currentPage, setCurrentPage] = useState(0);
-  const {
-    isOpen: isRecipeModalOpen,
-    open: openRecipeModal,
-    close: closeRecipeModal,
-    content: recipeContent,
-    setContent: setRecipeContent,
-  } = useModal<Recipe>();
-
-  const {
-    isOpen: isAddModalOpen,
-    open: openAddModal,
-    close: closeAddModal,
-    content: addContent,
-    setContent: setAddContent,
-  } = useModal<AddModalContent>();
 
   const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
     if (type === 'prev') setCurrentPage(currentPage - 1);
@@ -40,15 +25,7 @@ const Carousel = ({ category }: { category: string }) => {
         <CarouselWindow>
           <CarouselSlides id="recipe container" $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-              <RecipeCard
-                key={recipe.recipeId}
-                recipe={recipe}
-                onRecipeModalClick={setRecipeContent}
-                onAddModalClick={setAddContent}
-                openAddModal={openAddModal}
-                openRecipeModal={openRecipeModal}
-                margin="0 1rem"
-              />
+              <RecipeCard key={recipe.recipeId} recipe={recipe} margin="0 1rem" />
             ))}
           </CarouselSlides>
 
@@ -65,8 +42,6 @@ const Carousel = ({ category }: { category: string }) => {
           </IconContainer>
         </CarouselWindow>
       </Container>
-      {isRecipeModalOpen && <RecipeDetailModal content={recipeContent} close={closeRecipeModal} />}
-      {isAddModalOpen && <AddRecipeModal content={addContent} close={closeAddModal} />}
     </>
   );
 };
