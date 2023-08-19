@@ -105,6 +105,7 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
         grid: {
           display: false,
         },
+        max: 100,
       },
       y: {},
     },
