@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Recipes = () => {
-  return <>Recipes</>;
+  return <>🚧 Under Construction 🚧</>;
 };
 
 export default Recipes;

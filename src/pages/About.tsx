@@ -1,7 +1,7 @@
 import React from 'react';
 
 const About = () => {
-  return <>About</>;
+  return <>🚧 Under Construction 🚧</>;
 };
 
 export default About;
