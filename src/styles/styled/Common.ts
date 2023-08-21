@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const AuthContainer = styled.div`
+export const AuthContainer = styled.section`
   width: 80%;
   max-width: 36rem;
   border: 1px solid var(--border);

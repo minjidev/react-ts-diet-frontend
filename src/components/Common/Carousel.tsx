@@ -20,16 +20,15 @@ const Carousel = ({ category }: { category: string }) => {
 
   return (
     <>
-      <Container id="container">
-        <CarouselTitle>{category}</CarouselTitle>
+      <Container aria-aria-labelledby={category}>
+        <CarouselTitle id={category}>{category}</CarouselTitle>
         <CarouselWindow>
-          <CarouselSlides id="recipe container" $currentpage={currentPage}>
+          <CarouselSlides $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
               <RecipeCard key={recipe.recipeId} recipe={recipe} margin="0 1rem" />
             ))}
           </CarouselSlides>
-
-          <IconContainer id="icon container">
+          <IconContainer>
             <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
             {Array.from({ length: 4 }).map((dot, index) => (
               <IndexEmpty key={index} />
@@ -46,7 +45,7 @@ const Carousel = ({ category }: { category: string }) => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.section`
   margin: 2rem 0 6rem 0;
   width: 100%;
   height: 28rem;
@@ -60,7 +59,7 @@ const CarouselWindow = styled.div`
   position: relative;
 `;
 
-const CarouselTitle = styled.div`
+const CarouselTitle = styled.h2`
   font-weight: 400;
   font-size: 2rem;
   padding: 1rem 0;

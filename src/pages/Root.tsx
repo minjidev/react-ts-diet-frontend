@@ -9,11 +9,11 @@ const Root = () => {
   return (
     <>
       <Header />
-      <TopMargin id="top margin">
+      <Main>
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
-      </TopMargin>
+      </Main>
       <ToastContainer
         draggablePercent={60}
         role="alert"
@@ -27,7 +27,7 @@ const Root = () => {
   );
 };
 
-const TopMargin = styled.div`
+const Main = styled.main`
   margin-top: 6rem;
   width: 80%;
   display: flex;

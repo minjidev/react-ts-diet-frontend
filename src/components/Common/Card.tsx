@@ -37,7 +37,7 @@ const CardIcon = styled.img.attrs<CardIconProps>(({ $imgSrc, $imgDesc }) => ({
   top: -30%;
 `;
 
-const Container = styled.div`
+const Container = styled.article`
   width: 20rem;
   min-height: 18rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -53,7 +53,7 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h3`
   font-size: 2rem;
   font-weight: 500;
   margin: 1rem 0;

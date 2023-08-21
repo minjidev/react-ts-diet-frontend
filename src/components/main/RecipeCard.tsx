@@ -2,21 +2,20 @@ import React, { SyntheticEvent } from 'react';
 import { styled } from 'styled-components';
 import { Recipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../hooks';
 import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal } from '../index';
-import { isCancel } from 'axios';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  selected: Date | undefined;
+  selected?: Date | undefined;
   margin?: string;
 }
 
 const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
   const {
@@ -69,17 +68,18 @@ const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
   const { recipeId, label, calories, dietLabels, image } = recipe;
   return (
     <>
-      <RecipeCardContainer id="recipe-card" data-id={recipeId} margin={margin}>
+      <RecipeCardContainer data-id={recipeId} margin={margin}>
         <Text>{calories}kcal</Text>
         <RecipeImg
           src={image}
+          alt={label}
           onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
             e.currentTarget.src = '/images/no_img.svg';
           }}
           onClick={handleImgClick}
         />
         <LabelContainer>
-          <RecipeLabel>{label}</RecipeLabel>
+          <RecipeTitle>{label}</RecipeTitle>
           <Tags>
             {dietLabels?.map(label => (
               <Tag key={label}>#{label}</Tag>
@@ -102,7 +102,7 @@ const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
   );
 };
 
-const RecipeCardContainer = styled.div<{ margin?: string }>`
+const RecipeCardContainer = styled.article<{ margin?: string }>`
   width: 15rem;
   min-width: 15rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -147,7 +147,7 @@ const LabelContainer = styled.div`
   padding: 0.2rem 1rem;
 `;
 
-const RecipeLabel = styled.div`
+const RecipeTitle = styled.h3`
   font-size: 1.2rem;
   font-weight: 400;
 

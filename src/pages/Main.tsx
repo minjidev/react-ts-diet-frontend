@@ -1,20 +1,23 @@
 import React from 'react';
+import { styled } from 'styled-components';
 import Carousel from '../components/common/Carousel';
-/**
- * - recipe api에서 recipe 카테고리별로 받아오기(20개)
- * - 제목 + 카드 가로 캐러셀 컴포넌트 만들기
- * - 3개 정도 배치
- */
 
 const Main = () => {
   return (
-    <>
+    <Container aria-labelledby="categorized recipes">
+      <Title id="categorized recipes" className="sr-only">
+        Categorized Recipes
+      </Title>
       <Carousel category="balanced" />
       <Carousel category="high-protein" />
       <Carousel category="low-fat" />
       <Carousel category="low-carb" />
-    </>
+    </Container>
   );
 };
+
+const Container = styled.section``;
+
+const Title = styled.h2``;
 
 export default Main;

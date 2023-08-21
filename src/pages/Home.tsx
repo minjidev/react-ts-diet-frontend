@@ -46,22 +46,29 @@ const Home = () => {
 
   return (
     <Container>
-      <TextContainer>
-        <Title>
+      <SpecSection aria-labelledby="specs">
+        <Title id="specs">
           <Underline color="var(--button-point-color)">NutriNotes,</Underline>Effortless Meal Tracker
-          <Description>: All-in-one solution for effortless meal tracker and nutritional tracking</Description>
-          <Link to={authroizedPath('/main')}>
-            <MainButton>Get Started!</MainButton>
-          </Link>
         </Title>
-      </TextContainer>
-      <CardContainer>
-        {cardsInfo.map(({ $imgSrc, $imgDesc, title, desc, path, isAuthoriationNeeded }) => (
-          <Link key={title} to={isAuthoriationNeeded ? authroizedPath(path) : path}>
-            <Card $imgSrc={$imgSrc} $imgDesc={$imgDesc} title={title} desc={desc} />
-          </Link>
-        ))}
-      </CardContainer>
+        <Description>: All-in-one solution for effortless meal tracker and nutritional tracking</Description>
+        <Link to={authroizedPath('/main')}>
+          <MainButton>Get Started!</MainButton>
+        </Link>
+      </SpecSection>
+      <MenuSection aria-labelledby="menus">
+        <Title id="menus" className="sr-only">
+          Website Menus
+        </Title>
+        <MenuList>
+          {cardsInfo.map(({ $imgSrc, $imgDesc, title, desc, path, isAuthoriationNeeded }) => (
+            <Menu>
+              <Link key={title} to={isAuthoriationNeeded ? authroizedPath(path) : path}>
+                <Card $imgSrc={$imgSrc} $imgDesc={$imgDesc} title={title} desc={desc} />
+              </Link>
+            </Menu>
+          ))}
+        </MenuList>
+      </MenuSection>
     </Container>
   );
 };
@@ -76,16 +83,19 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const TextContainer = styled.div`
+const SpecSection = styled.section`
   display: flex;
   flex-direction: column;
   width: 24rem;
   margin: 2rem 4rem;
+
+  font-weight: 400;
+  font-size: 4rem;
 `;
 
 const Title = styled.h2`
-  font-weight: 400;
-  font-size: 4rem;
+  font-size: inherit;
+  font-weight: inherit;
 `;
 
 const Description = styled.div`
@@ -95,15 +105,7 @@ const Description = styled.div`
   font-family: 'Rubik';
 `;
 
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 6rem 3rem;
-  margin: 2rem 4rem;
-  width: 44rem;
-  height: 40rem;
-`;
+const MenuSection = styled.section``;
 
 const MainButton = styled(Button)`
   && {
@@ -114,5 +116,18 @@ const MainButton = styled(Button)`
     font-weight: 500;
   }
 `;
+
+const MenuList = styled.ul`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6rem 3rem;
+
+  margin: 2rem 4rem;
+  width: 44rem;
+  height: 40rem;
+`;
+
+const Menu = styled.li``;
 
 export default Home;

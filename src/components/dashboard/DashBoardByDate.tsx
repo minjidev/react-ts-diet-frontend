@@ -11,14 +11,15 @@ const DashBoardByDate = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: savedRecipes } = useSavedRecipesByDate(selected);
+  console.log(savedRecipes);
 
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
   };
 
   return (
-    <Container>
-      <Relative>
+    <Container aria-label="user dashboard">
+      <DateSelector>
         <Flex onClick={handleDateClick}>
           <ArrowIcon />
           <SelectedDate>{selected ? formatDate(selected) : formatDate(new Date())}</SelectedDate>
@@ -33,29 +34,35 @@ const DashBoardByDate = () => {
             isInputDisplayed={false}
           />
         )}
-      </Relative>
+      </DateSelector>
       <Divider />
-      <Content>
-        {!savedRecipes || Object.keys(savedRecipes).length === 0 || savedRecipes.recipesByDate?.length === 0 ? (
-          <SubTitle>Nothing saved yet ! </SubTitle>
-        ) : (
-          <>
-            <SubTitle>Your Meals</SubTitle>
-            <Flex $align="space-around">
-              {savedRecipes?.recipesByDate.map(savedRecipe => (
-                <RecipeCard key={savedRecipe.recipe.recipeId} recipe={savedRecipe.recipe} selected={selected} />
-              ))}
-              {Array(4)
-                .fill(null)
-                .map((_, index) => (
-                  <Filler key={index} id="filler" />
-                ))}
-            </Flex>
-            <Divider />
-            <NutritionInfo savedRecipes={savedRecipes} />
-          </>
-        )}
-      </Content>
+      {!savedRecipes?.recipesByDate.length ? (
+        <Box></Box>
+      ) : (
+        <Content>
+          {!savedRecipes || Object.keys(savedRecipes).length === 0 || savedRecipes.recipesByDate?.length === 0 ? (
+            <Text>Nothing saved yet !</Text>
+          ) : (
+            <>
+              <SavedMealsSection aria-labelledby="saved meals">
+                <SubTitle id="saved meals">Your Meals</SubTitle>
+                <Flex $align="space-around">
+                  {savedRecipes?.recipesByDate.map(savedRecipe => (
+                    <RecipeCard key={savedRecipe.recipe.recipeId} recipe={savedRecipe.recipe} selected={selected} />
+                  ))}
+                  {Array(4)
+                    .fill(null)
+                    .map((_, index) => (
+                      <Filler key={index} id="filler" />
+                    ))}
+                </Flex>
+              </SavedMealsSection>
+              <Divider />
+              <NutritionInfo savedRecipes={savedRecipes} />
+            </>
+          )}
+        </Content>
+      )}
     </Container>
   );
 };
@@ -65,7 +72,7 @@ const Filler = styled.div`
   height: 0;
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   height: 100%;
   width: 100%;
   font-family: 'Rubik';
@@ -73,7 +80,11 @@ const Container = styled.div`
   font-weight: 200;
 `;
 
-const Relative = styled.div`
+const Box = styled.div`
+  height: calc(100vh - 80px);
+`;
+
+const DateSelector = styled.div`
   position: relative;
 `;
 
@@ -100,10 +111,18 @@ const ArrowIcon = styled(MdKeyboardArrowDown)`
 
 const Content = styled.div``;
 
-const SubTitle = styled.div`
+const SubTitle = styled.h2`
+  font-size: 1.4rem;
+  font-weight: 400;
+  padding: 1rem;
+`;
+
+const Text = styled.div`
   font-size: 1.4rem;
   font-weight: 400;
   padding: 1rem 0;
 `;
+
+const SavedMealsSection = styled.section``;
 
 export default DashBoardByDate;

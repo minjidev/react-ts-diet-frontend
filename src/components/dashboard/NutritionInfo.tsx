@@ -118,20 +118,20 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
   };
 
   return (
-    <Container>
-      <Title>Main Nutrition Intake</Title>
+    <Container aria-labelledby="main nutrition intake">
+      <Title id="main nutrition intake">Main Nutrition Intake</Title>
       <Chart type="bar" data={data} options={options} />
     </Container>
   );
 };
 
-const Title = styled.div`
+const Title = styled.h2`
   font-weight: 400;
-  font-size: 1.6rem;
-  margin: 1rem;
+  font-size: 1.4rem;
+  padding: 1rem;
 `;
 
-const Container = styled.div`
+const Container = styled.section`
   width: 50rem;
   height: 20rem;
   margin: 1rem 0 6rem 0;

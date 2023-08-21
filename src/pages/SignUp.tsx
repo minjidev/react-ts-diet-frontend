@@ -3,9 +3,10 @@ import { AuthForm } from '../components/index';
 import { AuthContainer } from '../styles/styled/Common';
 
 const SignUp = () => {
+  const formType = 'register';
   return (
-    <AuthContainer>
-      <AuthForm formType="register" />
+    <AuthContainer aria-label={formType}>
+      <AuthForm formType={formType} />
     </AuthContainer>
   );
 };

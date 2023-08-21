@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
-import { Flex, Color } from '../../styles/styled/Common';
+import { Color } from '../../styles/styled/Common';
 import { notify } from '../../utils/notify';
 
 const menu = [
@@ -13,6 +13,11 @@ const menu = [
   { name: 'About', path: '/about', isAuthorizationNeeded: false },
   { name: 'Recipes', path: '/recipes', isAuthorizationNeeded: false },
   { name: 'Dashboard', path: '/dashboard', isAuthorizationNeeded: true },
+];
+
+const authMenu = [
+  { name: 'Register', path: '/signup' },
+  { name: 'Register', path: '/signup' },
 ];
 
 const Header = () => {
@@ -50,47 +55,49 @@ const Header = () => {
         <Link to={'/'}>
           <Title color="var(--button-point-color)">NutriNotes</Title>
         </Link>
-        <FlexToLeft>
-          {menu.map(({ name, path, isAuthorizationNeeded }) => (
-            <TextLink
-              key={name}
-              to={isAuthorizationNeeded ? authorizedPath(path) : path}
-              fontSize="1.3rem"
-              paddingtop={2}>
-              {name}
-            </TextLink>
-          ))}
-        </FlexToLeft>
-        <div>
+        <Nav aria-label="menu navigation">
+          <MenuList>
+            {menu.map(({ name, path, isAuthorizationNeeded }) => (
+              <Menu>
+                <TextLink key={name} to={isAuthorizationNeeded ? authorizedPath(path) : path} fontSize="1.3rem">
+                  {name}
+                </TextLink>
+              </Menu>
+            ))}
+          </MenuList>
+        </Nav>
+        <Nav aria-label="user auth navigation">
           {user ? (
             <TextButton onClick={handleSignOut}>LogOut</TextButton>
           ) : (
-            <>
-              {' '}
-              <TextLink to={'/signin'} paddingtop={1}>
-                LogIn
-              </TextLink>
-              <TextLink to={'/signup'} paddingtop={1}>
-                Register
-              </TextLink>
-            </>
+            <AuthList>
+              {authMenu.map(({ name, path }) => (
+                <Auth>
+                  <TextLink key={name} to={path}>
+                    {name}
+                  </TextLink>
+                </Auth>
+              ))}
+            </AuthList>
           )}
-        </div>
+        </Nav>
       </Content>
     </Container>
   );
 };
 
-const Title = styled(Color)`
+const Title = styled(Color).attrs({
+  as: 'h1',
+})`
   font-size: 2rem;
   font-weight: 500;
 `;
 
-const FlexToLeft = styled(Flex)`
-  /* margin-left: 12rem; */
+const Nav = styled.nav`
+  display: flex;
 `;
 
-const Container = styled.div`
+const Container = styled.header`
   position: absolute;
   top: 0;
   padding: 1.4rem 0;
@@ -104,17 +111,22 @@ const Container = styled.div`
 const textStyle = css`
   font-size: 1rem;
   font-family: 'Londrina Solid';
+  padding: 0.6rem 1rem;
   cursor: pointer;
 `;
 
 const TextButton = styled.button`
   ${textStyle}
   background: none;
-  padding: 0.6rem 1rem;
 `;
 
+const MenuList = styled.ul`
+  display: flex;
+`;
+
+const Menu = styled.li``;
+
 interface TextLinkProps {
-  paddingtop: number;
   fontSize?: string;
 }
 
@@ -122,7 +134,7 @@ const TextLink = styled(Link)<TextLinkProps>`
   ${textStyle}
   font-weight: 300;
   font-size: ${({ fontSize }) => fontSize};
-  padding: ${({ paddingtop }) => `0.6rem ${paddingtop}rem`};
+  padding: 0.6rem 2rem;
 `;
 
 const Content = styled.div`
@@ -137,5 +149,11 @@ const Content = styled.div`
   font-size: 1.2rem;
   font-weight: 800;
 `;
+
+const AuthList = styled.ul`
+  display: flex;
+`;
+
+const Auth = styled.li``;
 
 export default Header;

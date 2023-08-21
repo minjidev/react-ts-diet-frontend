@@ -139,7 +139,7 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
   );
 };
 
-const Title = styled.h1`
+const Title = styled.div`
   font-weight: 500;
   font-size: 2.4rem;
   padding-bottom: 1rem;
