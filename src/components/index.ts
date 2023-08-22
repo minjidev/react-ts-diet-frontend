@@ -12,3 +12,5 @@ export { default as DatePicker } from './modal/DatePicker';
 export { default as DashBoardByDate } from './dashboard/DashBoardByDate';
 export { default as NutritionInfo } from './dashboard/NutritionInfo';
 export { default as Modal } from './common/Modal';
+export { default as Search } from '../components/recipes/Search';
+export { default as SearchResult } from './recipes/SearchResult';
