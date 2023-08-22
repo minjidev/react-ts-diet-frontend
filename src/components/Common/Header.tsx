@@ -58,8 +58,8 @@ const Header = () => {
         <Nav aria-label="menu navigation">
           <MenuList>
             {menu.map(({ name, path, isAuthorizationNeeded }) => (
-              <Menu>
-                <TextLink key={name} to={isAuthorizationNeeded ? authorizedPath(path) : path} fontSize="1.3rem">
+              <Menu key={name}>
+                <TextLink to={isAuthorizationNeeded ? authorizedPath(path) : path} fontSize="1.3rem">
                   {name}
                 </TextLink>
               </Menu>
@@ -72,10 +72,8 @@ const Header = () => {
           ) : (
             <AuthList>
               {authMenu.map(({ name, path }) => (
-                <Auth>
-                  <TextLink key={name} to={path}>
-                    {name}
-                  </TextLink>
+                <Auth key={name}>
+                  <TextLink to={path}>{name}</TextLink>
                 </Auth>
               ))}
             </AuthList>
