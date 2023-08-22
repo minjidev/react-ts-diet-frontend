@@ -16,7 +16,7 @@ const menu = [
 ];
 
 const authMenu = [
-  { name: 'Register', path: '/signup' },
+  { name: 'LogIn', path: '/signin' },
   { name: 'Register', path: '/signup' },
 ];
 
