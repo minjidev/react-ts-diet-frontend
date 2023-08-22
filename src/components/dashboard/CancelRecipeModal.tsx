@@ -19,7 +19,6 @@ interface CancelModalProps {
 const CancelRecipeModal = ({ recipe, close, selected }: CancelModalProps) => {
   const [user, setUser] = useRecoilState(userState);
   const queryClient = useQueryClient();
-  console.log('recipe: ', recipe);
   const handleConfirmButtonClick = (recipeId: string | undefined) => async () => {
     try {
       if (!user) return;

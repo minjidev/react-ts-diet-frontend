@@ -7,11 +7,16 @@ interface SearchResult {
 }
 
 const SearchResult = ({ keyword }: SearchResult) => {
-  const recipes = useSearchRecipes(keyword);
+  const { data: recipes } = useSearchRecipes(keyword);
+  console.log(recipes);
 
-  return <Container>SearchResult</Container>;
+  return <>{!recipes?.length ? <Box /> : <Container>SearchResult</Container>}</>;
 };
 
 const Container = styled.section``;
+
+const Box = styled.div`
+  height: calc(100vh - (64px + 93px));
+`;
 
 export default SearchResult;

@@ -11,10 +11,10 @@ import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal } from '../index';
 interface RecipeCardProps {
   recipe: Recipe;
   selected?: Date | undefined;
-  margin?: string;
+  $margin?: string;
 }
 
-const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, selected, $margin }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
@@ -53,7 +53,6 @@ const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
   };
 
   const handleCancelButtonClick = () => {
-    console.log('clicking: ', recipe);
     if (!user) navigate('/signin');
 
     openCancelModal();
@@ -68,7 +67,7 @@ const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
   const { recipeId, label, calories, dietLabels, image } = recipe;
   return (
     <>
-      <RecipeCardContainer data-id={recipeId} margin={margin}>
+      <RecipeCardContainer data-id={recipeId} $margin={$margin}>
         <Text>{calories}kcal</Text>
         <RecipeImg
           src={image}
@@ -102,14 +101,14 @@ const RecipeCard = ({ recipe, selected, margin }: RecipeCardProps) => {
   );
 };
 
-const RecipeCardContainer = styled.article<{ margin?: string }>`
+const RecipeCardContainer = styled.article<{ $margin?: string }>`
   width: 15rem;
   min-width: 15rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 1.2rem;
 
   position: relative;
-  margin: ${({ margin }) => (margin ? margin : 0)};
+  margin: ${({ $margin }) => ($margin ? $margin : 0)};
 `;
 
 const Text = styled.div`

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { styled } from 'styled-components';
+import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
-import { getSearchRecipes } from '../../api/recipes';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface SearchProps {
   setKeyword: (keyword: string) => void;
@@ -15,6 +15,10 @@ const Search = ({ setKeyword }: SearchProps) => {
 
     if (!inputRef.current || !inputRef.current.value) return;
     setKeyword(inputRef.current.value);
+  };
+
+  const handleClickCloseButton = () => {
+    if (!inputRef.current) return;
     inputRef.current.value = '';
   };
 
@@ -25,7 +29,8 @@ const Search = ({ setKeyword }: SearchProps) => {
           Recipe Search
         </Label>
         <SearchBar id="rsearch-bar" ref={inputRef} title="search bar icon" />
-        <SearchIcon />
+        <SearchIcon aria-label="search recipes" />
+        <ClearIcon aria-label="clear search" onClick={handleClickCloseButton} />
       </Form>
     </Container>
   );
@@ -58,14 +63,23 @@ const SearchBar = styled.input.attrs({
   outline: none;
 `;
 
-const SearchIcon = styled(BsSearch)`
+const iconStyle = css`
   cursor: pointer;
   position: absolute;
   transform: translateY(-50%);
   top: 50%;
-  left: 20px;
   width: 24px;
   height: 24px;
+`;
+
+const SearchIcon = styled(BsSearch)`
+  ${iconStyle}
+  left: 20px;
+`;
+
+const ClearIcon = styled(AiOutlineClose)`
+  ${iconStyle}
+  right: 20px;
 `;
 
 export default Search;

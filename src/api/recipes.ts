@@ -20,14 +20,13 @@ interface RecipeData {
   hits: { recipe: Recipe; _links: RecipeLink }[];
 }
 
-// 카테고리별 랜덤 20개
-const getRecipes = (category: string) => async () => {
-  const { data } = await axios.get(`${url}&diet=${category}&random=true`);
-  console.log('raw: ', data);
-  const recipes = (data as RecipeData).hits.map(hit => hit.recipe);
-  const recipeIds = (data as RecipeData).hits.map(hit => hit._links.self.href.match(idRegExr)![0]);
+interface filterRecipeDataProps {
+  recipes: Recipe[];
+  recipeIds: string[];
+}
 
-  const recipesData = recipes.map(
+const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
+  return recipes.map(
     (
       {
         label,
@@ -78,7 +77,16 @@ const getRecipes = (category: string) => async () => {
         .filter(Boolean),
     })
   );
+};
 
+// 카테고리별 랜덤 20개
+const getRecipes = (category: string) => async () => {
+  const { data } = await axios.get(`${url}&diet=${category}&random=true`);
+  console.log('raw: ', data);
+  const recipes = (data as RecipeData).hits.map(hit => hit.recipe);
+  const recipeIds = (data as RecipeData).hits.map(hit => hit._links.self.href.match(idRegExr)![0]);
+
+  const recipesData = filterRecipeData({ recipes, recipeIds });
   return recipesData;
 };
 
@@ -98,10 +106,15 @@ const getSavedRecipesByDate = (date: Date | undefined) => async () => {
   return data;
 };
 
-const getSearchRecipes = (keyword: string) => async () => {
-  const { data } = await axios.get(`/api/recipes?keyword=${keyword}`);
+const getSearchRecipes = (keyword: string | null) => async () => {
+  const { data } = await axios.get(`${url}&q=${keyword}`);
 
-  return data;
+  const recipes = (data as RecipeData).hits.map(hit => hit.recipe);
+  const recipeIds = (data as RecipeData).hits.map(hit => hit._links.self.href.match(idRegExr)![0]);
+
+  const recipesData = filterRecipeData({ recipes, recipeIds });
+
+  return recipesData;
 };
 
 export { getRecipes, postSavedRecipe, getSavedRecipesByDate, deleteSavedRecipe, getSearchRecipes };
