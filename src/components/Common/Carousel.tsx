@@ -20,12 +20,12 @@ const Carousel = ({ category }: { category: string }) => {
 
   return (
     <>
-      <Container aria-aria-labelledby={category}>
+      <Container aria-labelledby={category}>
         <CarouselTitle id={category}>{category}</CarouselTitle>
         <CarouselWindow>
           <CarouselSlides $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-              <RecipeCard key={recipe.recipeId} recipe={recipe} margin="0 1rem" />
+              <RecipeCard key={recipe.recipeId} recipe={recipe} $margin="0 1rem" />
             ))}
           </CarouselSlides>
           <IconContainer>
