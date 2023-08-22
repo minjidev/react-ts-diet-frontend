@@ -98,4 +98,10 @@ const getSavedRecipesByDate = (date: Date | undefined) => async () => {
   return data;
 };
 
-export { getRecipes, postSavedRecipe, getSavedRecipesByDate, deleteSavedRecipe };
+const getSearchRecipes = (keyword: string) => async () => {
+  const { data } = await axios.get(`/api/recipes?keyword=${keyword}`);
+
+  return data;
+};
+
+export { getRecipes, postSavedRecipe, getSavedRecipesByDate, deleteSavedRecipe, getSearchRecipes };

@@ -1,3 +1,3 @@
-const savedRecipesByDateKey = ['savedRecipesByDateKey'];
+const savedRecipesByDateKey = ['savedRecipesByDate'];
 
 export default savedRecipesByDateKey;
