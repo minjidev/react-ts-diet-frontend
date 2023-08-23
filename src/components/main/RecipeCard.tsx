@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from 'react';
-import { styled } from 'styled-components';
+import { styled, css } from 'styled-components';
 import { Recipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
@@ -7,14 +7,19 @@ import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../hooks';
 import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal } from '../index';
+import { Styles } from 'styled-components/dist/types';
+
+type RecipeCardStyles = {
+  cardBorderRadius?: string;
+} & Styles<object>;
 
 interface RecipeCardProps {
   recipe: Recipe;
   selected?: Date | undefined;
-  $margin?: string;
+  $style?: RecipeCardStyles;
 }
 
-const RecipeCard = ({ recipe, selected, $margin }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
@@ -67,7 +72,7 @@ const RecipeCard = ({ recipe, selected, $margin }: RecipeCardProps) => {
   const { recipeId, label, calories, dietLabels, image } = recipe;
   return (
     <>
-      <RecipeCardContainer data-id={recipeId} $margin={$margin}>
+      <RecipeCardContainer data-id={recipeId} $style={$style}>
         <Text>{calories}kcal</Text>
         <RecipeImg
           src={image}
@@ -101,14 +106,22 @@ const RecipeCard = ({ recipe, selected, $margin }: RecipeCardProps) => {
   );
 };
 
-const RecipeCardContainer = styled.article<{ $margin?: string }>`
+const containerStyles = (props: { $style?: RecipeCardStyles }) => css`
+  ${props.$style}
+
+  ${RecipeImg} {
+    border-radius: ${props.$style?.cardBorderRadius};
+  }
+`;
+
+const RecipeCardContainer = styled.article<{ $style?: RecipeCardStyles }>`
   width: 15rem;
   min-width: 15rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 1.2rem;
-
   position: relative;
-  margin: ${({ $margin }) => ($margin ? $margin : 0)};
+
+  ${containerStyles}
 `;
 
 const Text = styled.div`

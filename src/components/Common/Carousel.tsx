@@ -25,7 +25,7 @@ const Carousel = ({ category }: { category: string }) => {
         <CarouselWindow>
           <CarouselSlides $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-              <RecipeCard key={recipe.recipeId} recipe={recipe} $margin="0 1rem" />
+              <RecipeCard key={recipe.recipeId} recipe={recipe} $style={{ margin: '0 1rem' }} />
             ))}
           </CarouselSlides>
           <IconContainer>
