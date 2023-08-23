@@ -28,7 +28,7 @@ const TRIGGER_DEBOUNCE_DELAY_TIME = 200;
 
 const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
-  const isSignUp = formType === 'login';
+  const isSignUp = formType === 'register';
 
   const {
     field: { value, onChange },
