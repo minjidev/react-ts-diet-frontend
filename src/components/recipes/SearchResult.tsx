@@ -9,7 +9,7 @@ interface SearchResult {
 
 const SEARCH_RECIPES_PAGE_SIZE = 10;
 const SearchResult = ({ keyword }: SearchResult) => {
-  const { data: recipes } = useSearchRecipes(keyword);
+  const { data: recipes, isLoading } = useSearchRecipes(keyword);
   const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -41,7 +41,7 @@ const SearchResult = ({ keyword }: SearchResult) => {
   return (
     <>
       {!recipes?.length ? (
-        <Box />
+        <Box>{!keyword || isLoading ? '' : 'No Result'}</Box>
       ) : (
         <Container>
           <RecipeCardContainer aria-label="search result">
