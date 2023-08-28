@@ -8,7 +8,7 @@ import { getSearchRecipes } from '../api/recipes';
 const useSearchRecipes = (keyword: string | null) =>
   useQuery<Recipe[], AxiosError>([...searchRecipesKey, keyword], getSearchRecipes(keyword), {
     onError: (error: AxiosError) => console.error(error),
-    staleTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 3,
     cacheTime: Infinity,
   });
 
