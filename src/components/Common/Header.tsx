@@ -7,11 +7,12 @@ import { signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { Color } from '../../styles/styled/Common';
 import { notify } from '../../utils/notify';
+import { BsSearch } from 'react-icons/bs';
 
 const menu = [
   { name: 'Home', path: '/main', isAuthorizationNeeded: false },
   { name: 'About', path: '/about', isAuthorizationNeeded: false },
-  { name: 'Recipes', path: '/recipes', isAuthorizationNeeded: false },
+  { name: 'Recipes', path: '/search', isAuthorizationNeeded: false },
   { name: 'Dashboard', path: '/dashboard', isAuthorizationNeeded: true },
 ];
 
@@ -67,6 +68,9 @@ const Header = () => {
           </MenuList>
         </Nav>
         <Nav aria-label="user auth navigation">
+          <Link to={'/search'}>
+            <SearchIcon aria-label="search recipes" />
+          </Link>
           {user ? (
             <TextButton onClick={handleSignOut}>LogOut</TextButton>
           ) : (
@@ -83,6 +87,12 @@ const Header = () => {
     </Container>
   );
 };
+
+const SearchIcon = styled(BsSearch)`
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+`;
 
 const Title = styled(Color).attrs({
   as: 'h1',

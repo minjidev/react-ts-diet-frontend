@@ -27,7 +27,7 @@ const cardsInfo = [
     $imgDesc: 'recipe icon',
     title: 'Discover Culinary Inspiration',
     desc: 'Browse a Diverse Collection of Tasty Recipes',
-    path: '/recipes',
+    path: '/search',
     isAuthoriationNeeded: false,
   },
   {
@@ -61,8 +61,8 @@ const Home = () => {
         </Title>
         <MenuList>
           {cardsInfo.map(({ $imgSrc, $imgDesc, title, desc, path, isAuthoriationNeeded }) => (
-            <Menu>
-              <Link key={title} to={isAuthoriationNeeded ? authroizedPath(path) : path}>
+            <Menu key={title}>
+              <Link to={isAuthoriationNeeded ? authroizedPath(path) : path}>
                 <Card $imgSrc={$imgSrc} $imgDesc={$imgDesc} title={title} desc={desc} />
               </Link>
             </Menu>

@@ -2,23 +2,31 @@ import React, { useState, useRef, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useSearchRecipes } from '../../hooks';
 import RecipeCard from '../main/RecipeCard';
+import { useSearchParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import { searchRecipesKey } from '../../constants';
 
 interface SearchResult {
   keyword: string;
 }
 
 const SEARCH_RECIPES_PAGE_SIZE = 10;
-const SearchResult = ({ keyword }: SearchResult) => {
-  const { data: recipes, isLoading } = useSearchRecipes(keyword);
+const RecipeResult = ({ keyword }: SearchResult) => {
+  const { data: recipes } = useSearchRecipes(keyword);
   const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const [searchParams] = useSearchParams();
+  const searchKeyword = searchParams.get('keyword');
+  const queryClient = useQueryClient();
 
   const lastPage = Math.ceil(recipes?.length! / SEARCH_RECIPES_PAGE_SIZE);
   const pagedRecipes = recipes?.slice(0, (page - 1) * SEARCH_RECIPES_PAGE_SIZE + SEARCH_RECIPES_PAGE_SIZE);
 
   useEffect(() => {
     setPage(1);
-  }, [keyword]);
+    queryClient.invalidateQueries([...searchRecipesKey, searchKeyword]);
+  }, [searchKeyword]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
@@ -37,11 +45,12 @@ const SearchResult = ({ keyword }: SearchResult) => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     }
   }, [recipes, page]);
+  console.log(recipes?.length);
 
   return (
     <>
       {!recipes?.length ? (
-        <Box>{!keyword || isLoading ? '' : 'No Result'}</Box>
+        <Box>{keyword.length > 0 ? 'No Result' : ''}</Box>
       ) : (
         <Container>
           <RecipeCardContainer aria-label="search result">
@@ -90,4 +99,4 @@ const Loader = styled.img`
   background-color: white;
 `;
 
-export default SearchResult;
+export default RecipeResult;
