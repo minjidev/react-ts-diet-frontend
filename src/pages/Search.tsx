@@ -7,7 +7,7 @@ const Search = () => {
   return (
     <>
       <SearchBar keyword={keyword} setKeyword={setKeyword} />
-      <RecipeResult keyword={keyword} />
+      <RecipeResult />
     </>
   );
 };

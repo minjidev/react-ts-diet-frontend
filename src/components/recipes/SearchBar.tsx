@@ -3,16 +3,23 @@ import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSearchParams } from 'react-router-dom';
+import Keyword from '../common/Keyword';
 
 interface SearchProps {
   keyword: string;
   setKeyword: (keyword: string) => void;
 }
 
+const HISTORY_LIST_LEN = 8;
+const dietCategory = ['balanced', 'high-fiber', 'high-protein', 'low-carb', 'low-fat', 'low-sodium'];
+const healthCategory = ['alcohol-free', 'dairy-free', 'gluten-free', 'keto-friendly', 'Mediterranean'];
+const dishTypeCategory = ['Bread', 'Cereal', 'Dessert', 'Drinks', 'Salad', 'Pancakes'];
+
 const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [history, setHistory] = useState(JSON.parse(localStorage.getItem('keyword') ?? '[]'));
   const [searchParams, setSearchParams] = useSearchParams();
+  const historyDisplay = history.slice(0, HISTORY_LIST_LEN);
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +30,7 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     const newHistory = history.includes(keyword)
       ? [keyword, ...history.filter((search: string) => search !== keyword)]
       : [keyword, ...history];
-    console.log('new history: ', newHistory);
+
     localStorage.setItem('keyword', JSON.stringify(newHistory));
     setKeyword(keyword);
     setHistory(newHistory);
@@ -35,10 +42,23 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     inputRef.current.value = '';
   };
 
-  const handleRecentSearch = (keyword: string) => () => {
+  const handleRemoveClick = (keyword: string) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // 해당 keyword를 localStorage, history에서 filter
+    const newHistory = history.filter((search: string) => search !== keyword);
+
+    localStorage.setItem('keyword', JSON.stringify(newHistory));
+    setHistory(newHistory);
+  };
+
+  const handleKeywordSearch = (keyword: string) => () => {
+    const newHistory = history.includes(keyword)
+      ? [keyword, ...history.filter((search: string) => search !== keyword)]
+      : [keyword, ...history];
+
+    localStorage.setItem('keyword', JSON.stringify(newHistory));
     setKeyword(keyword);
-    setHistory([keyword, ...history]);
-    localStorage.setItem('keyword', JSON.stringify(history));
+    setHistory(newHistory);
     setSearchParams({ keyword: keyword });
   };
 
@@ -53,6 +73,40 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
           <SearchIcon aria-label="search recipes" />
           {keyword.length > 0 && <ClearIcon aria-label="clear search" onClick={handleClickCloseButton} />}
         </Form>
+        {
+          // 검색하지 않은 경우(url param인 keyword의 값이 없는 경우) 추천 검색어 보여주기
+          !searchParams.get('keyword')?.length && (
+            <Recommendation aria-label="search recommendation">
+              {history.length > 0 && (
+                <Keyword
+                  title="Recent"
+                  label="recent search"
+                  keywords={historyDisplay}
+                  handleKeywordSearch={handleKeywordSearch}
+                  handleRemoveClick={handleRemoveClick}
+                />
+              )}
+              <Keyword
+                title="Diet"
+                label="diet category"
+                keywords={dietCategory}
+                handleKeywordSearch={handleKeywordSearch}
+              />
+              <Keyword
+                title="Health"
+                label="health category"
+                keywords={healthCategory}
+                handleKeywordSearch={handleKeywordSearch}
+              />
+              <Keyword
+                title="Dish Type"
+                label="dish type category"
+                keywords={dishTypeCategory}
+                handleKeywordSearch={handleKeywordSearch}
+              />
+            </Recommendation>
+          )
+        }
       </Container>
     </>
   );
@@ -66,11 +120,13 @@ const iconStyle = css`
 
 const Container = styled.section`
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   height: 4rem;
   position: relative;
   margin: 2rem;
   font-family: 'Rubik';
+
+  position: relative;
 `;
 
 const Form = styled.form`
@@ -106,6 +162,13 @@ const SearchIcon = styled(BsSearch)`
   left: 20px;
   transform: translateY(-50%);
   top: 50%;
+`;
+
+const Recommendation = styled.section`
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 100%;
 `;
 
 export default SearchBar;

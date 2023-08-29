@@ -6,4 +6,3 @@ export { default as Home } from './Home';
 export { default as Search } from './Search';
 export { default as DashBoard } from './DashBoard';
 export { default as About } from './About';
-export { default as Result } from './Result';

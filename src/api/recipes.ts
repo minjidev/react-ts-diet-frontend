@@ -107,6 +107,7 @@ const getSavedRecipesByDate = (date: Date | undefined) => async () => {
 };
 
 const getSearchRecipes = (keyword: string | null) => async () => {
+  if (keyword === null) return [];
   const { data } = await axios.get(`${url}&q=${keyword}`);
 
   const recipes = (data as RecipeData).hits.map(hit => hit.recipe);

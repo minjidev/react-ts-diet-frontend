@@ -11,18 +11,19 @@ interface SearchResult {
 }
 
 const SEARCH_RECIPES_PAGE_SIZE = 10;
-const RecipeResult = ({ keyword }: SearchResult) => {
-  const { data: recipes } = useSearchRecipes(keyword);
+const RecipeResult = () => {
   const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('keyword');
   const queryClient = useQueryClient();
+  const { data: recipes } = useSearchRecipes(searchKeyword);
 
   const lastPage = Math.ceil(recipes?.length! / SEARCH_RECIPES_PAGE_SIZE);
   const pagedRecipes = recipes?.slice(0, (page - 1) * SEARCH_RECIPES_PAGE_SIZE + SEARCH_RECIPES_PAGE_SIZE);
-
+  console.log('search keyword: ', searchKeyword);
+  console.log('recipes: ', recipes);
   useEffect(() => {
     setPage(1);
     queryClient.invalidateQueries([...searchRecipesKey, searchKeyword]);
@@ -45,12 +46,11 @@ const RecipeResult = ({ keyword }: SearchResult) => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     }
   }, [recipes, page]);
-  console.log(recipes?.length);
 
   return (
     <>
       {!recipes?.length ? (
-        <Box>{keyword.length > 0 ? 'No Result' : ''}</Box>
+        <Box>{searchKeyword ? 'No Result' : ''}</Box>
       ) : (
         <Container>
           <RecipeCardContainer aria-label="search result">
