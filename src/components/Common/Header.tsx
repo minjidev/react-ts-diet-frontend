@@ -67,31 +67,31 @@ const Header = () => {
             ))}
           </MenuList>
         </Nav>
-        <Nav aria-label="user auth navigation">
-          <Link to={'/search'}>
+        <Flex>
+          <Nav aria-label="user auth navigation">
+            {user ? (
+              <TextButton onClick={handleSignOut}>LogOut</TextButton>
+            ) : (
+              <AuthList>
+                {authMenu.map(({ name, path }) => (
+                  <Auth key={name}>
+                    <TextLink to={path}>{name}</TextLink>
+                  </Auth>
+                ))}
+              </AuthList>
+            )}
+          </Nav>
+          <SearchLink to={'/search'}>
             <SearchIcon aria-label="search recipes" />
-          </Link>
-          {user ? (
-            <TextButton onClick={handleSignOut}>LogOut</TextButton>
-          ) : (
-            <AuthList>
-              {authMenu.map(({ name, path }) => (
-                <Auth key={name}>
-                  <TextLink to={path}>{name}</TextLink>
-                </Auth>
-              ))}
-            </AuthList>
-          )}
-        </Nav>
+          </SearchLink>
+        </Flex>
       </Content>
     </Container>
   );
 };
 
-const SearchIcon = styled(BsSearch)`
-  cursor: pointer;
-  width: 28px;
-  height: 28px;
+const Flex = styled.div`
+  display: flex;
 `;
 
 const Title = styled(Color).attrs({
@@ -163,5 +163,17 @@ const AuthList = styled.ul`
 `;
 
 const Auth = styled.li``;
+
+const SearchLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SearchIcon = styled(BsSearch)`
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+`;
 
 export default Header;
