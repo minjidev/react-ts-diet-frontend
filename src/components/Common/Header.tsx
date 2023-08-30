@@ -116,7 +116,7 @@ const Container = styled.header`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 70%;
 `;
 
 const textStyle = css`
