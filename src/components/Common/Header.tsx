@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { styled, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
-import { useNavigate } from 'react-router-dom';
 import { Color } from '../../styles/styled/Common';
 import { notify } from '../../utils/notify';
 import { BsSearch } from 'react-icons/bs';
@@ -24,6 +23,7 @@ const authMenu = [
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const handleSignOut = async () => {
     try {
@@ -60,7 +60,10 @@ const Header = () => {
           <MenuList>
             {menu.map(({ name, path, isAuthorizationNeeded }) => (
               <Menu key={name}>
-                <TextLink to={isAuthorizationNeeded ? authorizedPath(path) : path} fontSize="1.3rem">
+                <TextLink
+                  to={isAuthorizationNeeded ? authorizedPath(path) : path}
+                  fontSize="1.3rem"
+                  isCurrent={path === pathname}>
                   {name}
                 </TextLink>
               </Menu>
@@ -136,11 +139,12 @@ const Menu = styled.li``;
 
 interface TextLinkProps {
   fontSize?: string;
+  isCurrent?: boolean;
 }
 
 const TextLink = styled(Link)<TextLinkProps>`
   ${textStyle}
-  font-weight: 300;
+  font-weight: ${({ isCurrent }) => (isCurrent ? '500' : '300')};
   font-size: ${({ fontSize }) => fontSize};
   padding: 0.6rem 2rem;
 `;
