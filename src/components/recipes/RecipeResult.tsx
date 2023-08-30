@@ -22,8 +22,7 @@ const RecipeResult = () => {
 
   const lastPage = Math.ceil(recipes?.length! / SEARCH_RECIPES_PAGE_SIZE);
   const pagedRecipes = recipes?.slice(0, (page - 1) * SEARCH_RECIPES_PAGE_SIZE + SEARCH_RECIPES_PAGE_SIZE);
-  console.log('search keyword: ', searchKeyword);
-  console.log('recipes: ', recipes);
+
   useEffect(() => {
     setPage(1);
     queryClient.invalidateQueries([...searchRecipesKey, searchKeyword]);

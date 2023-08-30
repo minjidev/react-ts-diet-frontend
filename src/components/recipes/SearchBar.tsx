@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -19,14 +19,10 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [history, setHistory] = useState(JSON.parse(localStorage.getItem('keyword') ?? '[]'));
   const [searchParams, setSearchParams] = useSearchParams();
+  const searchKeyword = searchParams.get('keyword');
   const historyDisplay = history.slice(0, HISTORY_LIST_LEN);
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputRef.current || !inputRef.current.value) return;
-    const keyword = inputRef.current.value;
-
-    // 이미 있으면 삭제하고 push
+  const updateHistory = (keyword: string) => {
     const newHistory = history.includes(keyword)
       ? [keyword, ...history.filter((search: string) => search !== keyword)]
       : [keyword, ...history];
@@ -35,6 +31,13 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     setKeyword(keyword);
     setHistory(newHistory);
     setSearchParams({ keyword: keyword });
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputRef.current || !inputRef.current.value) return;
+
+    updateHistory(inputRef.current.value);
   };
 
   const handleClickCloseButton = () => {
@@ -44,7 +47,6 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
 
   const handleRemoveClick = (keyword: string) => (e: React.MouseEvent) => {
     e.stopPropagation();
-    // 해당 keyword를 localStorage, history에서 filter
     const newHistory = history.filter((search: string) => search !== keyword);
 
     localStorage.setItem('keyword', JSON.stringify(newHistory));
@@ -52,15 +54,17 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
   };
 
   const handleKeywordSearch = (keyword: string) => () => {
-    const newHistory = history.includes(keyword)
-      ? [keyword, ...history.filter((search: string) => search !== keyword)]
-      : [keyword, ...history];
-
-    localStorage.setItem('keyword', JSON.stringify(newHistory));
-    setKeyword(keyword);
-    setHistory(newHistory);
-    setSearchParams({ keyword: keyword });
+    updateHistory(keyword);
+    if (inputRef.current) inputRef.current.value = keyword;
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      const end = inputRef.current.value.length;
+      inputRef.current.setSelectionRange(end, end);
+      inputRef.current.focus();
+    }
+  }, [searchKeyword]);
 
   return (
     <>
@@ -69,44 +73,41 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
           <Label id="rsearch" className="sr-only" htmlFor="rsearch-bar">
             Recipe Search
           </Label>
-          <Search id="rsearch-bar" ref={inputRef} title="search bar icon" />
+          <Search id="rsearch-bar" ref={inputRef} title="search bar icon" autoFocus />
           <SearchIcon aria-label="search recipes" />
           {keyword.length > 0 && <ClearIcon aria-label="clear search" onClick={handleClickCloseButton} />}
         </Form>
-        {
-          // 검색하지 않은 경우(url param인 keyword의 값이 없는 경우) 추천 검색어 보여주기
-          !searchParams.get('keyword')?.length && (
-            <Recommendation aria-label="search recommendation">
-              {history.length > 0 && (
-                <Keyword
-                  title="Recent"
-                  label="recent search"
-                  keywords={historyDisplay}
-                  handleKeywordSearch={handleKeywordSearch}
-                  handleRemoveClick={handleRemoveClick}
-                />
-              )}
+        {!searchKeyword?.length && (
+          <Recommendation aria-label="search recommendation">
+            {history.length > 0 && (
               <Keyword
-                title="Diet"
-                label="diet category"
-                keywords={dietCategory}
+                title="Recent"
+                label="recent search"
+                keywords={historyDisplay}
                 handleKeywordSearch={handleKeywordSearch}
+                handleRemoveClick={handleRemoveClick}
               />
-              <Keyword
-                title="Health"
-                label="health category"
-                keywords={healthCategory}
-                handleKeywordSearch={handleKeywordSearch}
-              />
-              <Keyword
-                title="Dish Type"
-                label="dish type category"
-                keywords={dishTypeCategory}
-                handleKeywordSearch={handleKeywordSearch}
-              />
-            </Recommendation>
-          )
-        }
+            )}
+            <Keyword
+              title="Diet"
+              label="diet category"
+              keywords={dietCategory}
+              handleKeywordSearch={handleKeywordSearch}
+            />
+            <Keyword
+              title="Health"
+              label="health category"
+              keywords={healthCategory}
+              handleKeywordSearch={handleKeywordSearch}
+            />
+            <Keyword
+              title="Dish Type"
+              label="dish type category"
+              keywords={dishTypeCategory}
+              handleKeywordSearch={handleKeywordSearch}
+            />
+          </Recommendation>
+        )}
       </Container>
     </>
   );

@@ -63,7 +63,7 @@ const Header = () => {
                 <TextLink
                   to={isAuthorizationNeeded ? authorizedPath(path) : path}
                   fontSize="1.3rem"
-                  isCurrent={path === pathname}>
+                  $iscurrent={path === pathname}>
                   {name}
                 </TextLink>
               </Menu>
@@ -139,12 +139,12 @@ const Menu = styled.li``;
 
 interface TextLinkProps {
   fontSize?: string;
-  isCurrent?: boolean;
+  $iscurrent?: boolean;
 }
 
 const TextLink = styled(Link)<TextLinkProps>`
   ${textStyle}
-  font-weight: ${({ isCurrent }) => (isCurrent ? '500' : '300')};
+  font-weight: ${({ $iscurrent }) => ($iscurrent ? '500' : '300')};
   font-size: ${({ fontSize }) => fontSize};
   padding: 0.6rem 2rem;
 `;
