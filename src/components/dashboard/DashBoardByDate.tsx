@@ -11,7 +11,6 @@ const DashBoardByDate = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data: savedRecipes } = useSavedRecipesByDate(selected);
-  console.log(savedRecipes);
 
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
@@ -78,6 +77,7 @@ const Container = styled.section`
   font-family: 'Rubik';
   font-size: 1.4rem;
   font-weight: 200;
+  padding: 2rem 0;
 `;
 
 const Box = styled.div`
