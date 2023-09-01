@@ -28,7 +28,7 @@ const Root = () => {
 };
 
 const Main = styled.main`
-  margin-top: 6rem;
+  margin-top: 5rem;
   width: 80%;
   display: flex;
   flex-direction: column;

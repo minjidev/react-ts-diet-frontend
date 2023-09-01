@@ -1,5 +1,7 @@
 const story =
-  "NutriNotes was born from a personal journey of realizing the need to pay closer attention to my nutritional intake. Like many of us, I found myself eating irregularly while engrossed in work in front of the computer. The idea of being more conscious about what I eat became important, but keeping track of it daily was a challenge. That's when the concept of NutriNotes emerged—a platform to simplify and enhance our nutritional choices!";
+  "NutriNotes was born from a personal journey of realizing the need to pay closer attention to my nutritional intake.\
+  Like many of us, I found myself eating irregularly while engrossed in work in front of the computer.\
+  The idea of being more conscious about what I eat became important, but keeping track of it daily was a challenge. That's when the concept of NutriNotes emerged—a platform to simplify and enhance our nutritional choices!";
 
 const features =
   'NutriNotes is designed to make healthy eating effortless. We offer a range of features that address the struggles of modern, busy lives:';
@@ -26,10 +28,13 @@ const featuresDesc = [
 ];
 
 const developer =
-  "Greetings! I'm a Frontend Developer based in South Korea, with a genuine passion for wellness, health, and delicious food. My commitment lies in creating visually appealing and seamless user experiences. NutriNotes is my way of contributing positively to people's lives through better eating habits.";
+  "Greetings! 👋 I'm a <span class='bold'>Frontend Developer</span> based in South Korea, who's all about wellness, health, and scrumptious food.\
+  I specialize in crafting <span class='highlight'> visually captivating and smooth user experiences</span>.\
+  I'm also dedicated to ensuring  <span class='highlight'>web accessibility</span> and implementing <span class='highlight'>best practices</span>.";
 
 const goal =
-  "NutriNotes believes everyone deserves a tool to simplify their journey to a healthier lifestyle. Our platform goes beyond tracking meals—it's about building awareness, providing insights, and creating a supportive community.";
+  "NutriNotes believes everyone deserves a tool <span class='bold'>to simplify their journey to a healthier lifestyle</span>.\
+  It aims for users to elevate their awareness of nutritional intake and effortlessly track their meals.";
 
 const desc = {
   story,
