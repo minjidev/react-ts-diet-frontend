@@ -117,6 +117,7 @@ const Container = styled.header`
   flex-direction: column;
   align-items: center;
   width: 70%;
+  z-index: 9999;
 `;
 
 const textStyle = css`

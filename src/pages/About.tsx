@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { styled } from 'styled-components';
-import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
-import { featuresDesc, desc, descKey } from '../constants/about';
+import { desc, descKey } from '../constants/about';
 import { Divider } from '../styles/styled/Common';
 
 const contactInfo = [
@@ -17,11 +16,12 @@ const About = () => {
       Nourishing Lives,
       One Byte at a Time
        : NutriNotes.`}</Slogan>
+      <Img src="/images/meal.jpg" alt="healthy eating" />
       <ContactContainer>
         <ContactTitle>Contact</ContactTitle>
         <DividerL />
         {contactInfo.map(({ title, href }) => (
-          <>
+          <Fragment key={title}>
             <Contact>
               <ExternalLink href={href}>
                 {title}
@@ -29,29 +29,22 @@ const About = () => {
               </ExternalLink>
             </Contact>
             <DividerL />
-          </>
+          </Fragment>
         ))}
       </ContactContainer>
 
-      <Img src="/images/meal.jpg" alt="healthy eating" />
       {descKey.map(key => (
         <Content key={key} title={key}>
-          <Title>{capitalizeFirstLetter(key)}</Title>
-          <DividerL />
-          <Desc>
-            {key !== 'features' && <div dangerouslySetInnerHTML={{ __html: desc[key] }} />}
-            {key === 'features' &&
-              featuresDesc.map(({ title, content }) => (
-                <FeatureList key={title}>
-                  <Feature>
-                    <FeatureTitle>{title}</FeatureTitle>
-                    <FeatureContent dangerouslySetInnerHTML={{ __html: content }} />
-                  </Feature>
-                </FeatureList>
-              ))}
-          </Desc>
+          <Desc dangerouslySetInnerHTML={{ __html: desc[key] }} />
         </Content>
       ))}
+      <MadeByContainer>
+        <Divider />
+        <MadeBy>
+          <Small>Designed and Developed by</Small>
+          <Name>Minji Kim</Name>
+        </MadeBy>
+      </MadeByContainer>
     </Container>
   );
 };
@@ -63,17 +56,16 @@ const Container = styled.section`
   font-size: 1.2rem;
   line-height: 30px;
   font-family: 'Rubik';
-  padding: 0 10px;
   position: relative;
 
   display: grid;
   grid-template-rows: 200px 200px 1fr 0.6fr;
-  grid-template-columns: 0.6fr 1fr 1fr;
+  grid-template-columns: 300px 600px 400px;
   grid-template-areas:
     '. image image'
     '. image image'
-    'developer story features'
-    'contact goal features';
+    'contact story developer'
+    'contact goal madeby';
   gap: 30px 30px;
 
   & .highlight {
@@ -83,6 +75,11 @@ const Container = styled.section`
 
   & .bold {
     font-weight: 500;
+  }
+
+  & .first-letter {
+    font-weight: 700;
+    font-size: 3rem;
   }
 `;
 
@@ -99,29 +96,11 @@ const Slogan = styled.div`
 
 const Content = styled.article<{ title: string }>`
   grid-area: ${({ title }) => title};
-`;
-
-const Title = styled.h2`
-  font-weight: 500;
-  font-size: 2rem;
-  padding: 0.5rem 0;
+  margin-top: ${({ title }) => (title !== 'developer' ? 'auto' : '')};
+  line-height: 36px;
 `;
 
 const Desc = styled.section``;
-
-const FeatureList = styled.ol`
-  list-style: disc;
-  margin: 0;
-`;
-
-const Feature = styled.li`
-  padding: 0.8rem 0;
-`;
-
-const FeatureTitle = styled.h3`
-  font-weight: 400;
-`;
-const FeatureContent = styled.div``;
 
 const Img = styled.img`
   grid-area: image;
@@ -133,10 +112,11 @@ const Img = styled.img`
 
 const ContactContainer = styled.article`
   grid-area: contact;
+  margin-top: auto;
 `;
 
 const DividerL = styled(Divider)`
-  margin: 0.6rem 0;
+  margin: 0.5rem 0;
   width: 90%;
 `;
 
@@ -158,6 +138,27 @@ const Plus = styled.div`
 const ExternalLink = styled.a`
   padding: 0 0.4rem;
   display: flex;
+`;
+
+const MadeByContainer = styled.div`
+  grid-area: madeby;
+`;
+
+const MadeBy = styled.div`
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+`;
+
+const Small = styled.div`
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--border);
+`;
+
+const Name = styled.div`
+  font-weight: 500;
 `;
 
 export default About;

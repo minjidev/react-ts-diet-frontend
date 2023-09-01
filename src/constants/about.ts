@@ -1,5 +1,5 @@
 const story =
-  "NutriNotes was born from a personal journey of realizing the need to pay closer attention to my nutritional intake.\
+  "<span class='first-letter'>N</span>utriNotes was born from a personal journey of realizing the need to pay closer attention to my nutritional intake.\
   Like many of us, I found myself eating irregularly while engrossed in work in front of the computer.\
   The idea of being more conscious about what I eat became important, but keeping track of it daily was a challenge. That's when the concept of NutriNotes emerged—a platform to simplify and enhance our nutritional choices!";
 
@@ -50,6 +50,6 @@ interface DescType {
   goal: string;
 }
 
-const descKey: (keyof DescType)[] = ['story', 'features', 'developer', 'goal'];
+const descKey: (keyof DescType)[] = ['story', 'developer', 'goal'];
 
 export { featuresDesc, desc, descKey };
