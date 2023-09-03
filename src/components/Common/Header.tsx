@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
-import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
@@ -54,7 +54,7 @@ const Header = () => {
     <Container>
       <Content>
         <Link to={'/'}>
-          <Title color="var(--button-point-color)">NutriNotes</Title>
+          <Title color="black">NutriNotes</Title>
         </Link>
         <Nav aria-label="menu navigation">
           <MenuList>
@@ -100,7 +100,7 @@ const Flex = styled.div`
 const Title = styled(Color).attrs({
   as: 'h1',
 })`
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 500;
 `;
 
