@@ -5,6 +5,7 @@ import { RecipeCard } from '../../components/index';
 import { Recipe } from '../../types/types';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
@@ -21,7 +22,7 @@ const Carousel = ({ category }: { category: string }) => {
   return (
     <>
       <Container aria-labelledby={category}>
-        <CarouselTitle id={category}>{category}</CarouselTitle>
+        <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
         <CarouselWindow>
           <CarouselSlides $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (

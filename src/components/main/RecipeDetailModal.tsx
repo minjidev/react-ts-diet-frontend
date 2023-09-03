@@ -14,7 +14,7 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
 
   return (
     <>
-      <Modal close={close} styles={{ minWidth: '50rem', maxWidth: '50rem' }}>
+      <Modal close={close} styles={{ minWidth: '54rem', maxWidth: '54rem' }}>
         <Label>
           <RecipeEmoji role="image" aria-label="recipe book">
             📙
@@ -38,17 +38,24 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
             </Nutrients>
             <SubTitle>Detail</SubTitle>
             <DescText>
-              {cuisineTypeTexts?.map((cuisine: string) => (
-                <Tag key={cuisine} color="var(--border-secondary)">
-                  # {cuisine}
+              <div>
+                Type :{' '}
+                <Tag color="orange">
+                  #{' '}
+                  {cuisineTypeTexts?.map((cuisine: string, index: number) => (
+                    <span>{cuisine}&nbsp;</span>
+                  ))}
+                  <span>{content?.dishType || 'dish'}</span>
                 </Tag>
-              ))}{' '}
-              {content?.dishType || 'dish'}: Ideal for inidividuals with dietary preferneces such as{' '}
-              {content?.healthLabels?.slice(0, 5).map((label: string) => (
-                <Tag key={label} color="#fff">
-                  # {label}
-                </Tag>
-              ))}
+              </div>
+              <DescIdealFor>
+                Ideal for inidividuals with dietary preferneces such as{' '}
+                {content?.healthLabels?.slice(0, 5).map((label: string) => (
+                  <Tag key={label} color="#fff">
+                    # {label}
+                  </Tag>
+                ))}
+              </DescIdealFor>
             </DescText>
           </Description>
         </Flex>
@@ -129,7 +136,7 @@ const SubTitle = styled.h3`
   font-size: 1.4rem;
   font-weight: 400;
 
-  margin: 0.56rem 0 0.3rem 0;
+  margin: 0.8rem 0 0.5rem 0;
 `;
 
 const NutrientLabel = styled.div`
@@ -169,6 +176,7 @@ const Tag = styled.span<{ color: string }>`
   justify-content: center;
   margin: 0.2rem;
   margin-left: 0;
+  white-space: pre;
 
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px -1px, rgba(0, 0, 0, 0.06) 0px 2px 2px -1px;
 `;
@@ -178,6 +186,10 @@ const DescText = styled.div`
   font-size: 1.2rem;
   font-weight: 200;
   line-height: 130%;
+`;
+
+const DescIdealFor = styled.div`
+  padding: 0.5rem 0;
 `;
 
 export default RecipeDetailModal;

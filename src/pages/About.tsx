@@ -23,7 +23,7 @@ const About = () => {
         {contactInfo.map(({ title, href }) => (
           <Fragment key={title}>
             <Contact>
-              <ExternalLink href={href}>
+              <ExternalLink href={href} target="_blank">
                 {title}
                 <Plus>+</Plus>
               </ExternalLink>
