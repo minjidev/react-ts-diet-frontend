@@ -3,40 +3,32 @@ import { styled } from 'styled-components';
 import { Recipe } from '../../types/types';
 import { Button } from '../index';
 import { Modal } from '../index';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
-import { deleteSavedRecipe } from '../../api/recipes';
+import { deleteSavedRecipe } from '../../api/user';
 import { useQueryClient } from '@tanstack/react-query';
-import { savedRecipesByDateKey } from '../../constants/index';
+import { savedRecipesByDateKey, userRecipesKey } from '../../constants';
 import { formatDate } from '../../utils/formatDate';
 
 interface CancelModalProps {
   recipe: Recipe | undefined;
   close: () => void;
   selected: Date | undefined;
+  userRecipeId: string | undefined;
 }
 
-const CancelRecipeModal = ({ recipe, close, selected }: CancelModalProps) => {
-  const [user, setUser] = useRecoilState(userState);
+const CancelRecipeModal = ({ recipe, close, selected, userRecipeId }: CancelModalProps) => {
+  const user = useRecoilValue(userState);
   const queryClient = useQueryClient();
-  const handleConfirmButtonClick = (recipeId: string | undefined) => async () => {
+  const handleConfirmButtonClick = async () => {
     try {
       if (!user) return;
-      if (!recipeId) return;
 
-      await deleteSavedRecipe(recipeId);
-      const savedRecipes = user.savedRecipes!.filter(saved => saved.recipe.recipeId !== recipeId);
+      await deleteSavedRecipe(userRecipeId);
 
-      const newUser = {
-        ...user,
-        savedRecipes,
-      };
-
-      setUser(newUser);
-      queryClient.invalidateQueries([
-        ...savedRecipesByDateKey,
-        selected ? formatDate(selected) : formatDate(new Date()),
-      ]);
+      queryClient.invalidateQueries([...userRecipesKey, user._id]);
+      queryClient.invalidateQueries([...savedRecipesByDateKey, user._id, formatDate(selected ?? new Date())]);
+      close();
     } catch (e) {
       console.error(e);
     }
@@ -51,7 +43,7 @@ const CancelRecipeModal = ({ recipe, close, selected }: CancelModalProps) => {
       </Text>
       <ButtonContainer>
         <CancelButton onClick={close}>Cancel</CancelButton>
-        <ConfirmButton onClick={handleConfirmButtonClick(recipe?.recipeId)}>Confirm</ConfirmButton>
+        <ConfirmButton onClick={handleConfirmButtonClick}>Confirm</ConfirmButton>
       </ButtonContainer>
     </Modal>
   );

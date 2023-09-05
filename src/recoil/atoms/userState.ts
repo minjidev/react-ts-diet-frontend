@@ -6,11 +6,11 @@ const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
   ({ setSelf, onSet }) => {
     const user = localStorage.getItem(key);
     if (user !== null) {
-      //  연결된 atom 의 값을 초기화
+      // initialize atom value
       setSelf(JSON.parse(user));
     }
 
-    // 해당하는 atom 의 값이 변경이 되었을 때 실행
+    // reset atom value
     onSet((newValue, _, isReset) => {
       isReset ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(newValue));
     });

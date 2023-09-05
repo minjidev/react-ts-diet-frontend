@@ -5,13 +5,15 @@ import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
 import { useSavedRecipesByDate } from '../../hooks/index';
 import { formatDate } from '../../utils/formatDate';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atoms/userState';
 
 const DashBoardByDate = () => {
   const [selected, setSelected] = useState<Date | undefined>();
   const [isOpen, setIsOpen] = useState(false);
+  const user = useRecoilValue(userState);
 
-  const { data: savedRecipes } = useSavedRecipesByDate(selected);
-
+  const { data: savedRecipes } = useSavedRecipesByDate({ date: selected ?? new Date(), userId: user?._id });
   const handleDateClick = (e: React.MouseEvent) => {
     setIsOpen(true);
   };
@@ -39,7 +41,7 @@ const DashBoardByDate = () => {
         <Box></Box>
       ) : (
         <Content>
-          {!savedRecipes || Object.keys(savedRecipes).length === 0 || savedRecipes.recipesByDate?.length === 0 ? (
+          {!savedRecipes || Object.keys(savedRecipes).length === 0 || savedRecipes?.recipesByDate.length === 0 ? (
             <Text>Nothing saved yet !</Text>
           ) : (
             <>

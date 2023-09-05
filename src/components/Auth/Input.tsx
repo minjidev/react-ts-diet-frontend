@@ -52,9 +52,6 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
       }
     }
   };
-  // const debounedFn = useMemo((name: string) => useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME), []);
-
-  // console.log(debounedFn);
 
   const deboucedPwCheckTrigger = useDebounce(() => trigger('passwordConfirm'), TRIGGER_DEBOUNCE_DELAY_TIME);
   const debouncedTrigger = useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);

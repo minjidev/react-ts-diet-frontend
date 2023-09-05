@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { Recipe, SavedRecipe, User } from '../types/types';
+import { Recipe, UserRecipe } from '../types/types';
 import { mainNutrients } from '../constants/index';
-import { formatDate } from '../utils/formatDate';
 
 const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
 const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
@@ -79,7 +78,7 @@ const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
   );
 };
 
-// 카테고리별 랜덤 20개
+// random 20 data based on category
 const getRecipes = (category: string) => async () => {
   const { data } = await axios.get(`${url}&diet=${category}&random=true`);
   console.log('raw: ', data);
@@ -88,22 +87,6 @@ const getRecipes = (category: string) => async () => {
 
   const recipesData = filterRecipeData({ recipes, recipeIds });
   return recipesData;
-};
-
-const postSavedRecipe = async (savedRecipe: SavedRecipe) => {
-  const { data } = await axios.post('/api/recipes', savedRecipe);
-
-  return data;
-};
-
-const deleteSavedRecipe = async (recipeId: string) => {
-  await axios.delete(`/api/recipes/${recipeId}`);
-};
-
-const getSavedRecipesByDate = (date: Date | undefined) => async () => {
-  const { data } = await axios.get(`/api/recipes?date=${date ? date : formatDate(new Date())}`);
-
-  return data;
 };
 
 const getSearchRecipes = (keyword: string | null) => async () => {
@@ -118,4 +101,4 @@ const getSearchRecipes = (keyword: string | null) => async () => {
   return recipesData;
 };
 
-export { getRecipes, postSavedRecipe, getSavedRecipesByDate, deleteSavedRecipe, getSearchRecipes };
+export { getRecipes, getSearchRecipes };

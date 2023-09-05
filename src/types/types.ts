@@ -9,7 +9,7 @@ interface TotalNutrientsType {
   unit: string;
 }
 
-// edmam에서 받아오는 각 레시피 상세
+// recipe detail from outer api
 interface Recipe {
   recipeId: string;
   label: string;
@@ -21,21 +21,15 @@ interface Recipe {
   image: string;
   yield?: number;
   servings?: number;
-  totalDaily: (TotalDailyType | undefined)[]; // 1일 섭취 비율
-  totalNutrients: (TotalNutrientsType | undefined)[]; // 1회 섭취량
+  totalDaily: (TotalDailyType | undefined)[];
+  totalNutrients: (TotalNutrientsType | undefined)[];
 }
 
-// 유저가 저장한 레시피 (날짜, 시간, 유저)
-interface SavedRecipe {
-  date: Date;
+interface UserRecipe {
+  _id?: string;
+  userId: string;
   recipe: Recipe;
-  savedAt: number;
-  user: string;
-}
-
-interface RecipeDetailModalState {
-  isOpen: boolean;
-  content?: Recipe;
+  savedAt: Date;
 }
 
 interface RecipeModalProps {
@@ -44,41 +38,15 @@ interface RecipeModalProps {
 }
 
 interface User {
+  _id: string;
   email: string;
   username: string;
-  savedRecipes?: SavedRecipe[];
-}
-
-interface UserData {
-  user: User;
-  message?: string;
-}
-
-interface AddModalContent {
-  user: User | null;
-  recipe: Recipe;
-}
-
-interface AddModalState {
-  isOpen?: boolean;
-  content?: AddModalContent;
 }
 
 interface SavedRecipesByDate {
-  recipesByDate: SavedRecipe[];
+  recipesByDate: UserRecipe[];
   totalDailyByDate: (TotalDailyType | undefined)[];
-  totalNutrientsByDate: (TotalNutrientsType | undefined)[]; // 1회 섭취량
+  totalNutrientsByDate: (TotalNutrientsType | undefined)[];
 }
 
-export type {
-  TotalDailyType,
-  Recipe,
-  RecipeDetailModalState,
-  RecipeModalProps,
-  SavedRecipe,
-  User,
-  UserData,
-  AddModalContent,
-  AddModalState,
-  SavedRecipesByDate,
-};
+export type { TotalDailyType, Recipe, RecipeModalProps, UserRecipe, User, SavedRecipesByDate };

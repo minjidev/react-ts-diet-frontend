@@ -8,7 +8,7 @@ const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
   if (!content) return;
 
-  const cuisineTypeTexts = content?.cuisineType.map((cuisine: string) =>
+  const cuisineTypeTexts = content?.cuisineType?.map((cuisine: string) =>
     cuisine.replace(/^\w/, (firstLetter: string) => firstLetter.toUpperCase())
   );
 
@@ -43,19 +43,21 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
                 <Tag color="orange">
                   #{' '}
                   {cuisineTypeTexts?.map((cuisine: string, index: number) => (
-                    <span>{cuisine}&nbsp;</span>
+                    <span key={cuisine}>{cuisine}&nbsp;</span>
                   ))}
                   <span>{content?.dishType || 'dish'}</span>
                 </Tag>
               </div>
-              <DescIdealFor>
-                Ideal for inidividuals with dietary preferneces such as{' '}
-                {content?.healthLabels?.slice(0, 5).map((label: string) => (
-                  <Tag key={label} color="#fff">
-                    # {label}
-                  </Tag>
-                ))}
-              </DescIdealFor>
+              {content.healthLabels?.length && (
+                <DescIdealFor>
+                  Ideal for inidividuals with dietary preferneces such as{' '}
+                  {content?.healthLabels?.slice(0, 5).map((label: string) => (
+                    <Tag key={label} color="#fff">
+                      # {label}
+                    </Tag>
+                  ))}
+                </DescIdealFor>
+              )}
             </DescText>
           </Description>
         </Flex>

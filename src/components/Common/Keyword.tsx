@@ -17,10 +17,10 @@ const Keyword = ({ title, label, keywords, handleKeywordSearch, handleRemoveClic
 
   return (
     <Container aria-label={label}>
-      <Subtitle isRecent={isRecent}>{title}</Subtitle>
+      <Subtitle $isrecent={isRecent}>{title}</Subtitle>
       <KeywordList>
         {keywords.map((keyword: string) => (
-          <KeywordItem key={keyword} isRecent={isRecent} onClick={handleKeywordSearch(keyword)}>
+          <KeywordItem key={keyword} $isrecent={isRecent} onClick={handleKeywordSearch(keyword)}>
             <Link to="#">{keyword}</Link>
             {isRecent && <RemoveButton onClick={handleRemoveButtonClick(keyword)} />}
           </KeywordItem>
@@ -42,10 +42,10 @@ const Container = styled.section`
   padding: 20px 0;
 `;
 
-const Subtitle = styled.h2<{ isRecent: boolean }>`
+const Subtitle = styled.h2<{ $isrecent: boolean }>`
   font-size: 1.4rem;
   font-weight: 600;
-  color: ${({ isRecent }) => (isRecent ? '#008080' : '')};
+  color: ${({ $isrecent }) => ($isrecent ? '#008080' : '')};
 `;
 
 const KeywordList = styled.ul`
@@ -56,7 +56,7 @@ const KeywordList = styled.ul`
   flex-wrap: wrap;
 `;
 
-const KeywordItem = styled.li<{ isRecent: boolean }>`
+const KeywordItem = styled.li<{ $isrecent: boolean }>`
   display: flex;
   border-radius: 2rem;
   margin: 0 10px 12px 0;
@@ -65,8 +65,8 @@ const KeywordItem = styled.li<{ isRecent: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: ${({ isRecent }) => (isRecent ? '1px solid var(--border);' : '#f4f4f4')};
-  background: ${({ isRecent }) => (isRecent ? 'none' : '#f4f4f4')};
+  border: ${({ $isrecent }) => ($isrecent ? '1px solid var(--border);' : '#f4f4f4')};
+  background: ${({ $isrecent }) => ($isrecent ? 'none' : '#f4f4f4')};
 `;
 
 const RemoveButton = styled(AiOutlineClose)`

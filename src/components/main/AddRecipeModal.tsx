@@ -1,11 +1,13 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { styled } from 'styled-components';
-import { AddModalContent, Recipe } from '../../types/types';
+import { Recipe } from '../../types/types';
 import { Button, DatePicker, Modal } from '../../components/index';
-import { postSavedRecipe } from '../../api/recipes';
+import { postSavedRecipe } from '../../api/user';
 import { Divider } from '../../styles/styled/Common';
 import { userState } from '../../recoil/atoms/userState';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
+import { userRecipesKey } from '../../constants';
 
 interface AddModalProps {
   recipe: Recipe | undefined;
@@ -16,27 +18,21 @@ const AddRecipeModal = ({ recipe, close }: AddModalProps) => {
   if (!recipe) return;
 
   const [selected, setSelected] = useState<Date>();
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
+  const queryClient = useQueryClient();
 
   const handleConfirmButtonClick = async (e: React.MouseEvent) => {
     if (!user) return;
 
     try {
-      const newlySavedUser = {
-        user: user.email,
+      const newlySavedRecipe = {
+        userId: user._id,
         recipe,
-        date: selected ? selected : new Date(),
-        savedAt: Date.now(),
+        savedAt: selected ?? new Date(),
       };
 
-      await postSavedRecipe(newlySavedUser);
-
-      const newUser = {
-        ...user,
-        savedRecipes: user.savedRecipes ? [...user.savedRecipes, newlySavedUser] : [newlySavedUser],
-      };
-
-      setUser(newUser);
+      await postSavedRecipe(newlySavedRecipe);
+      queryClient.invalidateQueries([...userRecipesKey, user._id]);
 
       close();
     } catch (e) {

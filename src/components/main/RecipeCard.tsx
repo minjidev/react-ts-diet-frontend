@@ -1,11 +1,11 @@
 import React, { SyntheticEvent } from 'react';
 import { styled, css } from 'styled-components';
-import { Recipe } from '../../types/types';
+import { Recipe, UserRecipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../hooks';
+import { useModal, useUserRecipes } from '../../hooks';
 import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal } from '../index';
 import { Styles } from 'styled-components/dist/types';
 
@@ -21,6 +21,8 @@ interface RecipeCardProps {
 
 const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
+  const { data: userRecipes } = useUserRecipes(user?._id);
+
   const navigate = useNavigate();
 
   const {
@@ -47,8 +49,8 @@ const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
     setContent: setCancelContent,
   } = useModal<Recipe>();
 
-  const checkRecipeSaved = (label: string) =>
-    user?.savedRecipes?.find(savedRecipe => savedRecipe.recipe.label === label);
+  const checkRecipeSaved = (recipeId: string) =>
+    userRecipes?.find((userRecipe: UserRecipe) => userRecipe.recipe.recipeId === recipeId);
 
   const handleAddButtonClick = (e: React.MouseEvent) => {
     if (!user) navigate('/signin');
@@ -66,10 +68,12 @@ const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
 
   const handleImgClick = (e: React.MouseEvent) => {
     openRecipeModal();
+
     setRecipeContent(recipe);
   };
 
   const { recipeId, label, calories, dietLabels, image } = recipe;
+  const userRecipeId = userRecipes?.find(userRecipe => userRecipe.recipe.recipeId === recipeId)?._id;
   return (
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>
@@ -92,7 +96,7 @@ const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
         </LabelContainer>
 
         <AddButtonContainer>
-          {!checkRecipeSaved(label) ? (
+          {!checkRecipeSaved(recipeId) ? (
             <AddButton onClick={handleAddButtonClick} />
           ) : (
             <SavedButton onClick={handleCancelButtonClick} />
@@ -101,7 +105,14 @@ const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
       </RecipeCardContainer>
       {isRecipeModalOpen && <RecipeDetailModal content={recipeContent} close={closeRecipeModal} />}
       {isAddModalOpen && <AddRecipeModal recipe={addContent} close={closeAddModal} />}
-      {isCancelModalOpen && <CancelRecipeModal recipe={cancelContent} close={closeCancelModal} selected={selected} />}
+      {isCancelModalOpen && (
+        <CancelRecipeModal
+          recipe={cancelContent}
+          close={closeCancelModal}
+          selected={selected}
+          userRecipeId={userRecipeId}
+        />
+      )}
     </>
   );
 };

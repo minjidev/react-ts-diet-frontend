@@ -66,7 +66,6 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
   };
 
   const onSubmitSignUp = async (data: schemaType) => {
-    // 회원가입
     try {
       await signUp(data);
       notify({
