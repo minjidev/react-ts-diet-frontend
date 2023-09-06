@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { UserRecipe } from '../types/types';
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-const URL = '/api/user';
+const URL = `${baseURL}/api/user`;
 
 const getUserRecipes = (userId: string | undefined) => async () => {
   const { data } = await axios.get(`${URL}/${userId}/recipes`);

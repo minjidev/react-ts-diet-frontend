@@ -1,6 +1,7 @@
 import axios from 'axios';
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-const URL = '/api/auth';
+const URL = `${baseURL}/api/auth`;
 
 const signIn = async ({ email, password }: { email: string; password: string }) => {
   const { data } = await axios.post(`${URL}/signin`, { email, password });
@@ -13,6 +14,7 @@ const signUp = async ({ email, password, username }: { email: string; password: 
 };
 
 const signOut = async () => {
+  console.log(baseURL);
   await axios.post(`${URL}/signout`);
 };
 

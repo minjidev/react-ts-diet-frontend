@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Recipe, UserRecipe } from '../types/types';
+import { Recipe } from '../types/types';
 import { mainNutrients } from '../constants/index';
 
 const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
