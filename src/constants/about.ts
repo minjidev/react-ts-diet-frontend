@@ -1,5 +1,5 @@
 const story =
-  "<span class='first-letter'>N</span>utriNotes was born from a personal journey of realizing the need to pay closer attention to my nutritional intake.\
+  "<span class='first-letter'>N</span>utriNotes is an early-stage personal project born from the realization of needing to pay closer attention to my nutritional intake.\
   Like many of us, I found myself eating irregularly while engrossed in work in front of the computer.\
   The idea of being more conscious about what I eat became important, but keeping track of it daily was a challenge. That's when the concept of NutriNotes emerged—a platform to simplify and enhance our nutritional choices!";
 
@@ -29,8 +29,8 @@ const featuresDesc = [
 
 const developer =
   "Greetings! 👋 I'm a <span class='bold'>Frontend Developer</span> based in South Korea, who's all about wellness, health, and scrumptious food.\
-  I specialize in crafting <span class='highlight'> visually captivating and smooth user experiences</span>.\
-  I'm also dedicated to ensuring  <span class='highlight'>web accessibility</span> and implementing <span class='highlight'>best practices</span>.";
+  I aim to specialize in creating <span class='highlight'> visually captivating and smooth user experiences</span>.\
+  I'm also committed to ensure <span class='highlight'>web accessibility</span> across all of my projects.";
 
 const goal =
   "NutriNotes believes everyone deserves a tool <span class='bold'>to simplify their journey to a healthier lifestyle</span>.\
