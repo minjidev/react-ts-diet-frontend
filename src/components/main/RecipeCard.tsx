@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { styled, css } from 'styled-components';
 import { Recipe, UserRecipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
@@ -21,8 +21,7 @@ interface RecipeCardProps {
 
 const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
-  const { data: userRecipes } = useUserRecipes(user?._id);
-
+  const userRecipes = useUserRecipes(user?._id)?.data;
   const navigate = useNavigate();
 
   const {
