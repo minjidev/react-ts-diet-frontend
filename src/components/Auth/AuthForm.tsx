@@ -110,7 +110,7 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
         <>
           <Input
             name="passwordConfirm"
-            type="text"
+            type="password"
             control={control}
             trigger={trigger}
             disabled={getFieldState('password').invalid}
