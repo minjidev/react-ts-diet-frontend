@@ -26,7 +26,7 @@ interface InputProps {
 const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
 const TRIGGER_DEBOUNCE_DELAY_TIME = 200;
 
-const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
+const Input = ({ name, type, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
   const isSignUp = formType === 'register';
 
@@ -63,6 +63,7 @@ const Input = ({ name, control, trigger, onUpdate, formType, disabled = false }:
       <TextInputField>
         <TextInput
           id={name}
+          type={type}
           name={name}
           value={value || ''}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +104,6 @@ const TextInputField = styled.div`
 `;
 
 const TextInput = styled.input.attrs(props => ({
-  type: 'text',
   placeholder: props.name,
 }))`
   width: 22rem;
