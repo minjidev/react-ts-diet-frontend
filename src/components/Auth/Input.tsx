@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
 import { useDebounce } from '../../hooks/index';
+import { mobileQuery } from '../../utils/mediaQuries';
 
 type FieldValues = {
   email: string;
@@ -101,6 +102,7 @@ const Label = styled.label`
 const TextInputField = styled.div`
   margin: 0.1rem 0 1rem 0;
   position: relative;
+  width: 100%;
 `;
 
 const TextInput = styled.input.attrs(props => ({
@@ -112,6 +114,10 @@ const TextInput = styled.input.attrs(props => ({
   padding: 1rem 1rem;
   border: 1px solid var(--border);
   font-size: 1rem;
+
+  ${mobileQuery} {
+    width: 100%;
+  }
 `;
 
 interface ErrorProps {

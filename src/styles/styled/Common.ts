@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { mobileQuery } from '../../utils/mediaQuries';
 
 export const AuthContainer = styled.section`
   width: 80%;
@@ -10,6 +11,12 @@ export const AuthContainer = styled.section`
   justify-content: center;
   align-items: center;
   padding: 0 4rem;
+
+  ${mobileQuery} {
+    width: 100%;
+    border: none;
+    padding: 0;
+  }
 `;
 
 export const Flex = styled.div`

@@ -1,15 +1,17 @@
 import React, { Suspense, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header, Loader } from '../components/index';
 import { styled } from 'styled-components';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Root = () => {
+  const { pathname } = useLocation();
+  const shouldApplyMargin = pathname === '/' || pathname === '/search';
   return (
     <>
       <Header />
-      <Main>
+      <Main $shouldApplyMargin={shouldApplyMargin}>
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
@@ -27,8 +29,8 @@ const Root = () => {
   );
 };
 
-const Main = styled.main`
-  margin-top: 5rem;
+const Main = styled.main<{ $shouldApplyMargin: boolean }>`
+  margin-top: ${({ $shouldApplyMargin }) => ($shouldApplyMargin ? '5rem' : '')};
   width: 80%;
   display: flex;
   flex-direction: column;

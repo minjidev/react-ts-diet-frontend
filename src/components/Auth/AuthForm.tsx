@@ -10,6 +10,7 @@ import { useSetRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useLocation } from 'react-router-dom';
 import { notify } from '../../utils/notify';
+import { mobileQuery } from '../../utils/mediaQuries';
 
 interface AuthFormProps {
   formType: 'login' | 'register';
@@ -144,6 +145,10 @@ const Title = styled.div`
   padding-bottom: 1rem;
 
   color: var(--button-point-color);
+
+  ${mobileQuery} {
+    display: none;
+  }
 `;
 
 const Form = styled.form`
@@ -152,12 +157,21 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  ${mobileQuery} {
+    padding: 0;
+    width: 100%;
+  }
 `;
 
 const FormTitle = styled.h2`
   font-weight: 400;
   font-size: 2rem;
   padding: 1.2rem;
+
+  ${mobileQuery} {
+    padding: 2rem;
+  }
 `;
 
 const Message = styled(Link)`

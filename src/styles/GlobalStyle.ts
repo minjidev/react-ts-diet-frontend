@@ -66,7 +66,7 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
     box-sizing: border-box;
-    /* min-height: 100%; */
+    min-height: 100%;
     width: 100%;
     
 
