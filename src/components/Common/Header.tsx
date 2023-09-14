@@ -9,9 +9,9 @@ import { notify } from '../../utils/notify';
 import { BsSearch } from 'react-icons/bs';
 
 const menu = [
-  { name: 'Home', path: '/main', isAuthorizationNeeded: false },
+  { name: 'Recipes', path: '/main', isAuthorizationNeeded: false },
   { name: 'About', path: '/about', isAuthorizationNeeded: false },
-  { name: 'Recipes', path: '/search', isAuthorizationNeeded: false },
+  { name: 'Search', path: '/search', isAuthorizationNeeded: false },
   { name: 'Dashboard', path: '/dashboard', isAuthorizationNeeded: true },
 ];
 
