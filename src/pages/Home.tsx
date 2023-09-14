@@ -4,6 +4,7 @@ import { Button, Card } from '../components';
 import { Link } from 'react-router-dom';
 import { userState } from '../recoil/atoms/userState';
 import { useRecoilValue } from 'recoil';
+import { mobileQuery } from '../utils/mediaQuries';
 
 const cardsInfo = [
   {
@@ -80,7 +81,12 @@ const Underline = styled.div<{ color: string }>`
 const Container = styled.div`
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
+
+  ${mobileQuery} {
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 const SpecSection = styled.section`
@@ -91,6 +97,14 @@ const SpecSection = styled.section`
 
   font-weight: 400;
   font-size: 4rem;
+
+  ${mobileQuery} {
+    width: 100%;
+    font-weight: 400;
+    font-size: 2.2rem;
+    margin: 0;
+    margin-bottom: 2rem;
+  }
 `;
 
 const Title = styled.h2`
@@ -103,9 +117,19 @@ const Description = styled.div`
   font-weight: 300;
   font-size: 1.4rem;
   font-family: 'Rubik';
+
+  ${mobileQuery} {
+    padding: 1rem 0;
+    font-weight: 300;
+    font-size: 1rem;
+  }
 `;
 
-const MenuSection = styled.section``;
+const MenuSection = styled.section`
+  ${mobileQuery} {
+    margin: 2rem 0;
+  }
+`;
 
 const MainButton = styled(Button)`
   && {
@@ -114,18 +138,30 @@ const MainButton = styled(Button)`
     height: 3rem;
     color: #fff;
     font-weight: 500;
+
+    ${mobileQuery} {
+      width: 100%;
+    }
   }
 `;
 
 const MenuList = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
   gap: 6rem 3rem;
 
   margin: 2rem 4rem;
   width: 44rem;
   height: 40rem;
+
+  ${mobileQuery} {
+    width: 100%;
+    grid-template-columns: repeat(1, minmax(100%, 1fr));
+    gap: 7rem 0;
+
+    margin: 0;
+    height: auto;
+  }
 `;
 
 const Menu = styled.li``;

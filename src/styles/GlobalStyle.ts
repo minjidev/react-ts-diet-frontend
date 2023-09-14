@@ -4,7 +4,7 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     min-height: 100vh;
-    min-width: 100%;
+    width: 100%;
     font-size: 2rem;
     font-family: 'Londrina Solid', 'Rubik', Inter, Avenir, Helvetica, Arial, sans-serif;
 
@@ -66,7 +66,8 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
     box-sizing: border-box;
-    min-height: 100%;
+    /* min-height: 100%; */
+    width: 100%;
     
 
     background-color: var(--bg-color);
@@ -94,6 +95,8 @@ const GlobalStyle = createGlobalStyle`
 
   ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
   * {

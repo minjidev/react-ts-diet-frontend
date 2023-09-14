@@ -1,6 +1,7 @@
 import React from 'react';
-import { styled, css } from 'styled-components';
+import { styled } from 'styled-components';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { mobileQuery } from '../../utils/mediaQuries';
 
 interface CardProps {
   $imgSrc: string;
@@ -35,6 +36,12 @@ const CardIcon = styled.img.attrs<CardIconProps>(({ $imgSrc, $imgDesc }) => ({
 
   left: 20%;
   top: -30%;
+
+  ${mobileQuery} {
+    width: 10rem;
+    left: 25%;
+    top: -30%;
+  }
 `;
 
 const Container = styled.article`
@@ -51,12 +58,24 @@ const Container = styled.article`
     transition: transform 0.2s ease-in-out;
     transform: scale(1.1);
   }
+
+  ${mobileQuery} {
+    width: 100%;
+    min-height: 15rem;
+    padding: 4rem 2rem 0rem 2rem;
+  }
 `;
 
 const Title = styled.h3`
   font-size: 2rem;
   font-weight: 500;
   margin: 1rem 0;
+
+  ${mobileQuery} {
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin: 0.8rem 0;
+  }
 `;
 
 const Desc = styled.div`
@@ -64,6 +83,11 @@ const Desc = styled.div`
   font-weight: 300;
   font-family: 'Rubik';
   margin: 1rem 0;
+
+  ${mobileQuery} {
+    font-size: 1.1rem;
+    font-weight: 300;
+  }
 `;
 
 const ArrowIcon = styled(BsFillArrowRightCircleFill)`
@@ -73,6 +97,14 @@ const ArrowIcon = styled(BsFillArrowRightCircleFill)`
   transform: translate3d(-50%, 50%, 0);
   left: 50%;
   cursor: pointer;
+
+  ${mobileQuery} {
+    width: 1.6rem;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    transform: inherit;
+    left: inherit;
+  }
 `;
 
 export default Card;
