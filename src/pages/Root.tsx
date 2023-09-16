@@ -6,8 +6,9 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Root = () => {
+  const pathWithMargin = ['/', '/search', '/dashboard'];
   const { pathname } = useLocation();
-  const shouldApplyMargin = pathname === '/' || pathname === '/search';
+  const shouldApplyMargin = pathWithMargin.includes(pathname);
   return (
     <>
       <Header />
