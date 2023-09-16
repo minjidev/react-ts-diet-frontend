@@ -84,7 +84,7 @@ const Header = () => {
               </MenuList>
             </Nav>
           </FullWidth>
-          <Flex css={{ justifyContent: 'space-evenly', padding: '1rem' }}>
+          <Flex css={{ justifyContent: 'space-evenly', padding: '1rem', width: '100%' }}>
             <Nav aria-label="user auth navigation">
               {user ? (
                 <TextButton onClick={handleSignOut}>LogOut</TextButton>
@@ -139,9 +139,11 @@ const NavContainer = styled.div<{ $isopen: boolean }>`
     width: 100%;
     height: 100vh;
     background: rgba(14, 25, 38, 0.9);
-    color: white;
     padding: 2rem;
     z-index: 99;
+    & * {
+      color: white;
+    }
   }
 `;
 
