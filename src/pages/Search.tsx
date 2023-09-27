@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { SearchBar, RecipeResult } from '../components/index';
+import RecipeResultSkeleton from '../components/skeleton/RecipeResultSkeleton';
 
 const Search = () => {
   const [keyword, setKeyword] = useState<string>('');
@@ -7,7 +8,9 @@ const Search = () => {
   return (
     <>
       <SearchBar keyword={keyword} setKeyword={setKeyword} />
-      <RecipeResult />
+      <Suspense fallback={<RecipeResultSkeleton />}>
+        <RecipeResult />
+      </Suspense>
     </>
   );
 };
