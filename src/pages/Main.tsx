@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { styled } from 'styled-components';
 import Carousel from '../components/common/Carousel';
 import CarouselSkeleton from '../components/skeleton/CarouselSkeleton';
-import { categories } from '../constants';
+import { categories } from '../constants/index';
 
 const Main = () => {
   return (
