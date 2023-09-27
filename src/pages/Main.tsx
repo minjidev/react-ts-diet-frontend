@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { styled } from 'styled-components';
 import Carousel from '../components/common/Carousel';
+import CarouselSkeleton from '../components/skeleton/CarouselSkeleton';
+import { categories } from '../constants';
 
 const Main = () => {
   return (
@@ -8,10 +10,11 @@ const Main = () => {
       <Title id="categorized recipes" className="sr-only">
         Categorized Recipes
       </Title>
-      <Carousel category="balanced" />
-      <Carousel category="high-protein" />
-      <Carousel category="low-fat" />
-      <Carousel category="low-carb" />
+      {categories.map(category => (
+        <Suspense key={category} fallback={<CarouselSkeleton category={category} />}>
+          <Carousel category={category} />
+        </Suspense>
+      ))}
     </Container>
   );
 };

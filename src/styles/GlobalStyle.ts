@@ -137,6 +137,13 @@ const GlobalStyle = createGlobalStyle`
   height: 1px;
   margin: -1px;
 }
+
+.recipe-card-skeleton {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 1.2rem;
+  margin: 0 1rem;
+}
 `;
 
 export default GlobalStyle;
