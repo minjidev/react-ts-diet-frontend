@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect } from 'react';
+import React from 'react';
 import { styled, css } from 'styled-components';
 import { Recipe, UserRecipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
 import { useModal, useUserRecipes } from '../../hooks';
-import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal } from '../index';
+import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg } from '../index';
 import { Styles } from 'styled-components/dist/types';
 
 type RecipeCardStyles = {
@@ -17,9 +17,10 @@ interface RecipeCardProps {
   recipe: Recipe;
   selected?: Date | undefined;
   $style?: RecipeCardStyles;
+  observer: IntersectionObserver | null;
 }
 
-const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const userRecipes = useUserRecipes(user?._id)?.data;
   const navigate = useNavigate();
@@ -71,20 +72,18 @@ const RecipeCard = ({ recipe, selected, $style }: RecipeCardProps) => {
     setRecipeContent(recipe);
   };
 
-  const { recipeId, label, calories, dietLabels, image } = recipe;
+  const { recipeId, label, calories, dietLabels, images } = recipe;
+  const imgSrc = {
+    default: images.THUMBNAIL?.url || images.SMALL?.url,
+    dataSrc: images.REGULAR?.url,
+  };
+
   const userRecipeId = userRecipes?.find(userRecipe => userRecipe.recipe.recipeId === recipeId)?._id;
   return (
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>
         <Text>{calories}kcal</Text>
-        <RecipeImg
-          src={image}
-          alt={label}
-          onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-            e.currentTarget.src = '/images/no_img.svg';
-          }}
-          onClick={handleImgClick}
-        />
+        <LazyImg imgSrc={imgSrc} alt={label} handleImgClick={handleImgClick} observer={observer} />
         <LabelContainer>
           <RecipeTitle>{label}</RecipeTitle>
           <Tags>

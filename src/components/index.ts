@@ -14,3 +14,4 @@ export { default as NutritionInfo } from './dashboard/NutritionInfo';
 export { default as Modal } from './common/Modal';
 export { default as SearchBar } from './recipes/SearchBar';
 export { default as RecipeResult } from './recipes/RecipeResult';
+export { default as LazyImg } from './common/LazyImg';

@@ -1,16 +1,17 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
-import { useSearchRecipes } from '../../hooks';
-import RecipeCard from '../main/RecipeCard';
+import { useSearchRecipes, useObserver } from '../../hooks';
+import { RecipeCard } from '../index';
 import { useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { searchRecipesKey } from '../../constants';
 
 const RecipeResult = () => {
+  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('keyword');
-  const queryClient = useQueryClient();
   const { data: recipes } = useSearchRecipes(searchKeyword);
+  const observer = useObserver(recipes);
 
   useEffect(() => {
     queryClient.invalidateQueries([...searchRecipesKey, searchKeyword]);
@@ -21,23 +22,23 @@ const RecipeResult = () => {
       {!recipes?.length ? (
         <Box>{searchKeyword ? 'No Result' : ''}</Box>
       ) : (
-        <Container>
-          <RecipeCardContainer aria-label="search result">
-            {recipes?.map(recipe => (
-              <RecipeCard
-                key={recipe.recipeId}
-                recipe={recipe}
-                $style={{ height: '100%', border: 'none', boxShadow: 'none', cardBorderRadius: '1rem' }}
-              />
-            ))}
-          </RecipeCardContainer>
-        </Container>
+        <RecipeCardContainer aria-labelledby="search-result">
+          <h2 id="search-result" className="sr-only">
+            Recipe Search Result
+          </h2>
+          {recipes?.map(recipe => (
+            <RecipeCard
+              key={recipe.recipeId}
+              recipe={recipe}
+              $style={{ height: '100%', border: 'none', borderRadius: '1rem' }}
+              observer={observer}
+            />
+          ))}
+        </RecipeCardContainer>
       )}
     </>
   );
 };
-
-const Container = styled.div``;
 
 const RecipeCardContainer = styled.section`
   width: 90%;

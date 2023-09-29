@@ -19,6 +19,20 @@ interface Recipe {
   dietLabels: string[];
   healthLabels?: string[];
   image: string;
+  images: {
+    THUMBNAIL: {
+      url: string;
+    };
+    SMALL: {
+      url: string;
+    };
+    REGULAR: {
+      url: string;
+    };
+    LARGE: {
+      url: string;
+    };
+  };
   yield?: number;
   servings?: number;
   totalDaily: (TotalDailyType | undefined)[];

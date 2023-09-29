@@ -4,3 +4,4 @@ export { default as useDebounce } from './useDebounce';
 export { default as useSavedRecipesByDate } from './useSavedRecipesByDate';
 export { default as useUserRecipes } from './useUserRecipes';
 export { default as useSearchRecipes } from './useSearchRecipes';
+export { default as useObserver } from './useObserver';

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { useCategorizedRecipes } from '../../hooks/index';
+import { useCategorizedRecipes, useObserver } from '../../hooks/index';
 import { RecipeCard } from '../../components/index';
 import { Recipe } from '../../types/types';
+import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
+
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
-import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
 
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
@@ -13,6 +14,7 @@ const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
   const [currentPage, setCurrentPage] = useState(0);
+  const observer = useObserver(data);
 
   const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
     if (type === 'prev') setCurrentPage(currentPage - 1);
@@ -26,7 +28,7 @@ const Carousel = ({ category }: { category: string }) => {
         <CarouselWindow>
           <CarouselSlides $currentpage={currentPage}>
             {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-              <RecipeCard key={recipe.recipeId} recipe={recipe} $style={{ margin: '0 1rem' }} />
+              <RecipeCard key={recipe.recipeId} recipe={recipe} $style={{ margin: '0 1rem' }} observer={observer} />
             ))}
           </CarouselSlides>
           <IconContainer>
