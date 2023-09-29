@@ -75,6 +75,7 @@ const Label = styled.h2`
   font-size: 1.4rem;
   font-size: 24px;
   font-weight: 400;
+  margin: 0 0 1rem 0;
 `;
 
 const LabelText = styled.span`
@@ -98,8 +99,8 @@ const RecipeEmoji = styled.span`
 `;
 
 const Img = styled.img`
-  width: 50%;
-  height: 20rem;
+  width: 18rem;
+  height: 18rem;
   margin: 1rem 0;
 
   border-radius: 1rem;

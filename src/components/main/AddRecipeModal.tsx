@@ -65,7 +65,7 @@ const Text = styled.div`
 `;
 
 const RecipeImg = styled.img`
-  width: 100%;
+  min-width: 18rem;
   height: 18rem;
   border-radius: 1.2rem;
   object-fit: cover;
@@ -77,7 +77,7 @@ const Label = styled.h2`
   font-weight: 400;
   font-family: 'Londrina Solid';
 
-  margin: 1rem 0 0.6rem 0;
+  margin: 2rem 0;
 `;
 
 interface ConfirmButtonProps {
