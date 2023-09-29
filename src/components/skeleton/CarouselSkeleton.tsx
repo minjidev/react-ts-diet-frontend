@@ -15,8 +15,10 @@ const CarouselSkeleton = ({ category }: { category: string }) => {
           <CarouselSlides>
             {Array(CAROUSEL_DATA_SIZE_PER_PAGE)
               .fill(0)
-              .map((val, idx) => (
-                <CarouselRecipeCardSkeleton key={idx} />
+              .map((_, idx) => (
+                <SkeletonContainer key={idx}>
+                  <CarouselRecipeCardSkeleton />
+                </SkeletonContainer>
               ))}
           </CarouselSlides>
         </CarouselWindow>
@@ -49,11 +51,14 @@ const CarouselSlides = styled.div`
   display: flex;
 `;
 
+const SkeletonContainer = styled.div`
+  padding: 0 1rem;
+`;
+
 const CarouselRecipeCardSkeleton = styled(Skeleton)`
   width: 15rem;
+  min-width: 15rem;
   height: 15rem;
-  border-radius: 1.2rem;
-  margin: 0 1rem;
 `;
 
 export default CarouselSkeleton;
