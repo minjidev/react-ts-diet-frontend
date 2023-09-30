@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Recipe } from '../types/types';
+import { Recipe, SavedRecipesByDate } from '../types/types';
 
-const useObserver = (data: Recipe[] | undefined) => {
+const useObserver = (data: Recipe[] | SavedRecipesByDate | undefined) => {
   const [observer, setObserver] = useState<IntersectionObserver | null>(null);
 
   useEffect(() => {

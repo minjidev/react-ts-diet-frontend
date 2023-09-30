@@ -6,12 +6,13 @@ interface LazyImgProps {
     default: string;
     dataSrc: string;
   };
+  image: string;
   alt: string;
   handleImgClick: (e: React.MouseEvent) => void;
   observer: IntersectionObserver | null;
 }
 
-function LazyImg({ imgSrc, alt, handleImgClick, observer }: LazyImgProps) {
+function LazyImg({ imgSrc, image, alt, handleImgClick, observer }: LazyImgProps) {
   const observerRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ function LazyImg({ imgSrc, alt, handleImgClick, observer }: LazyImgProps) {
       src={'/images/placeholder.png'}
       alt={alt}
       onClick={handleImgClick}
-      data-src={imgSrc.dataSrc}
+      data-src={imgSrc.dataSrc || image}
       onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = '/images/no_img.svg';
       }}

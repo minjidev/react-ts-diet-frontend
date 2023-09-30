@@ -72,10 +72,10 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     setRecipeContent(recipe);
   };
 
-  const { recipeId, label, calories, dietLabels, images } = recipe;
+  const { recipeId, label, calories, dietLabels, images, image } = recipe;
   const imgSrc = {
-    default: images.THUMBNAIL?.url || images.SMALL?.url,
-    dataSrc: images.REGULAR?.url,
+    default: images?.THUMBNAIL?.url || images?.SMALL?.url,
+    dataSrc: images?.REGULAR?.url,
   };
 
   const userRecipeId = userRecipes?.find(userRecipe => userRecipe.recipe.recipeId === recipeId)?._id;
@@ -83,7 +83,7 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>
         <Text>{calories}kcal</Text>
-        <LazyImg imgSrc={imgSrc} alt={label} handleImgClick={handleImgClick} observer={observer} />
+        <LazyImg imgSrc={imgSrc} image={image} alt={label} handleImgClick={handleImgClick} observer={observer} />
         <LabelContainer>
           <RecipeTitle>{label}</RecipeTitle>
           <Tags>
