@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { Root, SignIn, SignUp, Main, Home, Search, About, DashBoard } from './pages/index';
 import GlobalStyle from './styles/GlobalStyle';
+import router from './router/router';
 
 //data-theme='light'
 
@@ -21,45 +21,8 @@ const queryClient = new QueryClient({
   },
 });
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Root />,
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: 'main',
-        element: <Main />,
-      },
-      {
-        path: 'signin',
-        element: <SignIn />,
-      },
-      {
-        path: 'signup',
-        element: <SignUp />,
-      },
-      {
-        path: 'dashboard',
-        element: <DashBoard />,
-      },
-      {
-        path: 'about',
-        element: <About />,
-      },
-      {
-        path: 'search',
-        element: <Search />,
-      },
-    ],
-  },
-]);
-
 const App = () => {
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.setAttribute('data-theme', 'light');
     window.scrollTo({ top: 0 });
   }, []);
