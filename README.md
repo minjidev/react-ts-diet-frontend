@@ -9,13 +9,13 @@
 
  <br />
 
-## ✔️ Deployment URL
+## Deployment URL
 
 [nutrinotes.net](https://nutrinotes.net)
 
  <br />
 
-## ✔️ Project Introduction
+## Project Introduction
 
 ### Background
 
@@ -38,7 +38,7 @@
 
  <br />
 
-## ✔️ Installation Guide
+## Installation Guide
 
 To run NutriNotes locally:
 
@@ -49,10 +49,10 @@ To run NutriNotes locally:
 
 ### Frontend
 
-1. **Clone**: `git clone https://github.com/minjidev/react-ts-diet-frontend.git`
+1. **Clone Frontend repository**: `git clone https://github.com/minjidev/react-ts-diet-frontend.git`
 2. **Navigate to the directory**: `cd react-ts-diet-frontend`
 3. **Install dependencies**: `npm install`
-4. Create a `.env` file with the following content:
+4. **Create a `.env` file with the following content**:
 
    ```jsx
    VITE_EDAMAM_APP_ID = YOUR_EDAMAM_APP_ID;
@@ -60,23 +60,25 @@ To run NutriNotes locally:
    VITE_API_BASE_URL = BACKEND_ENDPONT;
    ```
 
-5. Start the development server: npm run dev
+5. **Start the development server**: `npm run dev`
 
 ### Backend
 
-1. **Clone**: `git clone https://github.com/minjidev/react-ts-diet-backend.git`
+1. **Clone Backend repo**: `git clone https://github.com/minjidev/react-ts-diet-backend.git`
 2. **Navigate to the directory**: `cd react-ts-diet-backend`
 3. **Install dependencies**: `npm install`
-4. Create a `.env` file with the following content:
+4. **Create a `.env` file with the following content**:
 
 ```jsx
 PORT = BACKEND_PORT;
 JWT_SECRET_KEY = YOUR_JWT_SECRET_KEY;
 ```
 
-5. Run nodemon: npm start
+5. **Run nodemon** : `npm start`
 
-## ✔️ Tech Stack
+ <br />
+
+## Tech Stack
 
 **Environment**
 

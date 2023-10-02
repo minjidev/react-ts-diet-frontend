@@ -9,13 +9,13 @@
 
  <br />
 
-## ✔️ 배포 주소
+## 배포 주소
 
 [nutrinotes.net](https://nutrinotes.net)
 
  <br />
 
-## ✔️ 프로젝트 소개
+## 프로젝트 소개
 
 ### 기획 배경
 
@@ -38,7 +38,7 @@
 
  <br />
 
-## ✔️ 설치 가이드
+## 설치 가이드
 
 NutriNotes를 로컬에서 실행하기:
 
@@ -53,7 +53,7 @@ NutriNotes를 로컬에서 실행하기:
    `git clone https://github.com/minjidev/react-ts-diet-frontend.git`
 2. **디렉토리로 이동** `cd react-ts-diet-frontend`
 3. **의존성 설치** `npm install`
-4. `.env` 파일을 생성하세요.
+4. **`.env` 파일을 생성하세요.**
 
    ```jsx
    VITE_EDAMAM_APP_ID = YOUR_EDAMAM_APP_ID;
@@ -61,25 +61,25 @@ NutriNotes를 로컬에서 실행하기:
    VITE_API_BASE_URL = BACKEND_ENDPONT;
    ```
 
-5. 개발 서버 시작: `npm run dev`
+5. **개발 서버 시작**: `npm run dev`
 
 ### 백엔드
 
 1. **클론** `git clone https://github.com/minjidev/react-ts-diet-backend.git`
 2. **디렉토리로 이동** `cd react-ts-diet-backend`
 3. **의존성 설치** `npm install`
-4. `.env` 파일을 생성
+4. **`.env` 파일을 생성**
 
    ```jsx
    PORT = BACKEND_PORT;
    JWT_SECRET_KEY = YOUR_JWT_SECRET_KEY;
    ```
 
-5. nodemon\*\* 실행: `npm start`
+5. **nodemon 실행**: `npm start`
 
  <br />
 
-## ✔️ 기술 스택
+## 기술 스택
 
 **환경**
 
