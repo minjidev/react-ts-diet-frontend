@@ -1,4 +1,4 @@
-[![en](https://img.shields.io/badge/lang-en-F38181.svg)](https://https://github.com/minjidev/react-ts-diet-frontend.git/blob/main/README.md)
+[![en](https://img.shields.io/badge/lang-en-F38181.svg)](https://github.com/minjidev/react-ts-diet-frontend/blob/main/README.md)
 [![ko](https://img.shields.io/badge/lang-ko-FCE38A.svg)](https://github.com/minjidev/react-ts-diet-frontend/blob/main/README.ko.md)
 
 # 📒 NutriNotes
