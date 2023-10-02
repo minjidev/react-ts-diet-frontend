@@ -1,3 +1,6 @@
+[![en](https://img.shields.io/badge/lang-en-F38181.svg)](https://github.com/minjidev/react-ts-diet-frontend/blob/main/README.md)
+[![ko](https://img.shields.io/badge/lang-ko-FCE38A.svg)](https://github.com/minjidev/react-ts-diet-frontend/blob/main/README.ko.md)
+
 # 📒 NutriNotes
 
 - **식단을 검색/기록/분석하여 효과적으로 식습관을 관리**할 수 있도록 하는 서비스입니다.
