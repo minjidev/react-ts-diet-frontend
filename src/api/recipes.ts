@@ -83,7 +83,6 @@ const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
 // random 20 data based on category
 const getRecipes = (category: string) => async () => {
   const { data } = await axios.get(`${url}&diet=${category}&random=true`);
-  console.log('raw: ', data);
   const recipes = (data as RecipeData).hits.map(hit => hit.recipe);
   const recipeIds = (data as RecipeData).hits.map(hit => hit._links.self.href.match(idRegExr)![0]);
 

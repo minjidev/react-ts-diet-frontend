@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { useController, Control } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
 import { useDebounce } from '../../hooks/index';
-import { mobileQuery } from '../../utils/mediaQuries';
+import { mobileQuery } from '../../utils/index';
 
 type FieldValues = {
   email: string;

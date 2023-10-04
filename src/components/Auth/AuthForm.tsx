@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema, signInSchema, SignInSchema, SignUpSchema } from '../../schema/schema';
@@ -9,8 +9,8 @@ import { signIn, signUp } from '../../api/auth';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { useLocation } from 'react-router-dom';
-import { notify } from '../../utils/notify';
-import { mobileQuery } from '../../utils/mediaQuries';
+import { notify } from '../../utils/index';
+import { mobileQuery } from '../../utils/index';
 
 interface AuthFormProps {
   formType: 'login' | 'register';

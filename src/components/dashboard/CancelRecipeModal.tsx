@@ -1,14 +1,13 @@
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { Recipe } from '../../types/types';
-import { Button } from '../index';
-import { Modal } from '../index';
+import { Button, Modal } from '../index';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { deleteSavedRecipe } from '../../api/user';
 import { useQueryClient } from '@tanstack/react-query';
 import { savedRecipesByDateKey, userRecipesKey } from '../../constants';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate } from '../../utils/index';
 
 interface CancelModalProps {
   recipe: Recipe | undefined;

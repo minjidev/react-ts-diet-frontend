@@ -1,7 +1,7 @@
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import { mobileQuery } from '../../utils/mediaQuries';
+import { mobileQuery } from '../../utils/index';
 
 interface CardProps {
   $imgSrc: string;

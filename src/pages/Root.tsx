@@ -1,18 +1,18 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Header, Loader } from '../components/index';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { hasMargin } from '../utils/index';
 
 const Root = () => {
-  const pathWithMargin = ['/', '/search', '/dashboard', '/main'];
   const { pathname } = useLocation();
-  const shouldApplyMargin = pathWithMargin.includes(pathname);
+
   return (
     <>
       <Header />
-      <Main $shouldApplyMargin={shouldApplyMargin}>
+      <Main $hasMargin={hasMargin(pathname)}>
         <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
@@ -30,8 +30,8 @@ const Root = () => {
   );
 };
 
-const Main = styled.main<{ $shouldApplyMargin: boolean }>`
-  margin-top: ${({ $shouldApplyMargin }) => ($shouldApplyMargin ? '5rem' : '')};
+const Main = styled.main<{ $hasMargin: boolean }>`
+  margin-top: ${({ $hasMargin }) => ($hasMargin ? '5rem' : '')};
   width: 80%;
   display: flex;
   flex-direction: column;

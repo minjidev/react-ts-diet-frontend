@@ -1,10 +1,10 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { SavedRecipesByDate, UserRecipe } from '../types/types';
+import { SavedRecipesByDate } from '../types/types';
 import { AxiosError } from 'axios';
 import { getSavedRecipesByDate } from '../api/user';
 import { savedRecipesByDateKey } from '../constants';
-import { formatDate } from '../utils/formatDate';
+import { formatDate } from '../utils/index';
 
 interface useSavedRecipesByDateProps {
   date: Date | undefined;

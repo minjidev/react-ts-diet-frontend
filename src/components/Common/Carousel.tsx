@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useCategorizedRecipes, useObserver } from '../../hooks/index';
 import { RecipeCard } from '../../components/index';
 import { Recipe } from '../../types/types';
-import { capitalizeFirstLetter } from '../../utils/capitalizeFirstLetter';
+import { capitalizeFirstLetter } from '../../utils/index';
 
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';

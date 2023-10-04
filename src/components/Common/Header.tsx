@@ -5,11 +5,11 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
 import { Color } from '../../styles/styled/Common';
-import { notify } from '../../utils/notify';
+import { notify } from '../../utils/index';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 
-import { mobileQuery } from '../../utils/mediaQuries';
+import { mobileQuery } from '../../utils/index';
 import { Styles } from 'styled-components/dist/types';
 
 const menu = [

@@ -4,6 +4,7 @@ import { AuthContainer } from '../styles/styled/Common';
 
 const SignUp = () => {
   const formType = 'register';
+
   return (
     <AuthContainer aria-label={formType}>
       <AuthForm formType={formType} />

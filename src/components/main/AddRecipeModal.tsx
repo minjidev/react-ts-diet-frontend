@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { Recipe } from '../../types/types';
 import { Button, DatePicker, Modal } from '../../components/index';
 import { postSavedRecipe } from '../../api/user';

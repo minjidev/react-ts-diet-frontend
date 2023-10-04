@@ -4,3 +4,4 @@ export { default as categorizedRecipesKey } from './categorizedRecipesKey';
 export { default as savedRecipesByDateKey } from './savedRecipesByDateKey';
 export { default as searchRecipesKey } from './searchRecipesKey';
 export { default as userRecipesKey } from './userRecipesKey';
+export { default as cardsInfo } from './cardsInfo';

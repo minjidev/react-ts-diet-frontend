@@ -43,6 +43,12 @@ const desc = {
   goal,
 };
 
+const contactInfo = [
+  { title: 'Email', href: 'mailto:alswl99710@gmail.com' },
+  { title: 'Github', href: 'https://github.com/minjidev' },
+  { title: 'Blog', href: 'https://bichoninthefront.tistory.com' },
+];
+
 interface DescType {
   story: string;
   features: string;
@@ -52,4 +58,4 @@ interface DescType {
 
 const descKey: (keyof DescType)[] = ['story', 'developer', 'goal'];
 
-export { featuresDesc, desc, descKey };
+export { featuresDesc, desc, descKey, contactInfo };

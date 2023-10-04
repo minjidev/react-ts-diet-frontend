@@ -1,6 +1,6 @@
 import React from 'react';
 import { SavedRecipesByDate } from '../../types/types';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { Chart } from 'react-chartjs-2';
 import { Context } from 'chartjs-plugin-datalabels';
 import ChartDataLabels from 'chartjs-plugin-datalabels';

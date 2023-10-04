@@ -1,11 +1,11 @@
 import React, { useState, ChangeEventHandler } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import 'react-day-picker/dist/style.css';
 import '../../styles/calendar.css';
 import { format, isValid, parse } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { BsCalendarPlus } from 'react-icons/bs';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate } from '../../utils/index';
 
 interface DatePickerProps {
   selected: Date | undefined;

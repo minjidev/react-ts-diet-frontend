@@ -3,7 +3,7 @@ import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSearchParams } from 'react-router-dom';
-import Keyword from '../common/Keyword';
+import { Keyword } from '../index';
 
 interface SearchProps {
   keyword: string;

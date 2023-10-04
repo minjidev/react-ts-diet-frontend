@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
 import { Divider } from '../../styles/styled/Common';
 import { useObserver, useSavedRecipesByDate } from '../../hooks/index';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate } from '../../utils/index';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 

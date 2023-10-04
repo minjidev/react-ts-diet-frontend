@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { RecipeModalProps } from '../../types/types';
 import { Modal } from '../index';
 

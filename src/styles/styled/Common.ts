@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
-import { mobileQuery } from '../../utils/mediaQuries';
+import styled from 'styled-components';
+import { mobileQuery } from '../../utils/index';
 
 export const AuthContainer = styled.section`
   width: 80%;
@@ -17,18 +17,6 @@ export const AuthContainer = styled.section`
     border: none;
     padding: 0;
   }
-`;
-
-export const Flex = styled.div`
-  display: flex;
-`;
-
-export const Center = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 interface ColorProps {

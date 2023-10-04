@@ -6,7 +6,7 @@ interface ToastMessageProps {
   icon: string;
 }
 
-export const notify = (toastMessage: ToastMessageProps) => {
+const notify = (toastMessage: ToastMessageProps) => {
   const { status, message } = toastMessage;
 
   if (status === 'success') {
@@ -19,3 +19,5 @@ export const notify = (toastMessage: ToastMessageProps) => {
     });
   }
 };
+
+export default notify;
