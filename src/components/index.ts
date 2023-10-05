@@ -16,6 +16,7 @@ export { default as Modal } from './common/Modal';
 export { default as SearchBar } from './recipes/SearchBar';
 export { default as RecipeResult } from './recipes/RecipeResult';
 export { default as LazyImg } from './common/LazyImg';
+export { default as ErrorFallback } from './common/ErrorFallback';
 export { default as AboutContent } from './about/AboutContent';
 export { default as HomeContent } from './home/HomeContent';
 export { default as MainContent } from './main/MainContent';

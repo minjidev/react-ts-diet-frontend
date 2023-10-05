@@ -1,10 +1,15 @@
 import React, { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Header, Loader } from '../components/index';
+import { Header, Loader, ErrorFallback } from '../components/index';
 import styled from 'styled-components';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { hasMargin } from '../utils/index';
+
+const handleError = (error: any) => {
+  console.error(error);
+};
 
 const Root = () => {
   const { pathname } = useLocation();
@@ -13,9 +18,11 @@ const Root = () => {
     <>
       <Header />
       <Main $hasMargin={hasMargin(pathname)}>
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
+        <ErrorBoundary FallbackComponent={ErrorFallback} onError={handleError}>
+          <Suspense fallback={<Loader />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </Main>
       <ToastContainer
         draggablePercent={60}

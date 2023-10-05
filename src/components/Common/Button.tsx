@@ -4,6 +4,7 @@ import { styled, css } from 'styled-components';
 interface ButtonProps {
   children?: React.ReactNode;
   type?: string;
+  onClick?: () => void;
 }
 
 const buttonStyle = css`
@@ -18,9 +19,9 @@ const buttonStyle = css`
   color: #000;
 `;
 
-const Button = ({ type = 'button', children, ...props }: ButtonProps) => {
+const Button = ({ type = 'button', children, onClick, ...props }: ButtonProps) => {
   return (
-    <CommonButton type={type} {...props}>
+    <CommonButton type={type} onClick={onClick} {...props}>
       {children}
     </CommonButton>
   );
