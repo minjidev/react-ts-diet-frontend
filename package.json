@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "aws-s3-deploy": "aws s3 sync dist/ s3://nutrinotes.net --profile alswl99710"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
