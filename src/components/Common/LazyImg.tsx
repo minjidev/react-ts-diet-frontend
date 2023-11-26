@@ -24,7 +24,7 @@ function LazyImg({ imgSrc, image, alt, handleImgClick, observer }: LazyImgProps)
   return (
     <RecipeImg
       ref={observerRef}
-      src={'/images/placeholder.png'}
+      src={imgSrc.default || '/images/placeholder.png'}
       alt={alt}
       onClick={handleImgClick}
       data-src={imgSrc.dataSrc || image}
