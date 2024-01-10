@@ -1,14 +1,16 @@
 import React, { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Header, Loader, ErrorFallback } from '../components/index';
 import styled from 'styled-components';
 import { ToastContainer, Slide } from 'react-toastify';
+import { Header, Loader, ErrorFallback, CustomError } from '../components/index';
 import 'react-toastify/dist/ReactToastify.css';
 import { hasMargin } from '../utils/index';
 
-const handleError = (error: any) => {
-  console.error(error);
+const handleError = (error: unknown) => {
+  if (error instanceof CustomError) {
+    console.error(error);
+  }
 };
 
 const Root = () => {
@@ -31,7 +33,7 @@ const Root = () => {
         autoClose={1000}
         transition={Slide}
         position="bottom-right"
-        hideProgressBar={true}
+        hideProgressBar
       />
     </>
   );

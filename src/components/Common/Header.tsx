@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { styled, css } from 'styled-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { BsSearch } from 'react-icons/bs';
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import { Styles } from 'styled-components/dist/types';
 import { userState } from '../../recoil/atoms/userState';
 import { signOut } from '../../api/auth';
 import { Color } from '../../styles/styled/Common';
-import { notify } from '../../utils/index';
-import { BsSearch } from 'react-icons/bs';
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-
-import { mobileQuery } from '../../utils/index';
-import { Styles } from 'styled-components/dist/types';
+import { notify, mobileQuery } from '../../utils/index';
 
 const menu = [
   { name: 'Recipes', path: '/main', isAuthorizationNeeded: false },
@@ -59,7 +57,7 @@ const Header = () => {
     <Container>
       <Content>
         <Flex css={{ width: '100%' }}>
-          <Link to={'/'}>
+          <Link to="/">
             <Title color="black">NutriNotes</Title>
           </Link>
           <MenuButton className="menu button" onClick={() => setIsOpen(true)} />
@@ -100,7 +98,7 @@ const Header = () => {
                 </AuthList>
               )}
             </Nav>
-            <SearchLink to={'/search'}>
+            <SearchLink to="/search">
               <SearchIcon aria-label="search recipes" />
             </SearchLink>
           </Flex>

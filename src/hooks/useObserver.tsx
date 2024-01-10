@@ -15,7 +15,7 @@ const useObserver = (data: Recipe[] | SavedRecipesByDate | undefined) => {
               target.src = target.dataset.src || '';
             }
           }),
-        { rootMargin: '0px 0px 10px 0px' }
+        { rootMargin: '0px 0px 10px 0px' },
       );
 
       setObserver(observerInst);

@@ -2,7 +2,7 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
 
-function RecipeResultSkeleton() {
+const RecipeResultSkeleton = () => {
   return (
     <RecipeCardContainer aria-label="search result">
       {Array.from({ length: 20 }, (_, i) => i).map(val => (
@@ -10,7 +10,7 @@ function RecipeResultSkeleton() {
       ))}
     </RecipeCardContainer>
   );
-}
+};
 
 const RecipeCardContainer = styled.section`
   width: 90%;

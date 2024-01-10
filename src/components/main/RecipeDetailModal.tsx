@@ -6,63 +6,61 @@ import { Modal } from '../index';
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
 const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
-  if (!content) return;
+  if (!content) return null;
 
   const cuisineTypeTexts = content?.cuisineType?.map((cuisine: string) =>
-    cuisine.replace(/^\w/, (firstLetter: string) => firstLetter.toUpperCase())
+    cuisine.replace(/^\w/, (firstLetter: string) => firstLetter.toUpperCase()),
   );
 
   return (
-    <>
-      <Modal close={close} styles={{ minWidth: '54rem', maxWidth: '54rem' }}>
-        <Label>
-          <RecipeEmoji role="image" aria-label="recipe book">
-            📙
-          </RecipeEmoji>
-          <LabelText>{content?.label}</LabelText>
-        </Label>
-        <Flex>
-          <Img src={content?.image} />
-          <Description>
-            <SubTitle>Nutrients</SubTitle>
-            <Nutrients>
-              {content?.totalNutrients.map((nutrient, index) => (
-                <Nutrient key={nutrient?.label}>
-                  <NutrientLabel>{nutrient?.label}</NutrientLabel>
-                  <Quantity>
-                    {nutrient?.quantity} {nutrient?.unit}
-                  </Quantity>
-                  <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
-                </Nutrient>
-              ))}
-            </Nutrients>
-            <SubTitle>Detail</SubTitle>
-            <DescText>
-              <div>
-                Type :{' '}
-                <Tag color="orange">
-                  #{' '}
-                  {cuisineTypeTexts?.map((cuisine: string, index: number) => (
-                    <span key={cuisine}>{cuisine}&nbsp;</span>
-                  ))}
-                  <span>{content?.dishType || 'dish'}</span>
-                </Tag>
-              </div>
-              {content.healthLabels?.length && (
-                <DescIdealFor>
-                  Ideal for inidividuals with dietary preferneces such as{' '}
-                  {content?.healthLabels?.slice(0, 5).map((label: string) => (
-                    <Tag key={label} color="#fff">
-                      # {label}
-                    </Tag>
-                  ))}
-                </DescIdealFor>
-              )}
-            </DescText>
-          </Description>
-        </Flex>
-      </Modal>
-    </>
+    <Modal close={close} styles={{ minWidth: '54rem', maxWidth: '54rem' }}>
+      <Label>
+        <RecipeEmoji role="img" aria-label="recipe book">
+          📙
+        </RecipeEmoji>
+        <LabelText>{content?.label}</LabelText>
+      </Label>
+      <Flex>
+        <Img src={content?.image} />
+        <Description>
+          <SubTitle>Nutrients</SubTitle>
+          <Nutrients>
+            {content?.totalNutrients.map((nutrient, index) => (
+              <Nutrient key={nutrient?.label}>
+                <NutrientLabel>{nutrient?.label}</NutrientLabel>
+                <Quantity>
+                  {nutrient?.quantity} {nutrient?.unit}
+                </Quantity>
+                <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
+              </Nutrient>
+            ))}
+          </Nutrients>
+          <SubTitle>Detail</SubTitle>
+          <DescText>
+            <div>
+              Type :{' '}
+              <Tag color="orange">
+                #{' '}
+                {cuisineTypeTexts?.map((cuisine: string) => (
+                  <span key={cuisine}>{cuisine}&nbsp;</span>
+                ))}
+                <span>{content?.dishType || 'dish'}</span>
+              </Tag>
+            </div>
+            {content.healthLabels?.length && (
+              <DescIdealFor>
+                Ideal for inidividuals with dietary preferneces such as{' '}
+                {content?.healthLabels?.slice(0, 5).map((label: string) => (
+                  <Tag key={label} color="#fff">
+                    # {label}
+                  </Tag>
+                ))}
+              </DescIdealFor>
+            )}
+          </DescText>
+        </Description>
+      </Flex>
+    </Modal>
   );
 };
 
@@ -125,7 +123,9 @@ const Nutrient = styled.div`
   border: 2px solid black;
   border-radius: 60px;
   margin: 0.3rem;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 
   position: relative;
   display: flex;
@@ -181,7 +181,9 @@ const Tag = styled.span<{ color: string }>`
   margin-left: 0;
   white-space: pre;
 
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px -1px, rgba(0, 0, 0, 0.06) 0px 2px 2px -1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 2px 2px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 2px -1px;
 `;
 
 const DescText = styled.div`

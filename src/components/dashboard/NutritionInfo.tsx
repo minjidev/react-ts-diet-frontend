@@ -1,9 +1,7 @@
 import React from 'react';
-import { SavedRecipesByDate } from '../../types/types';
 import styled from 'styled-components';
 import { Chart } from 'react-chartjs-2';
-import { Context } from 'chartjs-plugin-datalabels';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+import ChartDataLabels, { Context } from 'chartjs-plugin-datalabels';
 import {
   Chart as ChartJS,
   LinearScale,
@@ -17,6 +15,7 @@ import {
   BarController,
   Title as ChartTitle,
 } from 'chart.js';
+import { SavedRecipesByDate } from '../../types/types';
 
 interface NutritionInfoProps {
   savedRecipes: SavedRecipesByDate;
@@ -33,7 +32,7 @@ ChartJS.register(
   ChartTitle,
   LineController,
   BarController,
-  ChartDataLabels
+  ChartDataLabels,
 );
 
 const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
@@ -47,7 +46,7 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
         datalabels: {
           anchor: 'end' as const,
           align: 'right' as const,
-          formatter: function (value: number) {
+          formatter(value: number) {
             return `${value} %`;
           },
           font: {
@@ -64,10 +63,10 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
         datalabels: {
           anchor: 'start' as const,
           align: 'end' as const,
-          formatter: function (value: number, context: Context) {
+          formatter(_: number, context: Context) {
             return (
-              savedRecipes.totalNutrientsByDate[context.dataIndex]?.quantity! +
-              savedRecipes.totalNutrientsByDate[context.dataIndex]?.unit!
+              Number(savedRecipes.totalNutrientsByDate[context.dataIndex]?.quantity) +
+              Number(savedRecipes.totalNutrientsByDate[context.dataIndex]?.unit)
             );
           },
           font: {

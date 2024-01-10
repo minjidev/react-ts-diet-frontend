@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { UserRecipe } from '../types/types';
+
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const URL = `${baseURL}/api/user`;
@@ -28,7 +29,7 @@ interface UserRecipesByDateProps {
 const getSavedRecipesByDate =
   ({ date, userId }: UserRecipesByDateProps) =>
   async () => {
-    const { data } = await axios.get(`${URL}/${userId}/recipes?date=${date ? date : new Date()}`);
+    const { data } = await axios.get(`${URL}/${userId}/recipes?date=${date || new Date()}`);
     return data;
   };
 

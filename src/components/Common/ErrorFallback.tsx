@@ -1,9 +1,11 @@
-import { Button } from '../../components/index';
+import React from 'react';
 import styled from 'styled-components';
 import { useErrorBoundary } from 'react-error-boundary';
+import { Button, CustomError } from '../index';
 
-const ErrorFallback = ({ error }: { error: any }) => {
+const ErrorFallback = ({ error }: { error: CustomError }) => {
   const { resetBoundary } = useErrorBoundary();
+
   return (
     <Container>
       <p> Error: {error.message} </p>

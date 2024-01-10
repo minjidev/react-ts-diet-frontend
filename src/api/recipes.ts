@@ -19,12 +19,12 @@ interface RecipeData {
   hits: { recipe: Recipe; _links: RecipeLink }[];
 }
 
-interface filterRecipeDataProps {
+interface FilterRecipeDataProps {
   recipes: Recipe[];
   recipeIds: string[];
 }
 
-const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
+const filterRecipeData = ({ recipes, recipeIds }: FilterRecipeDataProps) => {
   return recipes.map(
     (
       {
@@ -40,7 +40,7 @@ const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
         totalNutrients,
         yield: servings,
       },
-      idx
+      idx,
     ) => ({
       recipeId: recipeIds[idx],
       label,
@@ -55,8 +55,8 @@ const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
       yield: servings,
       totalDaily: Object.entries(totalDaily)
         .map(([code, content]) => {
-          if (!mainNutrients.includes(code)) return;
-          if (!content) return;
+          if (!mainNutrients.includes(code)) return null;
+          if (!content) return null;
 
           return {
             label: content.label,
@@ -66,8 +66,8 @@ const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
         .filter(Boolean),
       totalNutrients: Object.entries(totalNutrients)
         .map(([code, content]) => {
-          if (!mainNutrients.includes(code)) return;
-          if (!content) return;
+          if (!mainNutrients.includes(code)) return null;
+          if (!content) return null;
 
           return {
             label: content.label,
@@ -76,7 +76,7 @@ const filterRecipeData = ({ recipes, recipeIds }: filterRecipeDataProps) => {
           };
         })
         .filter(Boolean),
-    })
+    }),
   );
 };
 

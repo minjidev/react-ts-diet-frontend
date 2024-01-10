@@ -9,11 +9,13 @@ const features =
 const featuresDesc = [
   {
     title: 'Browse Diverse Food Choices',
-    content: 'Explore a variety of food options and discover new meal ideas that align with your nutritional goals.',
+    content:
+      'Explore a variety of food options and discover new meal ideas that align with your nutritional goals.',
   },
   {
     title: 'Search and Log Meals:',
-    content: "Easily log your daily meals, making it convenient to keep track of what you're consuming.",
+    content:
+      "Easily log your daily meals, making it convenient to keep track of what you're consuming.",
   },
   {
     title: 'Nutritional Information',

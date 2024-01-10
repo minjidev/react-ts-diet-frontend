@@ -32,7 +32,14 @@ module.exports = {
   },
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    '@typescript-eslint/no-use-before-define': ['error', { variables: false }],
     'no-underscore-dangle': 'off',
+    '@typescript-eslint/no-use-before-define': ['error', { variables: false }],
+    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/no-shadow': 'off',
+    'react/prop-types': 'off',
+    'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-no-useless-fragment': { allowExpressions: true },
   },
 };

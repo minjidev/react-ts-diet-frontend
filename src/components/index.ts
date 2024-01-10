@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 export { default as Header } from './common/Header';
 export { default as Input } from './auth/Input';
 export { default as AuthForm } from './auth/AuthForm';
@@ -20,3 +21,4 @@ export { default as ErrorFallback } from './common/ErrorFallback';
 export { default as AboutContent } from './about/AboutContent';
 export { default as HomeContent } from './home/HomeContent';
 export { default as MainContent } from './main/MainContent';
+export { default as CustomError } from './common/CustomError';

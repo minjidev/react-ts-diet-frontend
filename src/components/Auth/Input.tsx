@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useController, Control } from 'react-hook-form';
+import { useController, Control, UseFormTrigger } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
@@ -18,16 +18,29 @@ interface InputProps {
   name: 'email' | 'password' | 'passwordConfirm' | 'username';
   type: string;
   control: Control<FieldValues>;
-  trigger: any;
+  trigger: UseFormTrigger<{
+    email: string;
+    password: string;
+    passwordConfirm: string;
+    username: string;
+  }>;
   disabled?: boolean;
   onUpdate?: (isDuplicated: boolean) => void;
   formType?: string;
 }
 
-const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9\-]*\.)+[A-Z]{2,}$/i;
+const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9-]*\.)+[A-Z]{2,}$/i;
 const TRIGGER_DEBOUNCE_DELAY_TIME = 200;
 
-const Input = ({ name, type, control, trigger, onUpdate, formType, disabled = false }: InputProps) => {
+const Input = ({
+  name,
+  type,
+  control,
+  trigger,
+  onUpdate,
+  formType,
+  disabled = false,
+}: InputProps) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
   const isSignUp = formType === 'register';
 
@@ -54,7 +67,10 @@ const Input = ({ name, type, control, trigger, onUpdate, formType, disabled = fa
     }
   };
 
-  const deboucedPwCheckTrigger = useDebounce(() => trigger('passwordConfirm'), TRIGGER_DEBOUNCE_DELAY_TIME);
+  const deboucedPwCheckTrigger = useDebounce(
+    () => trigger('passwordConfirm'),
+    TRIGGER_DEBOUNCE_DELAY_TIME,
+  );
   const debouncedTrigger = useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);
   return (
     <>
@@ -84,7 +100,9 @@ const Input = ({ name, type, control, trigger, onUpdate, formType, disabled = fa
             </CheckButton>
             {isDirty && !error && (
               <Error $isvalid={duplicatedResult === 'success'}>
-                {duplicatedResult !== null && duplicatedResult === 'success' ? `Confirmed` : duplicatedResult}
+                {duplicatedResult !== null && duplicatedResult === 'success'
+                  ? `Confirmed`
+                  : duplicatedResult}
               </Error>
             )}
           </>

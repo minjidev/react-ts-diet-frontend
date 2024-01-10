@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
 import { Recipe } from '../../types/types';
 import { Button, Modal } from '../index';
-import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 import { deleteSavedRecipe } from '../../api/user';
-import { useQueryClient } from '@tanstack/react-query';
 import { savedRecipesByDateKey, userRecipesKey } from '../../constants';
 import { formatDate } from '../../utils/index';
 
@@ -26,7 +26,11 @@ const CancelRecipeModal = ({ recipe, close, selected, userRecipeId }: CancelModa
       await deleteSavedRecipe(userRecipeId);
 
       queryClient.invalidateQueries([...userRecipesKey, user._id]);
-      queryClient.invalidateQueries([...savedRecipesByDateKey, user._id, formatDate(selected ?? new Date())]);
+      queryClient.invalidateQueries([
+        ...savedRecipesByDateKey,
+        user._id,
+        formatDate(selected ?? new Date()),
+      ]);
       close();
     } catch (e) {
       console.error(e);

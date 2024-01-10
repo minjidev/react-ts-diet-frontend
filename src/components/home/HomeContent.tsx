@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Card } from '../../components';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { Button, Card } from '..';
 import { cardsInfo } from '../../constants/index';
 import { mobileQuery } from '../../utils/index';
 import { userState } from '../../recoil/atoms/userState';
-import { useRecoilValue } from 'recoil';
 
 const HomeContent = () => {
   const user = useRecoilValue(userState);
@@ -14,9 +14,12 @@ const HomeContent = () => {
     <Container>
       <SpecSection aria-labelledby="specs">
         <Title id="specs">
-          <Underline color="var(--button-point-color)">NutriNotes,</Underline>Effortless Meal Tracker
+          <Underline color="var(--button-point-color)">NutriNotes,</Underline>Effortless Meal
+          Tracker
         </Title>
-        <Description>: All-in-one solution for effortless meal tracker and nutritional tracking</Description>
+        <Description>
+          : All-in-one solution for effortless meal tracker and nutritional tracking
+        </Description>
         <Link to={authroizedPath('/main')}>
           <MainButton>Get Started!</MainButton>
         </Link>

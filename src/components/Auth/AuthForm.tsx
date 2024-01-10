@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { signUpSchema, signInSchema, SignInSchema, SignUpSchema } from '../../schema/schema';
 import { Button, Input } from '../index';
-import { Link, useNavigate } from 'react-router-dom';
 import { signIn, signUp } from '../../api/auth';
-import { useSetRecoilState } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
-import { useLocation } from 'react-router-dom';
-import { notify } from '../../utils/index';
-import { mobileQuery } from '../../utils/index';
+import { notify, mobileQuery } from '../../utils/index';
 
 interface AuthFormProps {
   formType: 'login' | 'register';
@@ -25,7 +23,7 @@ const defaultValues = {
 
 const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
   const isSignUp = formType === 'register';
-  type schemaType = typeof formType extends 'register' ? SignInSchema : SignUpSchema;
+  type SchemaType = typeof formType extends 'register' ? SignInSchema : SignUpSchema;
   const schema = isSignUp ? signUpSchema : signInSchema;
 
   const navigate = useNavigate();
@@ -44,12 +42,12 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
     control,
     trigger,
     reset,
-  } = useForm<schemaType>({
+  } = useForm<SchemaType>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
-  const onSubmitSignIn = async (data: schemaType) => {
+  const onSubmitSignIn = async (data: SchemaType) => {
     try {
       const { user } = await signIn(data);
 
@@ -62,11 +60,10 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
     } catch (e) {
       console.error(e);
       notify({ status: 'error', message: 'Log In Failed..', icon: '🥹' });
-    } finally {
     }
   };
 
-  const onSubmitSignUp = async (data: schemaType) => {
+  const onSubmitSignUp = async (data: SchemaType) => {
     try {
       await signUp(data);
       notify({
@@ -81,7 +78,6 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
         message: 'Registration Failed..',
         icon: '🥹',
       });
-    } finally {
     }
   };
 
@@ -106,7 +102,13 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
         onUpdate={(isDuplicated: boolean) => setIsEmailDuplicated(isDuplicated)}
         formType={formType}
       />
-      <Input name="password" type="password" control={control} trigger={trigger} formType={formType} />
+      <Input
+        name="password"
+        type="password"
+        control={control}
+        trigger={trigger}
+        formType={formType}
+      />
       {isSignUp && (
         <>
           <Input
@@ -194,7 +196,8 @@ const ConfirmButton = styled(Button)<ConfirmButtonProps>`
     color: #fff;
     font-weight: 500;
     border-radius: 1rem;
-    background-color: ${({ disabled }) => (disabled ? 'var(--border)' : 'var(--button-point-color)')};
+    background-color: ${({ disabled }) =>
+      disabled ? 'var(--border)' : 'var(--button-point-color)'};
   }
 `;
 

@@ -12,12 +12,12 @@ interface LazyImgProps {
   observer: IntersectionObserver | null;
 }
 
-function LazyImg({ imgSrc, image, alt, handleImgClick, observer }: LazyImgProps) {
+const LazyImg = ({ imgSrc, image, alt, handleImgClick, observer }: LazyImgProps) => {
   const observerRef = useRef(null);
 
   useEffect(() => {
     if (observer && observerRef.current) {
-      observer && observer.observe(observerRef.current);
+      observer.observe(observerRef.current);
     }
   }, [observer]);
 
@@ -33,7 +33,7 @@ function LazyImg({ imgSrc, image, alt, handleImgClick, observer }: LazyImgProps)
       }}
     />
   );
-}
+};
 
 const RecipeImg = styled.img`
   width: 15rem;

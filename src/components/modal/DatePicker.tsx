@@ -16,14 +16,14 @@ interface DatePickerProps {
   setIsOpen?: (isOpen: boolean) => void;
 }
 
-function DatePicker({
+const DatePicker = ({
   selected,
   setSelected,
   direction,
   setIsOpen,
   selectedDefault = false,
   isInputDisplayed = true,
-}: DatePickerProps) {
+}: DatePickerProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isCalendarOpen, setIsCalendarOpen] = useState(selectedDefault);
 
@@ -58,36 +58,34 @@ function DatePicker({
   };
 
   return (
-    <>
-      <InputGroup>
-        {isInputDisplayed && (
-          <>
-            <DateInput
-              type="text"
-              name="text"
-              autoComplete="off"
-              value={inputValue}
-              placeholder={formatDate(new Date())}
-              onChange={handleInputChange}
-              onClick={handleInputClick}
-            />
-            <CalendarIcon role="image" aria-label="recipe book" />
-          </>
+    <InputGroup>
+      {isInputDisplayed && (
+        <>
+          <DateInput
+            type="text"
+            name="text"
+            autoComplete="off"
+            value={inputValue}
+            placeholder={formatDate(new Date())}
+            onChange={handleInputChange}
+            onClick={handleInputClick}
+          />
+          <CalendarIcon role="img" aria-label="recipe book" />
+        </>
+      )}
+      <DayPickerContainer direction={direction}>
+        {isCalendarOpen && (
+          <DayPicker
+            mode="single"
+            defaultMonth={new Date()}
+            selected={selected || new Date()}
+            onSelect={handleDaySelect}
+          />
         )}
-        <DayPickerContainer direction={direction}>
-          {isCalendarOpen && (
-            <DayPicker
-              mode="single"
-              defaultMonth={new Date()}
-              selected={selected ? selected : new Date()}
-              onSelect={handleDaySelect}
-            />
-          )}
-        </DayPickerContainer>
-      </InputGroup>
-    </>
+      </DayPickerContainer>
+    </InputGroup>
   );
-}
+};
 
 const InputGroup = styled.div`
   position: relative;

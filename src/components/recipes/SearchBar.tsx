@@ -11,8 +11,22 @@ interface SearchProps {
 }
 
 const HISTORY_LIST_LEN = 8;
-const dietCategory = ['balanced', 'high-fiber', 'high-protein', 'low-carb', 'low-fat', 'low-sodium'];
-const healthCategory = ['alcohol-free', 'dairy-free', 'gluten-free', 'keto-friendly', 'Mediterranean'];
+const dietCategory = [
+  'balanced',
+  'high-fiber',
+  'high-protein',
+  'low-carb',
+  'low-fat',
+  'low-sodium',
+];
+const healthCategory = [
+  'alcohol-free',
+  'dairy-free',
+  'gluten-free',
+  'keto-friendly',
+  'Mediterranean',
+];
+
 const dishTypeCategory = ['Bread', 'Cereal', 'Dessert', 'Drinks', 'Salad', 'Pancakes'];
 
 const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
@@ -30,7 +44,7 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     localStorage.setItem('keyword', JSON.stringify(newHistory));
     setKeyword(keyword);
     setHistory(newHistory);
-    setSearchParams({ keyword: keyword });
+    setSearchParams({ keyword });
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -67,49 +81,49 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
   }, [searchKeyword]);
 
   return (
-    <>
-      <Container aria-labelledby="rsearch">
-        <Form name="rsearch" role="search" onSubmit={handleFormSubmit}>
-          <Label id="rsearch" className="sr-only" htmlFor="rsearch-bar">
-            Recipe Search
-          </Label>
-          <Search id="rsearch-bar" ref={inputRef} title="search bar icon" autoFocus />
-          <SearchIcon aria-label="search recipes" />
-          {keyword.length > 0 && <ClearIcon aria-label="clear search" onClick={handleClickCloseButton} />}
-        </Form>
-        {!searchKeyword?.length && (
-          <Recommendation aria-label="search recommendation">
-            {history.length > 0 && (
-              <Keyword
-                title="Recent"
-                label="recent search"
-                keywords={historyDisplay}
-                handleKeywordSearch={handleKeywordSearch}
-                handleRemoveClick={handleRemoveClick}
-              />
-            )}
-            <Keyword
-              title="Diet"
-              label="diet category"
-              keywords={dietCategory}
-              handleKeywordSearch={handleKeywordSearch}
-            />
-            <Keyword
-              title="Health"
-              label="health category"
-              keywords={healthCategory}
-              handleKeywordSearch={handleKeywordSearch}
-            />
-            <Keyword
-              title="Dish Type"
-              label="dish type category"
-              keywords={dishTypeCategory}
-              handleKeywordSearch={handleKeywordSearch}
-            />
-          </Recommendation>
+    <Container aria-labelledby="rsearch">
+      <Form name="rsearch" role="search" onSubmit={handleFormSubmit}>
+        <Label id="rsearch" className="sr-only" htmlFor="rsearch-bar">
+          Recipe Search
+        </Label>
+        <Search id="rsearch-bar" ref={inputRef} title="search bar icon" autoFocus />
+        <SearchIcon aria-label="search recipes" />
+        {keyword.length > 0 && (
+          <ClearIcon aria-label="clear search" onClick={handleClickCloseButton} />
         )}
-      </Container>
-    </>
+      </Form>
+      {!searchKeyword?.length && (
+        <Recommendation aria-label="search recommendation">
+          {history.length > 0 && (
+            <Keyword
+              title="Recent"
+              label="recent search"
+              keywords={historyDisplay}
+              handleKeywordSearch={handleKeywordSearch}
+              handleRemoveClick={handleRemoveClick}
+            />
+          )}
+          <Keyword
+            title="Diet"
+            label="diet category"
+            keywords={dietCategory}
+            handleKeywordSearch={handleKeywordSearch}
+          />
+          <Keyword
+            title="Health"
+            label="health category"
+            keywords={healthCategory}
+            handleKeywordSearch={handleKeywordSearch}
+          />
+          <Keyword
+            title="Dish Type"
+            label="dish type category"
+            keywords={dishTypeCategory}
+            handleKeywordSearch={handleKeywordSearch}
+          />
+        </Recommendation>
+      )}
+    </Container>
   );
 };
 

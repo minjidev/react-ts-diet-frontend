@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { DatePicker, RecipeCard, NutritionInfo } from '../../components/index';
+import { useRecoilValue } from 'recoil';
+import { DatePicker, RecipeCard, NutritionInfo } from '../index';
 import { Divider } from '../../styles/styled/Common';
 import { useObserver, useSavedRecipesByDate } from '../../hooks/index';
 import { formatDate } from '../../utils/index';
-import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/atoms/userState';
 
 const DashBoardByDate = () => {
@@ -13,9 +13,12 @@ const DashBoardByDate = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useRecoilValue(userState);
 
-  const { data: savedRecipes } = useSavedRecipesByDate({ date: selected ?? new Date(), userId: user?._id });
+  const { data: savedRecipes } = useSavedRecipesByDate({
+    date: selected ?? new Date(),
+    userId: user?._id,
+  });
   const observer = useObserver(savedRecipes);
-  const handleDateClick = (e: React.MouseEvent) => {
+  const handleDateClick = () => {
     setIsOpen(true);
   };
 
@@ -30,7 +33,7 @@ const DashBoardByDate = () => {
           <DatePicker
             selected={selected}
             setSelected={setSelected}
-            selectedDefault={true}
+            selectedDefault
             direction="bottom"
             setIsOpen={setIsOpen}
             isInputDisplayed={false}
@@ -42,7 +45,9 @@ const DashBoardByDate = () => {
         <Box />
       ) : (
         <Content>
-          {!savedRecipes || Object.keys(savedRecipes).length === 0 || savedRecipes?.recipesByDate.length === 0 ? (
+          {!savedRecipes ||
+          Object.keys(savedRecipes).length === 0 ||
+          savedRecipes?.recipesByDate.length === 0 ? (
             <Text>Nothing saved yet !</Text>
           ) : (
             <>
@@ -57,11 +62,9 @@ const DashBoardByDate = () => {
                       observer={observer}
                     />
                   ))}
-                  {Array(4)
-                    .fill(null)
-                    .map((_, index) => (
-                      <Filler key={index} id="filler" />
-                    ))}
+                  {Array.from({ length: 4 }, (_, idx) => idx).map(val => (
+                    <Filler key={val} id="filler" />
+                  ))}
                 </Flex>
               </SavedMealsSection>
               <Divider />
@@ -102,7 +105,7 @@ const Flex = styled.div<{ $align?: string }>`
   margin-bottom: 2rem;
   flex-wrap: wrap;
 
-  justify-content: ${({ $align }) => ($align ? $align : 'flex-start')};
+  justify-content: ${({ $align }) => $align || 'flex-start'};
   gap: 1rem 0;
   cursor: pointer;
 `;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
-import { Link } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 
 interface KeywordProps {
@@ -11,9 +10,15 @@ interface KeywordProps {
   handleRemoveClick?: (keyword: string) => (e: React.MouseEvent) => void;
 }
 
-const Keyword = ({ title, label, keywords, handleKeywordSearch, handleRemoveClick }: KeywordProps) => {
+const Keyword = ({
+  title,
+  label,
+  keywords,
+  handleKeywordSearch,
+  handleRemoveClick,
+}: KeywordProps) => {
   const isRecent = title === 'Recent';
-  const handleRemoveButtonClick = handleRemoveClick ?? ((str: string) => (e: React.MouseEvent) => {});
+  const handleRemoveButtonClick = handleRemoveClick ?? (() => () => {});
 
   return (
     <Container aria-label={label}>
@@ -21,7 +26,7 @@ const Keyword = ({ title, label, keywords, handleKeywordSearch, handleRemoveClic
       <KeywordList>
         {keywords.map((keyword: string) => (
           <KeywordItem key={keyword} $isrecent={isRecent} onClick={handleKeywordSearch(keyword)}>
-            <Link to="#">{keyword}</Link>
+            {keyword}
             {isRecent && <RemoveButton onClick={handleRemoveButtonClick(keyword)} />}
           </KeywordItem>
         ))}

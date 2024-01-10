@@ -1,13 +1,13 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
-import { Recipe, UserRecipe } from '../../types/types';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atoms/userState';
 import { useNavigate } from 'react-router-dom';
+import { Styles } from 'styled-components/dist/types';
+import { Recipe, UserRecipe } from '../../types/types';
+import { userState } from '../../recoil/atoms/userState';
 import { useModal, useUserRecipes } from '../../hooks';
 import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg } from '../index';
-import { Styles } from 'styled-components/dist/types';
 
 type RecipeCardStyles = {
   cardBorderRadius?: string;
@@ -52,7 +52,7 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
   const checkRecipeSaved = (recipeId: string) =>
     userRecipes?.find((userRecipe: UserRecipe) => userRecipe.recipe.recipeId === recipeId);
 
-  const handleAddButtonClick = (e: React.MouseEvent) => {
+  const handleAddButtonClick = () => {
     if (!user) navigate('/signin');
 
     openAddModal();
@@ -66,7 +66,7 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     setCancelContent(recipe);
   };
 
-  const handleImgClick = (e: React.MouseEvent) => {
+  const handleImgClick = () => {
     openRecipeModal();
 
     setRecipeContent(recipe);
@@ -78,19 +78,22 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     dataSrc: images?.REGULAR?.url,
   };
 
-  const userRecipeId = userRecipes?.find(userRecipe => userRecipe.recipe.recipeId === recipeId)?._id;
+  const userRecipeId = userRecipes?.find(userRecipe => userRecipe.recipe.recipeId === recipeId)
+    ?._id;
   return (
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>
         <Text>{calories}kcal</Text>
-        <LazyImg imgSrc={imgSrc} image={image} alt={label} handleImgClick={handleImgClick} observer={observer} />
+        <LazyImg
+          imgSrc={imgSrc}
+          image={image}
+          alt={label}
+          handleImgClick={handleImgClick}
+          observer={observer}
+        />
         <LabelContainer>
           <RecipeTitle>{label}</RecipeTitle>
-          <Tags>
-            {dietLabels?.map(label => (
-              <Tag key={label}>#{label}</Tag>
-            ))}
-          </Tags>
+          <Tags>{dietLabels?.map(label => <Tag key={label}>#{label}</Tag>)}</Tags>
         </LabelContainer>
 
         <AddButtonContainer>
@@ -198,7 +201,9 @@ const Tag = styled.div`
   align-items: center;
   justify-content: center;
 
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 4px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 4px 4px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 `;
 
 const AddButton = styled(BsFillPlusCircleFill)`

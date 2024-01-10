@@ -8,22 +8,20 @@ const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 
 const CarouselSkeleton = ({ category }: { category: string }) => {
   return (
-    <>
-      <Container aria-labelledby={category}>
-        <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
-        <CarouselWindow>
-          <CarouselSlides>
-            {Array(CAROUSEL_DATA_SIZE_PER_PAGE)
-              .fill(0)
-              .map((_, idx) => (
-                <SkeletonContainer key={idx}>
-                  <CarouselRecipeCardSkeleton />
-                </SkeletonContainer>
-              ))}
-          </CarouselSlides>
-        </CarouselWindow>
-      </Container>
-    </>
+    <Container aria-labelledby={category}>
+      <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
+      <CarouselWindow>
+        <CarouselSlides>
+          {Array(CAROUSEL_DATA_SIZE_PER_PAGE)
+            .fill(0)
+            .map((_, idx) => (
+              <SkeletonContainer key={idx}>
+                <CarouselRecipeCardSkeleton />
+              </SkeletonContainer>
+            ))}
+        </CarouselSlides>
+      </CarouselWindow>
+    </Container>
   );
 };
 

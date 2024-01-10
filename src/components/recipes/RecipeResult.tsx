@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useSearchRecipes, useObserver } from '../../hooks';
-import { RecipeCard } from '../index';
 import { useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSearchRecipes, useObserver } from '../../hooks';
+import { RecipeCard } from '../index';
 import { searchRecipesKey } from '../../constants';
 
 const RecipeResult = () => {

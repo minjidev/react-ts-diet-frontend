@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { useCategorizedRecipes, useObserver } from '../../hooks/index';
-import { RecipeCard } from '../../components/index';
-import { Recipe } from '../../types/types';
-import { capitalizeFirstLetter } from '../../utils/index';
-
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
+import { useCategorizedRecipes, useObserver } from '../../hooks/index';
+import { RecipeCard } from '../index';
+import { Recipe } from '../../types/types';
+import { capitalizeFirstLetter } from '../../utils/index';
 
 const CAROUSEL_DATA_SIZE = 20;
 const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
@@ -22,29 +21,36 @@ const Carousel = ({ category }: { category: string }) => {
   };
 
   return (
-    <>
-      <Container aria-labelledby={category}>
-        <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
-        <CarouselWindow>
-          <CarouselSlides $currentpage={currentPage}>
-            {data?.slice(0, CAROUSEL_DATA_SIZE).map((recipe: Recipe) => (
-              <RecipeCard key={recipe.recipeId} recipe={recipe} $style={{ margin: '0 1rem' }} observer={observer} />
+    <Container aria-labelledby={category}>
+      <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
+      <CarouselWindow>
+        <CarouselSlides $currentpage={currentPage}>
+          {data
+            ?.slice(0, CAROUSEL_DATA_SIZE)
+            .map((recipe: Recipe) => (
+              <RecipeCard
+                key={recipe.recipeId}
+                recipe={recipe}
+                $style={{ margin: '0 1rem' }}
+                observer={observer}
+              />
             ))}
-          </CarouselSlides>
-          <IconContainer>
-            <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
-            {Array.from({ length: 4 }).map((dot, index) => (
-              <IndexEmpty key={index} />
-            ))}
-            <IndexFill $currentpage={currentPage} />
-            <NextIcon
-              disabled={currentPage === Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1}
-              onClick={handleClick('next')}
-            />
-          </IconContainer>
-        </CarouselWindow>
-      </Container>
-    </>
+        </CarouselSlides>
+        <IconContainer>
+          <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
+          {Array.from({ length: 4 }).map((dot, index) => (
+            <IndexEmpty key={index} />
+          ))}
+          <IndexFill $currentpage={currentPage} />
+          <NextIcon
+            disabled={
+              currentPage === Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1
+            }
+            onClick={handleClick('next')}
+          />
+        </IconContainer>
+      </CarouselWindow>
+    </Container>
   );
 };
 

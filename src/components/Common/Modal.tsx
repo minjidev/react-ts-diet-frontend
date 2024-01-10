@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { Dimmed } from '../../styles/styled/Common';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Styles } from 'styled-components/dist/types';
 import { createPortal } from 'react-dom';
+import { Dimmed } from '../../styles/styled/Common';
+
 interface ModalProps {
   children: React.ReactNode;
   close: () => void;
@@ -28,7 +29,7 @@ const Modal = ({ children, close, styles }: ModalProps) => {
           </Container>
           <Dimmed onClick={close} />
         </>,
-        document.body
+        document.body,
       )}
     </>
   );
@@ -44,7 +45,9 @@ const Container = styled.section<{ $styles?: Styles<object> }>`
 
   background: #fff;
   border: 1px solid #eee;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 1rem;
 
   position: fixed;

@@ -1,12 +1,12 @@
 import React, { SyntheticEvent, useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
 import { Recipe } from '../../types/types';
-import { Button, DatePicker, Modal } from '../../components/index';
+import { Button, DatePicker, Modal } from '../index';
 import { postSavedRecipe } from '../../api/user';
 import { Divider } from '../../styles/styled/Common';
 import { userState } from '../../recoil/atoms/userState';
-import { useRecoilValue } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
 import { userRecipesKey } from '../../constants';
 
 interface AddModalProps {
@@ -15,14 +15,12 @@ interface AddModalProps {
 }
 
 const AddRecipeModal = ({ recipe, close }: AddModalProps) => {
-  if (!recipe) return;
-
   const [selected, setSelected] = useState<Date>();
   const user = useRecoilValue(userState);
   const queryClient = useQueryClient();
 
-  const handleConfirmButtonClick = async (e: React.MouseEvent) => {
-    if (!user) return;
+  const handleConfirmButtonClick = async () => {
+    if (!user || !recipe) return;
 
     try {
       const newlySavedRecipe = {

@@ -6,7 +6,7 @@ import { RecoilRoot } from 'recoil';
 import GlobalStyle from './styles/GlobalStyle';
 import router from './router/router';
 
-//data-theme='light'
+// data-theme='light'
 
 const queryClient = new QueryClient({
   defaultOptions: {
