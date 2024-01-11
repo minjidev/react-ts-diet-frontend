@@ -128,3 +128,4 @@ JWT_SECRET_KEY = YOUR_JWT_SECRET_KEY;
 | Refactor | Refactor code, Modify/Move/Delete name of a file or folder |
 | Style    | Change CSS or layout                                       |
 | Docs     | Add/Modify Documents                                       |
+| Chore    | Maintain                                                   |
