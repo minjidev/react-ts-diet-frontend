@@ -35,8 +35,8 @@ interface Recipe {
   };
   yield?: number;
   servings?: number;
-  totalDaily: (TotalDailyType | undefined)[];
-  totalNutrients: (TotalNutrientsType | undefined)[];
+  totalDaily: TotalDailyType[] | undefined;
+  totalNutrients: TotalNutrientsType[] | undefined;
 }
 
 interface UserRecipe {
@@ -63,4 +63,32 @@ interface SavedRecipesByDate {
   totalNutrientsByDate: (TotalNutrientsType | undefined)[];
 }
 
-export type { TotalDailyType, Recipe, RecipeModalProps, UserRecipe, User, SavedRecipesByDate };
+// recipe filter props
+interface FilterRecipeDataProps {
+  recipes: Recipe[];
+  recipeIds: string[];
+}
+
+interface RecipeLink {
+  self: {
+    href: string;
+    title: string;
+  };
+}
+
+// Recipes api response
+interface RecipeData {
+  hits: { recipe: Recipe; _links: RecipeLink }[];
+}
+
+export type {
+  TotalDailyType,
+  TotalNutrientsType,
+  Recipe,
+  RecipeModalProps,
+  UserRecipe,
+  User,
+  SavedRecipesByDate,
+  FilterRecipeDataProps,
+  RecipeData,
+};

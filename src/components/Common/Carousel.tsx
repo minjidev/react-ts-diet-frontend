@@ -15,7 +15,7 @@ const Carousel = ({ category }: { category: string }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const observer = useObserver(data);
 
-  const handleClick = (type: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (type: string) => () => {
     if (type === 'prev') setCurrentPage(currentPage - 1);
     if (type === 'next') setCurrentPage(currentPage + 1);
   };
@@ -38,8 +38,8 @@ const Carousel = ({ category }: { category: string }) => {
         </CarouselSlides>
         <IconContainer>
           <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
-          {Array.from({ length: 4 }).map((dot, index) => (
-            <IndexEmpty key={index} />
+          {Array.from({ length: 4 }, (_, idx) => idx).map(val => (
+            <IndexEmpty key={val} />
           ))}
           <IndexFill $currentpage={currentPage} />
           <NextIcon

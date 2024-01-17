@@ -78,8 +78,9 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     dataSrc: images?.REGULAR?.url,
   };
 
-  const userRecipeId = userRecipes?.find(userRecipe => userRecipe.recipe.recipeId === recipeId)
-    ?._id;
+  const userRecipeId = userRecipes?.find(
+    (userRecipe: UserRecipe) => userRecipe.recipe.recipeId === recipeId,
+  )?._id;
   return (
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>

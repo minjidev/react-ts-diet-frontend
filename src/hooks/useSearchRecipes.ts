@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { searchRecipesKey } from '../constants';
-import { Recipe } from '../types/types';
+import { RecipeData } from '../types/types';
 import { getSearchRecipes } from '../api/recipes';
+import { processRecipesData } from '../utils';
 
 const useSearchRecipes = (keyword: string | null) =>
-  useQuery<Recipe[], AxiosError>({
+  useQuery({
     queryKey: [...searchRecipesKey, keyword],
     queryFn: getSearchRecipes(keyword),
-    onError: (error: AxiosError) => console.error(error),
+    select: (data: RecipeData) => processRecipesData(data),
     staleTime: 1000 * 60 * 3,
     cacheTime: Infinity,
   });

@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Loader } from '../components/index';
 
 const loadLazy = (element: string) => {

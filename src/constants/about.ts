@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-str */
 const story =
   "<span class='first-letter'>N</span>utriNotes is an early-stage personal project born from the realization of needing to pay closer attention to my nutritional intake.\
   Like many of us, I found myself eating irregularly while engrossed in work in front of the computer.\

@@ -12,13 +12,11 @@ const CarouselSkeleton = ({ category }: { category: string }) => {
       <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
       <CarouselWindow>
         <CarouselSlides>
-          {Array(CAROUSEL_DATA_SIZE_PER_PAGE)
-            .fill(0)
-            .map((_, idx) => (
-              <SkeletonContainer key={idx}>
-                <CarouselRecipeCardSkeleton />
-              </SkeletonContainer>
-            ))}
+          {Array.from({ length: CAROUSEL_DATA_SIZE_PER_PAGE }, (_, idx) => idx).map(val => (
+            <SkeletonContainer key={val}>
+              <CarouselRecipeCardSkeleton />
+            </SkeletonContainer>
+          ))}
         </CarouselSlides>
       </CarouselWindow>
     </Container>

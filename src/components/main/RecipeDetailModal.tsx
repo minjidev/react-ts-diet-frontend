@@ -8,7 +8,9 @@ const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
   if (!content) return null;
 
-  const cuisineTypeTexts = content?.cuisineType?.map((cuisine: string) =>
+  const { label, image, totalNutrients, totalDaily, cuisineType, dishType, healthLabels } = content;
+
+  const cuisineTypeTexts = cuisineType?.map((cuisine: string) =>
     cuisine.replace(/^\w/, (firstLetter: string) => firstLetter.toUpperCase()),
   );
 
@@ -18,20 +20,22 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
         <RecipeEmoji role="img" aria-label="recipe book">
           📙
         </RecipeEmoji>
-        <LabelText>{content?.label}</LabelText>
+        <LabelText>{label}</LabelText>
       </Label>
       <Flex>
-        <Img src={content?.image} />
+        <Img src={image} />
         <Description>
           <SubTitle>Nutrients</SubTitle>
           <Nutrients>
-            {content?.totalNutrients.map((nutrient, index) => (
+            {totalNutrients?.map((nutrient, index) => (
               <Nutrient key={nutrient?.label}>
                 <NutrientLabel>{nutrient?.label}</NutrientLabel>
                 <Quantity>
                   {nutrient?.quantity} {nutrient?.unit}
                 </Quantity>
-                <Ratio color={colors[index]}>{content?.totalDaily[index]?.quantity}%</Ratio>
+                <Ratio color={colors[index]}>
+                  {totalDaily ? totalDaily[index]?.quantity : '-'}%
+                </Ratio>
               </Nutrient>
             ))}
           </Nutrients>
@@ -44,13 +48,13 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
                 {cuisineTypeTexts?.map((cuisine: string) => (
                   <span key={cuisine}>{cuisine}&nbsp;</span>
                 ))}
-                <span>{content?.dishType || 'dish'}</span>
+                <span>{dishType || 'dish'}</span>
               </Tag>
             </div>
             {content.healthLabels?.length && (
               <DescIdealFor>
                 Ideal for inidividuals with dietary preferneces such as{' '}
-                {content?.healthLabels?.slice(0, 5).map((label: string) => (
+                {healthLabels?.slice(0, 5).map((label: string) => (
                   <Tag key={label} color="#fff">
                     # {label}
                   </Tag>
