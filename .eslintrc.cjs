@@ -1,3 +1,5 @@
+const vitest = require('eslint-plugin-vitest');
+
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
@@ -14,6 +16,8 @@ module.exports = {
     'airbnb-typescript',
     'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:prettier/recommended',
+    'plugin:testing-library/react',
+    'plugin:vitest/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
@@ -40,6 +44,10 @@ module.exports = {
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
     'react/jsx-props-no-spreading': 'off',
-    'react/jsx-no-useless-fragment': { allowExpressions: true },
+    'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
+    'import/prefer-default-export': 'off',
+  },
+  globals: {
+    ...vitest.environments.env.globals,
   },
 };
