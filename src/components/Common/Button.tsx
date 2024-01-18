@@ -1,11 +1,6 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
-
-interface ButtonProps {
-  children?: React.ReactNode;
-  type?: string;
-  onClick?: () => void;
-}
+import { ButtonProps } from '../../types/types';
 
 const buttonStyle = css`
   background: transparent;

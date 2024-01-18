@@ -81,6 +81,12 @@ interface RecipeData {
   hits: { recipe: Recipe; _links: RecipeLink }[];
 }
 
+interface ButtonProps {
+  children?: React.ReactNode;
+  type?: string;
+  onClick?: () => void;
+}
+
 export type {
   TotalDailyType,
   TotalNutrientsType,
@@ -91,4 +97,5 @@ export type {
   SavedRecipesByDate,
   FilterRecipeDataProps,
   RecipeData,
+  ButtonProps,
 };

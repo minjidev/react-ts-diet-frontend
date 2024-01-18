@@ -9,6 +9,7 @@ import { Button, Input } from '../index';
 import { signIn, signUp } from '../../api/auth';
 import { userState } from '../../recoil/atoms/userState';
 import { notify, mobileQuery } from '../../utils/index';
+import { ButtonProps } from '../../types/types';
 
 interface AuthFormProps {
   formType: 'login' | 'register';
@@ -191,7 +192,7 @@ interface ConfirmButtonProps {
   disabled: boolean;
 }
 
-const ConfirmButton = styled(Button)<ConfirmButtonProps>`
+const ConfirmButton = styled((props: ButtonProps) => <Button {...props} />)<ConfirmButtonProps>`
   && {
     color: #fff;
     font-weight: 500;
