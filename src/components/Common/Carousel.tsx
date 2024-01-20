@@ -37,12 +37,19 @@ const Carousel = ({ category }: { category: string }) => {
             ))}
         </CarouselSlides>
         <IconContainer>
-          <PrevIcon disabled={currentPage === 0} onClick={handleClick('prev')} />
+          <PrevIcon
+            disabled={currentPage === 0}
+            role="button"
+            onClick={handleClick('prev')}
+            title="previous page"
+          />
           {Array.from({ length: 4 }, (_, idx) => idx).map(val => (
             <IndexEmpty key={val} />
           ))}
           <IndexFill $currentpage={currentPage} />
           <NextIcon
+            role="button"
+            title="next page"
             disabled={
               currentPage === Math.floor(CAROUSEL_DATA_SIZE / CAROUSEL_DATA_SIZE_PER_PAGE) - 1
             }
