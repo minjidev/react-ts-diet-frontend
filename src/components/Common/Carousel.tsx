@@ -21,8 +21,8 @@ const Carousel = ({ category }: { category: string }) => {
   };
 
   return (
-    <Container aria-labelledby={category}>
-      <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
+    <Container aria-label={`${category}-recipes-carousel`}>
+      <CarouselTitle>{capitalizeFirstLetter(category)}</CarouselTitle>
       <CarouselWindow>
         <CarouselSlides $currentpage={currentPage}>
           {data

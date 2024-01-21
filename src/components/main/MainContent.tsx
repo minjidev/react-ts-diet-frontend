@@ -6,10 +6,7 @@ import { categories } from '../../constants/index';
 
 const MainContent = () => {
   return (
-    <Container aria-labelledby="categorized recipes">
-      <Title id="categorized recipes" className="sr-only">
-        Categorized Recipes
-      </Title>
+    <Container aria-label="main-content">
       {categories.map(category => (
         <Suspense key={category} fallback={<CarouselSkeleton category={category} />}>
           <Carousel category={category} />
@@ -20,7 +17,5 @@ const MainContent = () => {
 };
 
 const Container = styled.section``;
-
-const Title = styled.h2``;
 
 export default MainContent;

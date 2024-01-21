@@ -7,6 +7,8 @@ export { default as Button } from './common/Button';
 export { default as Loader } from './common/Loader';
 export { default as Keyword } from './common/Keyword';
 export { default as RecipeCard } from './main/RecipeCard';
+export { default as Carousel } from './common/Carousel';
+export { default as CarouselSkeleton } from './skeleton/CarouselSkeleton';
 export { default as RecipeDetailModal } from './main/RecipeDetailModal';
 export { default as AddRecipeModal } from './main/AddRecipeModal';
 export { default as CancelRecipeModal } from './dashboard/CancelRecipeModal';

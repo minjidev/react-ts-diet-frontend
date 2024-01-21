@@ -8,8 +8,8 @@ const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
 
 const CarouselSkeleton = ({ category }: { category: string }) => {
   return (
-    <Container aria-labelledby={category}>
-      <CarouselTitle id={category}>{capitalizeFirstLetter(category)}</CarouselTitle>
+    <Container aria-label={`${category}-skeleton`}>
+      <CarouselTitle>{capitalizeFirstLetter(category)}</CarouselTitle>
       <CarouselWindow>
         <CarouselSlides>
           {Array.from({ length: CAROUSEL_DATA_SIZE_PER_PAGE }, (_, idx) => idx).map(val => (
