@@ -6,6 +6,7 @@ const useUserRecipes = (userId: string | undefined) => {
   return useQuery({
     queryKey: [...userRecipesKey, userId],
     queryFn: getUserRecipes(userId),
+    enabled: !!userId,
   });
 };
 
