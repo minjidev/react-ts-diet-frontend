@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-const EDAMA_BASE_URL = 'https://api.edamam.com/api/recipes/v2';
+const recipeBaseURL = import.meta.env.VITE_EDAMAM_BASE_URL;
 
 const recipe = {
   label: 'Vegetable Burritos',
@@ -35,7 +35,7 @@ const recipe = {
   yield: 8,
 };
 
-const hits = Array.from({ length: 50 }, () => recipe).map((recipe, idx) => ({
+export const hits = Array.from({ length: 50 }, () => recipe).map((recipe, idx) => ({
   recipe,
   _links: {
     self: {
@@ -45,7 +45,7 @@ const hits = Array.from({ length: 50 }, () => recipe).map((recipe, idx) => ({
 }));
 
 export const commonHandlers = [
-  http.get(EDAMA_BASE_URL, () => {
+  http.get(recipeBaseURL, async () => {
     return HttpResponse.json({
       hits,
     });

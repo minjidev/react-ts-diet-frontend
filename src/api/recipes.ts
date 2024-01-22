@@ -4,7 +4,8 @@ import { RecipeData } from '../types/types';
 const APP_ID = import.meta.env.VITE_EDAMAM_APP_ID;
 const APP_KEY = import.meta.env.VITE_EDAMAM_APP_KEY;
 
-const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${APP_ID}&app_key=${APP_KEY}`;
+const recipeBaseURL = import.meta.env.VITE_EDAMAM_BASE_URL;
+const url = `${recipeBaseURL}?type=public&app_id=${APP_ID}&app_key=${APP_KEY}`;
 
 // random 20 data based on category
 const getRecipes = (category: string) => async (): Promise<RecipeData> => {
