@@ -2,16 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Button, CustomError } from '../index';
+import { createErrorMessage } from '../../utils/index';
 
-const ErrorFallback = ({ error }: { error: CustomError }) => {
+interface ErrorFallbackProps {
+  error: CustomError;
+  showFullErrorMessage?: boolean;
+}
+
+const ErrorFallback = ({ error, showFullErrorMessage = true }: ErrorFallbackProps) => {
   const { resetBoundary } = useErrorBoundary();
 
   return (
     <Container>
-      <p> Error: {error.message} </p>
-      <ResetButton onClick={resetBoundary}>Reset</ResetButton>
+      {showFullErrorMessage ? (
+        <p> {createErrorMessage(error.response.status)} </p>
+      ) : (
+        <p>Please Try Again</p>
+      )}
+      <ResetButton onClick={resetBoundary}>Retry</ResetButton>
     </Container>
   );
+};
+
+export const ErrorFallbackWithSimpleMessage = (props: ErrorFallbackProps) => {
+  return <ErrorFallback {...props} showFullErrorMessage={false} />;
 };
 
 const Container = styled.div`
