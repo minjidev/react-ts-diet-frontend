@@ -25,16 +25,20 @@ const Carousel = ({ category }: { category: string }) => {
       <CarouselTitle>{capitalizeFirstLetter(category)}</CarouselTitle>
       <CarouselWindow>
         <CarouselSlides $currentpage={currentPage}>
-          {data
-            ?.slice(0, CAROUSEL_DATA_SIZE)
-            .map((recipe: Recipe) => (
-              <RecipeCard
-                key={recipe.recipeId}
-                recipe={recipe}
-                $style={{ margin: '0 1rem' }}
-                observer={observer}
-              />
-            ))}
+          {data && data.length > 0 ? (
+            data
+              .slice(0, CAROUSEL_DATA_SIZE)
+              .map((recipe: Recipe) => (
+                <RecipeCard
+                  key={recipe.recipeId}
+                  recipe={recipe}
+                  $style={{ margin: '0 1rem' }}
+                  observer={observer}
+                />
+              ))
+          ) : (
+            <p>No Recipe Available</p>
+          )}
         </CarouselSlides>
         <IconContainer>
           <PrevIcon

@@ -40,7 +40,7 @@ const processTotalNutrients = (
 };
 
 const normalizeRecipes = ({ recipes, recipeIds }: FilterRecipeDataProps) => {
-  return recipes.map(
+  return recipes?.map(
     (
       {
         label,
@@ -75,8 +75,8 @@ const normalizeRecipes = ({ recipes, recipeIds }: FilterRecipeDataProps) => {
 };
 
 const processRecipesData = (data: RecipeData): Recipe[] => {
-  const recipes = data?.hits.map(hit => hit.recipe);
-  const recipeIds = data?.hits.map(hit => hit._links.self.href.match(idRegExr)![0]);
+  const recipes = data?.hits?.map(hit => hit.recipe);
+  const recipeIds = data?.hits?.map(hit => hit._links.self.href.match(idRegExr)![0]);
 
   return normalizeRecipes({ recipes, recipeIds });
 };
