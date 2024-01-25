@@ -46,7 +46,7 @@ describe('Carousel', () => {
       expect(errorMessage).toBeInTheDocument();
     });
 
-    it.only('displays No Recipe Available when no data', async () => {
+    it('displays No Recipe Available when no data', async () => {
       server.use(
         http.get(recipeBaseURL, () => {
           return HttpResponse.json([]);
