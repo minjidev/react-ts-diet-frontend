@@ -39,6 +39,8 @@ interface Recipe {
   totalNutrients: TotalNutrientsType[] | undefined;
 }
 
+type RawRecipe = Omit<Recipe, 'recipeId'>;
+
 interface UserRecipe {
   _id?: string;
   userId: string;
@@ -65,7 +67,7 @@ interface SavedRecipesByDate {
 
 // recipe filter props
 interface FilterRecipeDataProps {
-  recipes: Recipe[];
+  recipes: RawRecipe[];
   recipeIds: string[];
 }
 
@@ -78,7 +80,7 @@ interface RecipeLink {
 
 // Recipes api response
 interface RecipeData {
-  hits: { recipe: Recipe; _links: RecipeLink }[];
+  hits: { recipe: RawRecipe; _links: RecipeLink }[];
 }
 
 interface ButtonProps {
@@ -98,4 +100,5 @@ export type {
   FilterRecipeDataProps,
   RecipeData,
   ButtonProps,
+  RawRecipe,
 };
