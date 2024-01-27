@@ -7,28 +7,22 @@ const recipe = {
   image: 'imgsrc',
   images: {
     THUMBNAIL: {
-      height: 600,
       url: '',
-      width: 600,
     },
     SMALL: {
-      height: 100,
       url: '',
-      width: 100,
     },
     REGULAR: {
-      height: 300,
       url: '',
-      width: 300,
     },
     LARGE: {
-      height: 600,
       url: '',
-      width: 600,
     },
   },
   calories: 326,
   yield: 8,
+  totalDaily: undefined,
+  totalNutrients: undefined,
 };
 
 export const hits = Array(50)
@@ -38,6 +32,7 @@ export const hits = Array(50)
     _links: {
       self: {
         href: `https://api.edama.com/api/v2/abcde${idx}`,
+        title: '',
       },
     },
   }));
