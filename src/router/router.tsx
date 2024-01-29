@@ -15,12 +15,12 @@ const router = createBrowserRouter([
         element: loadLazy('Main'),
       },
       {
-        path: 'signin',
-        element: loadLazy('SignIn'),
+        path: 'login',
+        element: loadLazy('Login'),
       },
       {
-        path: 'signup',
-        element: loadLazy('SignUp'),
+        path: 'register',
+        element: loadLazy('Register'),
       },
       {
         path: 'dashboard',

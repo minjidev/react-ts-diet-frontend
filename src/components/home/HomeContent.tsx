@@ -9,7 +9,7 @@ import { userState } from '../../recoil/atoms/userState';
 
 const HomeContent = () => {
   const user = useRecoilValue(userState);
-  const authroizedPath = (path: string) => (user ? path : '/signin');
+  const authroizedPath = (path: string) => (user ? path : '/login');
   return (
     <Container>
       <SpecSection aria-labelledby="specs">

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const signInSchema = z.object({
+export const loginSchema = z.object({
   email: z
     .string({
       required_error: 'email is required',
@@ -13,9 +13,9 @@ export const signInSchema = z.object({
     .min(8, { message: 'Password must have more than 8 characters' }),
 });
 
-export type SignInSchema = z.infer<typeof signInSchema>;
+export type LoginSchema = z.infer<typeof loginSchema>;
 
-export const signUpSchema = z
+export const registerSchema = z
   .object({
     email: z
       .string({
@@ -35,4 +35,4 @@ export const signUpSchema = z
     path: ['passwordConfirm'],
   });
 
-export type SignUpSchema = z.infer<typeof signUpSchema>;
+export type RegisterSchema = z.infer<typeof registerSchema>;

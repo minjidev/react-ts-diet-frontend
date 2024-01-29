@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { signUpSchema, signInSchema, SignInSchema, SignUpSchema } from '../../schema/schema';
+import { Link, useNavigate } from 'react-router-dom';
+import { RegisterSchema, registerSchema } from '../../schema/schema';
+import { register } from '../../api/auth';
+import { mobileQuery, notify } from '../../utils';
 import { Button, Input } from '../index';
-import { signIn, signUp } from '../../api/auth';
-import { userState } from '../../recoil/atoms/userState';
-import { notify, mobileQuery } from '../../utils/index';
 import { ButtonProps } from '../../types/types';
-
-interface AuthFormProps {
-  formType: 'login' | 'register';
-}
 
 const defaultValues = {
   email: '',
@@ -22,19 +16,12 @@ const defaultValues = {
   username: '',
 };
 
-const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
-  const isSignUp = formType === 'register';
-  type SchemaType = typeof formType extends 'register' ? SignInSchema : SignUpSchema;
-  const schema = isSignUp ? signUpSchema : signInSchema;
-
-  const navigate = useNavigate();
-  const { state } = useLocation();
-
+const RegisterForm = () => {
   const [isEmailDuplicated, setIsEmailDuplicated] = useState(false);
   const [isUsernameDuplicated, setIsUsernameDuplicated] = useState(false);
   const isDuplicated = isEmailDuplicated || isUsernameDuplicated;
-
-  const setUser = useSetRecoilState(userState);
+  const formType = 'register';
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -43,30 +30,21 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
     control,
     trigger,
     reset,
-  } = useForm<SchemaType>({
-    resolver: zodResolver(schema),
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
     defaultValues,
   });
 
-  const onSubmitSignIn = async (data: SchemaType) => {
-    try {
-      const { user } = await signIn(data);
-
-      setUser(user);
-      notify({ status: 'success', message: 'Successfully Logged In! ', icon: '✅' });
-
-      if (state) {
-        navigate(state);
-      } else navigate('/');
-    } catch (e) {
-      console.error(e);
-      notify({ status: 'error', message: 'Log In Failed..', icon: '🥹' });
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset(defaultValues);
+      navigate('/login');
     }
-  };
+  }, [isSubmitSuccessful, reset]);
 
-  const onSubmitSignUp = async (data: SchemaType) => {
+  const onSubmitRegister = async (data: RegisterSchema) => {
     try {
-      await signUp(data);
+      await register(data);
       notify({
         status: 'success',
         message: 'Successfully Registered!',
@@ -82,17 +60,8 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
     }
   };
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset(defaultValues);
-      navigate('/signin');
-    }
-  }, [isSubmitSuccessful, reset]);
-
-  const submitFn = isSignUp ? onSubmitSignUp : onSubmitSignIn;
-
   return (
-    <Form onSubmit={handleSubmit(submitFn)} name={formType}>
+    <Form onSubmit={handleSubmit(onSubmitRegister)} name={formType}>
       <Title>NutriNotes</Title>
       <FormTitle>{formType.toUpperCase()}</FormTitle>
       <Input
@@ -110,31 +79,27 @@ const AuthForm = ({ formType = 'login' }: AuthFormProps) => {
         trigger={trigger}
         formType={formType}
       />
-      {isSignUp && (
-        <>
-          <Input
-            name="passwordConfirm"
-            type="password"
-            control={control}
-            trigger={trigger}
-            disabled={getFieldState('password').invalid}
-            formType={formType}
-          />
-          <Input
-            name="username"
-            type="text"
-            control={control}
-            trigger={trigger}
-            onUpdate={(isDuplicated: boolean) => setIsUsernameDuplicated(isDuplicated)}
-            formType={formType}
-          />
-        </>
-      )}
+
+      <Input
+        name="passwordConfirm"
+        type="password"
+        control={control}
+        trigger={trigger}
+        disabled={getFieldState('password').invalid}
+        formType={formType}
+      />
+      <Input
+        name="username"
+        type="text"
+        control={control}
+        trigger={trigger}
+        onUpdate={(isDuplicated: boolean) => setIsUsernameDuplicated(isDuplicated)}
+        formType={formType}
+      />
+
       <BottomContainer>
-        <Message to={isSignUp ? '/signin' : '/signup'}>
-          {isSignUp ? 'Already have an account?' : 'Create an account'}
-        </Message>
-        <ConfirmButton disabled={isSignUp ? !isValid || isDuplicated : false} type="submit">
+        <Message to="/login">Already have an account?</Message>
+        <ConfirmButton disabled={!isValid || isDuplicated} type="submit">
           Next
         </ConfirmButton>
       </BottomContainer>
@@ -209,4 +174,4 @@ const BottomContainer = styled.div`
   margin-top: 1rem;
 `;
 
-export default AuthForm;
+export default RegisterForm;

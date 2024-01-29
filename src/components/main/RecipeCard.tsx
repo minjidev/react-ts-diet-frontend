@@ -53,14 +53,14 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     userRecipes?.find((userRecipe: UserRecipe) => userRecipe.recipe.recipeId === recipeId);
 
   const handleAddButtonClick = () => {
-    if (!user) navigate('/signin');
+    if (!user) navigate('/login');
 
     openAddModal();
     setAddContent(recipe);
   };
 
   const handleCancelButtonClick = () => {
-    if (!user) navigate('/signin');
+    if (!user) navigate('/login');
 
     openCancelModal();
     setCancelContent(recipe);

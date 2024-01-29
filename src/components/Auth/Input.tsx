@@ -1,38 +1,32 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useController, Control, UseFormTrigger } from 'react-hook-form';
+import {
+  useController,
+  UseFormTrigger,
+  UseControllerProps,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
 import { useDebounce } from '../../hooks/index';
 import { mobileQuery } from '../../utils/index';
 
-type FieldValues = {
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  username: string;
+type InputProps<T extends FieldValues> = {
+  type: string;
+  formType?: string;
+  disabled?: boolean;
+  trigger: UseFormTrigger<T>;
+  onUpdate?: (isDuplicated: boolean) => void;
 };
 
-interface InputProps {
-  name: 'email' | 'password' | 'passwordConfirm' | 'username';
-  type: string;
-  control: Control<FieldValues>;
-  trigger: UseFormTrigger<{
-    email: string;
-    password: string;
-    passwordConfirm: string;
-    username: string;
-  }>;
-  disabled?: boolean;
-  onUpdate?: (isDuplicated: boolean) => void;
-  formType?: string;
-}
+type FormInputProps<T extends FieldValues> = InputProps<T> & UseControllerProps<T>;
 
 const emailRegex = /^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9-]*\.)+[A-Z]{2,}$/i;
 const TRIGGER_DEBOUNCE_DELAY_TIME = 200;
 
-const Input = ({
+const Input = <T extends FieldValues>({
   name,
   type,
   control,
@@ -40,14 +34,14 @@ const Input = ({
   onUpdate,
   formType,
   disabled = false,
-}: InputProps) => {
+}: FormInputProps<T>) => {
   const [duplicatedResult, setDuplicatedResult] = useState<string | null>(null);
-  const isSignUp = formType === 'register';
+  const isRegister = formType === 'register';
 
   const {
     field: { value, onChange },
     fieldState: { error, invalid, isDirty },
-  } = useController({
+  } = useController<T>({
     name,
     control,
   });
@@ -68,7 +62,7 @@ const Input = ({
   };
 
   const deboucedPwCheckTrigger = useDebounce(
-    () => trigger('passwordConfirm'),
+    () => trigger('passwordConfirm' as Path<T>),
     TRIGGER_DEBOUNCE_DELAY_TIME,
   );
   const debouncedTrigger = useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);
@@ -85,15 +79,18 @@ const Input = ({
           value={value || ''}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value);
-            if (name === 'password') {
-              deboucedPwCheckTrigger();
+            if (isRegister) {
+              if (name === 'password') {
+                deboucedPwCheckTrigger();
+              }
+              if (duplicatedResult) setDuplicatedResult(null);
             }
-            if (duplicatedResult) setDuplicatedResult(null);
+
             debouncedTrigger();
           }}
           disabled={disabled}
         />
-        {isSignUp && (name === 'email' || name === 'username') ? (
+        {isRegister && (name === 'email' || name === 'username') ? (
           <>
             <CheckButton $isvalid={isDirty && !invalid} onClick={checkDuplicated(value)}>
               Check
@@ -107,7 +104,7 @@ const Input = ({
             )}
           </>
         ) : undefined}
-        {isSignUp && isDirty && error?.message && !disabled && <Error>{error?.message}</Error>}
+        {isRegister && isDirty && error?.message && !disabled && <Error>{error?.message}</Error>}
       </TextInputField>
     </>
   );

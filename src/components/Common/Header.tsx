@@ -6,7 +6,7 @@ import { BsSearch } from 'react-icons/bs';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { Styles } from 'styled-components/dist/types';
 import { userState } from '../../recoil/atoms/userState';
-import { signOut } from '../../api/auth';
+import { logout } from '../../api/auth';
 import { Color } from '../../styles/styled/Common';
 import { notify, mobileQuery } from '../../utils/index';
 
@@ -18,8 +18,8 @@ const menu = [
 ];
 
 const authMenu = [
-  { name: 'LogIn', path: '/signin' },
-  { name: 'Register', path: '/signup' },
+  { name: 'LogIn', path: '/login' },
+  { name: 'Register', path: '/register' },
 ];
 
 const Header = () => {
@@ -28,16 +28,16 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const handleSignOut = async () => {
+  const handleLogout = async () => {
     try {
-      await signOut();
+      await logout();
       setUser(null);
       localStorage.removeItem('user');
       navigate('/');
 
       notify({
         status: 'success',
-        message: 'Successfully Signed Out !',
+        message: 'Successfully Logged Out !',
         icon: '✅',
       });
     } catch (error) {
@@ -51,7 +51,7 @@ const Header = () => {
     }
   };
 
-  const authorizedPath = (path: string) => (user ? path : '/signin');
+  const authorizedPath = (path: string) => (user ? path : '/login');
 
   return (
     <Container>
@@ -85,7 +85,7 @@ const Header = () => {
           <Flex css={{ justifyContent: 'space-evenly', padding: '1rem', width: '100%' }}>
             <Nav aria-label="user auth navigation">
               {user ? (
-                <TextButton onClick={handleSignOut}>LogOut</TextButton>
+                <TextButton onClick={handleLogout}>LogOut</TextButton>
               ) : (
                 <AuthList>
                   {authMenu.map(({ name, path }) => (
