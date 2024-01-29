@@ -47,7 +47,7 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
           anchor: 'end' as const,
           align: 'right' as const,
           formatter(value: number) {
-            return `${value} %`;
+            return value ? `${value} %` : '';
           },
           font: {
             weight: 'bold' as const,
@@ -64,10 +64,9 @@ const NutritionInfo = ({ savedRecipes }: NutritionInfoProps) => {
           anchor: 'start' as const,
           align: 'end' as const,
           formatter(_: number, context: Context) {
-            return (
-              Number(savedRecipes.totalNutrientsByDate[context.dataIndex]?.quantity) +
-              Number(savedRecipes.totalNutrientsByDate[context.dataIndex]?.unit)
-            );
+            const total = savedRecipes.totalNutrientsByDate[context.dataIndex];
+
+            return total ? `${total.quantity} ${total.unit}` : '';
           },
           font: {
             weight: 'bold' as const,
