@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
-import CarouselSkeleton from '../CarouselSkeleton';
-import { render, screen } from '../../../test-utils/testing-library-utils';
+import CarouselSkeleton from '../skeleton/CarouselSkeleton';
+import { render, screen } from '../../test-utils/testing-library-utils';
 
 describe('CarouselSkeleton', () => {
   describe('#Render', () => {

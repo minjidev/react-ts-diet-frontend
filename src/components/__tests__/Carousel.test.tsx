@@ -2,10 +2,10 @@ import React, { Suspense } from 'react';
 import { describe, expect, it } from 'vitest';
 import { HttpResponse, delay, http } from 'msw';
 import { ErrorBoundary } from 'react-error-boundary';
-import { render, screen } from '../../../test-utils/testing-library-utils';
-import { server } from '../../../tools/tests/server';
+import { render, screen } from '../../test-utils/testing-library-utils';
+import { server } from '../../tools/tests/server';
 
-import { Carousel, CarouselSkeleton, ErrorFallback } from '../../index';
+import { Carousel, CarouselSkeleton, ErrorFallback } from '../index';
 
 describe('Carousel', () => {
   describe('#Request', () => {
