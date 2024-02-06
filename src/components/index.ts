@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-export { default as Input } from './auth/Input';
+export { default as FormInput } from './auth/FormInput';
 export { default as RegisterForm } from './auth/RegisterForm';
 export { default as LoginForm } from './auth/LoginForm';
 

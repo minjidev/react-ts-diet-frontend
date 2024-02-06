@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { loginSchema, LoginSchema } from '../../schema/schema';
-import { Input, Button } from '../index';
+import { FormInput, Button } from '../index';
 import { notify, mobileQuery } from '../../utils/index';
 import { ButtonProps } from '../../types/types';
 import { login } from '../../api/auth';
@@ -41,8 +41,8 @@ const LoginForm = () => {
     <Form onSubmit={handleSubmit(onSubmitLogin)} name={formType}>
       <Title>NutriNotes</Title>
       <FormTitle>{formType.toUpperCase()}</FormTitle>
-      <Input name="email" type="text" control={control} trigger={trigger} formType={formType} />
-      <Input
+      <FormInput name="email" type="text" control={control} trigger={trigger} formType={formType} />
+      <FormInput
         name="password"
         type="password"
         control={control}

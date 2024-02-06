@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { RegisterSchema, registerSchema } from '../../schema/schema';
 import { register } from '../../api/auth';
 import { mobileQuery, notify } from '../../utils';
-import { Button, Input } from '../index';
+import { Button, FormInput } from '../index';
 import { ButtonProps } from '../../types/types';
 
 const defaultValues = {
@@ -64,7 +64,7 @@ const RegisterForm = () => {
     <Form onSubmit={handleSubmit(onSubmitRegister)} name={formType}>
       <Title>NutriNotes</Title>
       <FormTitle>{formType.toUpperCase()}</FormTitle>
-      <Input
+      <FormInput
         name="email"
         type="text"
         control={control}
@@ -72,7 +72,7 @@ const RegisterForm = () => {
         onUpdate={(isDuplicated: boolean) => setIsEmailDuplicated(isDuplicated)}
         formType={formType}
       />
-      <Input
+      <FormInput
         name="password"
         type="password"
         control={control}
@@ -80,7 +80,7 @@ const RegisterForm = () => {
         formType={formType}
       />
 
-      <Input
+      <FormInput
         name="passwordConfirm"
         type="password"
         control={control}
@@ -88,7 +88,7 @@ const RegisterForm = () => {
         disabled={getFieldState('password').invalid}
         formType={formType}
       />
-      <Input
+      <FormInput
         name="username"
         type="text"
         control={control}
