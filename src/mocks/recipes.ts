@@ -27,7 +27,7 @@ const recipe = {
 
 export const hits = Array(50)
   .fill(0)
-  .map((val, idx) => ({
+  .map((_, idx) => ({
     recipe,
     _links: {
       self: {
