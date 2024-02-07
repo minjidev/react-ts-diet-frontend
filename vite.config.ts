@@ -7,15 +7,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
-          }
-        },
-      },
-    },
+    rollupOptions: {},
   },
   test: {
     globals: true,
@@ -24,6 +16,9 @@ export default defineConfig({
     css: true,
   },
   server: {
+    port: 5174,
+  },
+  preview: {
     port: 5174,
   },
 });
