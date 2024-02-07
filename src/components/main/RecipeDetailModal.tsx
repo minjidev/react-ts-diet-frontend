@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { RecipeModalProps } from '../../types/types';
-import { Modal } from '../index';
+import { Modal, Image } from '../index';
 
 const colors = ['#E5CB63', '#F59E66', '#FD7468', '#F0AC9F'];
 
@@ -23,7 +23,7 @@ const RecipeDetailModal = ({ content, close }: RecipeModalProps) => {
         <LabelText>{label}</LabelText>
       </Label>
       <Flex>
-        <Img src={image} />
+        <Img imgSrc={image} alt={label} />
         <Description>
           <SubTitle>Nutrients</SubTitle>
           <Nutrients>
@@ -100,13 +100,13 @@ const RecipeEmoji = styled.span`
   margin: 0 0.2rem;
 `;
 
-const Img = styled.img`
+const Img = styled(Image)`
   width: 18rem;
   height: 18rem;
   margin: 1rem 0;
 
   border-radius: 1rem;
-  object-fit: cover;
+  cursor: none;
 `;
 
 const Description = styled.div`

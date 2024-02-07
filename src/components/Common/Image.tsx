@@ -1,16 +1,10 @@
 import React, { SyntheticEvent } from 'react';
 import styled from 'styled-components';
 
-declare module 'react' {
-  interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
-    fetchPriority?: 'high' | 'low' | 'auto';
-  }
-}
-
 interface ImgProp {
   imgSrc: string;
   alt: string;
-  handleImgClick: (e: React.MouseEvent) => void;
+  handleImgClick?: (e: React.MouseEvent) => void;
 }
 
 const Image = ({ imgSrc, alt, handleImgClick }: ImgProp) => {
@@ -20,7 +14,6 @@ const Image = ({ imgSrc, alt, handleImgClick }: ImgProp) => {
         src={imgSrc || '/images/placeholder.png'}
         alt={alt}
         onClick={handleImgClick}
-        fetchPriority="high"
         onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
           e.currentTarget.src = '/images/no_img.svg';
         }}
