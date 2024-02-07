@@ -10,6 +10,7 @@ export { default as Keyword } from './common/Keyword';
 export { default as Carousel } from './common/Carousel';
 export { default as Modal } from './common/Modal';
 export { default as LazyImg } from './common/LazyImg';
+export { default as Image } from './common/Image';
 export { default as ErrorFallback } from './common/ErrorFallback';
 export { default as CustomError } from './common/CustomError';
 export { default as Header } from './common/Header';

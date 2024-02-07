@@ -7,7 +7,7 @@ import { Styles } from 'styled-components/dist/types';
 import { Recipe, UserRecipe } from '../../types/types';
 import { userState } from '../../recoil/atoms/userState';
 import { useModal, useUserRecipes } from '../../hooks';
-import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg } from '../index';
+import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg, Image } from '../index';
 
 type RecipeCardStyles = {
   cardBorderRadius?: string;
@@ -18,9 +18,10 @@ interface RecipeCardProps {
   selected?: Date | undefined;
   $style?: RecipeCardStyles;
   observer: IntersectionObserver | null;
+  currentPage?: number;
 }
 
-const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, selected, $style, observer, currentPage }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const userRecipes = useUserRecipes(user?._id)?.data;
   const navigate = useNavigate();
@@ -85,13 +86,18 @@ const RecipeCard = ({ recipe, selected, $style, observer }: RecipeCardProps) => 
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>
         <Text>{calories}kcal</Text>
-        <LazyImg
-          imgSrc={imgSrc}
-          image={image}
-          alt={label}
-          handleImgClick={handleImgClick}
-          observer={observer}
-        />
+        {currentPage === 0 ? (
+          <Image imgSrc={imgSrc.dataSrc} alt={label} handleImgClick={handleImgClick} />
+        ) : (
+          <LazyImg
+            imgSrc={imgSrc}
+            image={image}
+            alt={label}
+            handleImgClick={handleImgClick}
+            observer={observer}
+          />
+        )}
+
         <LabelContainer>
           <RecipeTitle>{label}</RecipeTitle>
           <Tags>{dietLabels?.map(label => <Tag key={label}>#{label}</Tag>)}</Tags>

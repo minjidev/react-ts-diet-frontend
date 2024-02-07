@@ -34,6 +34,7 @@ const Carousel = ({ category }: { category: string }) => {
                   recipe={recipe}
                   $style={{ margin: '0 1rem' }}
                   observer={observer}
+                  currentPage={currentPage}
                 />
               ))
           ) : (
