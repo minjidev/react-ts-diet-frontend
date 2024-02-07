@@ -9,34 +9,47 @@ import {
 
 const idRegExr = /(?<=v2\/)[A-Za-z0-9]+/;
 
-const processTotalDaily = (data: TotalDailyType[] | undefined, servings: number | undefined) => {
-  if (!data) return undefined;
-
-  const per = servings ?? 1;
-
-  return Object.entries(data)
-    .filter(([code, content]) => mainNutrients.includes(code) && content)
-    .map(([, content]) => ({
-      label: content.label,
-      quantity: Math.floor(content.quantity / per),
-    }));
-};
-
-const processTotalNutrients = (
-  data: TotalNutrientsType[] | undefined,
+const processTotalDaily = (
+  data: { [key: string]: TotalDailyType } | undefined,
   servings: number | undefined,
 ) => {
   if (!data) return undefined;
 
   const per = servings ?? 1;
 
-  return Object.entries(data)
-    .filter(([code, content]) => mainNutrients.includes(code) && content)
-    .map(([, content]) => ({
-      label: content.label,
-      quantity: Math.floor(content.quantity / per),
-      unit: content.unit,
-    }));
+  return Object.entries(data).reduce((result: TotalDailyType[], [code, content]) => {
+    if (mainNutrients.includes(code) && content) {
+      const newElement = {
+        label: content.label,
+        quantity: Math.floor(content.quantity / per),
+      };
+      result.push(newElement);
+    }
+
+    return result;
+  }, []);
+};
+
+const processTotalNutrients = (
+  data: { [key: string]: TotalNutrientsType } | undefined,
+  servings: number | undefined,
+) => {
+  if (!data) return undefined;
+
+  const per = servings ?? 1;
+
+  return Object.entries(data).reduce((result: TotalNutrientsType[], [code, content]) => {
+    if (mainNutrients.includes(code) && content) {
+      const newElement = {
+        label: content.label,
+        quantity: Math.floor(content.quantity / per),
+        unit: content.unit,
+      };
+      result.push(newElement);
+    }
+
+    return result;
+  }, []);
 };
 
 const normalizeRecipes = ({ recipes, recipeIds }: FilterRecipeDataProps) => {

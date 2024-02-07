@@ -9,6 +9,17 @@ interface TotalNutrientsType {
   unit: string;
 }
 
+interface Image {
+  url: string;
+}
+
+interface Images {
+  THUMBNAIL: Image;
+  SMALL: Image;
+  REGULAR: Image;
+  LARGE: Image;
+}
+
 // recipe detail from outer api
 interface Recipe {
   recipeId: string;
@@ -19,27 +30,23 @@ interface Recipe {
   dietLabels: string[];
   healthLabels?: string[];
   image: string;
-  images: {
-    THUMBNAIL: {
-      url: string;
-    };
-    SMALL: {
-      url: string;
-    };
-    REGULAR: {
-      url: string;
-    };
-    LARGE: {
-      url: string;
-    };
-  };
+  images: Images;
   yield?: number;
   servings?: number;
   totalDaily: TotalDailyType[] | undefined;
   totalNutrients: TotalNutrientsType[] | undefined;
 }
 
-type RawRecipe = Omit<Recipe, 'recipeId'>;
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+type RawRecipe = Modify<
+  Recipe,
+  {
+    recipeId?: string;
+    totalDaily: { [key: string]: TotalDailyType };
+    totalNutrients: { [key: string]: TotalNutrientsType };
+  }
+>;
 
 interface UserRecipe {
   _id?: string;

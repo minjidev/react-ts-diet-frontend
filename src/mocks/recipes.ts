@@ -21,8 +21,19 @@ const recipe = {
   },
   calories: 326,
   yield: 8,
-  totalDaily: undefined,
-  totalNutrients: undefined,
+  totalDaily: {
+    CO: {
+      label: 'co',
+      quantity: 500,
+    },
+  },
+  totalNutrients: {
+    CO: {
+      label: 'co',
+      quantity: 500,
+      unit: 'kcal',
+    },
+  },
 };
 
 export const hits = Array(50)
