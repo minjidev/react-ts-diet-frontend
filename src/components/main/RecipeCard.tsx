@@ -7,7 +7,7 @@ import { Styles } from 'styled-components/dist/types';
 import { Recipe, UserRecipe } from '../../types/types';
 import { userState } from '../../recoil/atoms/userState';
 import { useModal, useUserRecipes } from '../../hooks';
-import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg, Image } from '../index';
+import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg, EagerImg } from '../index';
 
 type RecipeCardStyles = {
   cardBorderRadius?: string;
@@ -15,13 +15,13 @@ type RecipeCardStyles = {
 
 interface RecipeCardProps {
   recipe: Recipe;
+  observer: IntersectionObserver | null;
   selected?: Date | undefined;
   $style?: RecipeCardStyles;
-  observer: IntersectionObserver | null;
-  currentPage?: number;
+  shouldEagerLoad?: boolean;
 }
 
-const RecipeCard = ({ recipe, selected, $style, observer, currentPage }: RecipeCardProps) => {
+const RecipeCard = ({ recipe, selected, $style, observer, shouldEagerLoad }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const userRecipes = useUserRecipes(user?._id)?.data;
   const navigate = useNavigate();
@@ -74,9 +74,10 @@ const RecipeCard = ({ recipe, selected, $style, observer, currentPage }: RecipeC
   };
 
   const { recipeId, label, calories, dietLabels, images, image } = recipe;
-  const imgSrc = {
-    default: images?.THUMBNAIL?.url || images?.SMALL?.url,
-    dataSrc: images?.REGULAR?.url,
+  const imgInfo = {
+    low: images?.THUMBNAIL?.url || images?.SMALL?.url,
+    high: images?.REGULAR?.url || image,
+    label,
   };
 
   const userRecipeId = userRecipes?.find(
@@ -86,23 +87,17 @@ const RecipeCard = ({ recipe, selected, $style, observer, currentPage }: RecipeC
     <>
       <RecipeCardContainer data-id={recipeId} $style={$style}>
         <Text>{calories}kcal</Text>
-        {currentPage === 0 ? (
-          <Image imgSrc={imgSrc.dataSrc} alt={label} handleImgClick={handleImgClick} />
+
+        {shouldEagerLoad ? (
+          <EagerImg imgInfo={imgInfo} handleImgClick={handleImgClick} />
         ) : (
-          <LazyImg
-            imgSrc={imgSrc}
-            image={image}
-            alt={label}
-            handleImgClick={handleImgClick}
-            observer={observer}
-          />
+          <LazyImg imgInfo={imgInfo} handleImgClick={handleImgClick} observer={observer} />
         )}
 
         <LabelContainer>
           <RecipeTitle>{label}</RecipeTitle>
           <Tags>{dietLabels?.map(label => <Tag key={label}>#{label}</Tag>)}</Tags>
         </LabelContainer>
-
         <AddButtonContainer>
           {!checkRecipeSaved(recipeId) ? (
             <AddButton onClick={handleAddButtonClick} />

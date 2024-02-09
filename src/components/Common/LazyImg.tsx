@@ -2,32 +2,38 @@ import React, { useRef, useEffect, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 
 interface LazyImgProps {
-  imgSrc: {
-    default: string;
-    dataSrc: string;
+  imgInfo: {
+    low: string;
+    high: string;
+    label: string;
   };
-  image: string;
-  alt: string;
   handleImgClick: (e: React.MouseEvent) => void;
   observer: IntersectionObserver | null;
 }
 
-const LazyImg = ({ imgSrc, image, alt, handleImgClick, observer }: LazyImgProps) => {
-  const observerRef = useRef(null);
+const LazyImg = ({ imgInfo, handleImgClick, observer }: LazyImgProps) => {
+  const imgRef = useRef(null);
 
   useEffect(() => {
-    if (observer && observerRef.current) {
-      observer.observe(observerRef.current);
+    if (observer && imgRef.current) {
+      observer.observe(imgRef.current);
     }
+
+    return () => {
+      if (observer && imgRef.current) {
+        observer.unobserve(imgRef.current);
+      }
+    };
   }, [observer]);
 
   return (
     <RecipeImg
-      ref={observerRef}
-      src={imgSrc.default || '/images/placeholder.png'}
-      alt={alt}
+      ref={imgRef}
+      loading="lazy"
+      src={imgInfo.low || '/images/placeholder.png'}
+      data-src={imgInfo.high}
+      alt={imgInfo.label}
       onClick={handleImgClick}
-      data-src={imgSrc.dataSrc || image}
       onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = '/images/no_img.svg';
       }}

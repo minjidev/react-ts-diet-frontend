@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
 import { useCategorizedRecipes, useObserver } from '../../hooks/index';
 import { RecipeCard } from '../index';
 import { Recipe } from '../../types/types';
-import { capitalizeFirstLetter } from '../../utils/index';
-
-const CAROUSEL_DATA_SIZE = 20;
-const CAROUSEL_DATA_SIZE_PER_PAGE = 5;
+import { capitalizeFirstLetter, carouselConfig } from '../../utils/index';
 
 const Carousel = ({ category }: { category: string }) => {
   const { data } = useCategorizedRecipes(category);
   const [currentPage, setCurrentPage] = useState(0);
+  const { CAROUSEL_DATA_SIZE, CAROUSEL_DATA_SIZE_PER_PAGE, getEagerLoadCount } = carouselConfig;
+
+  const eagerLoadCount = useRef(getEagerLoadCount());
+
   const observer = useObserver(data);
 
   const handleClick = (type: string) => () => {
@@ -28,13 +29,13 @@ const Carousel = ({ category }: { category: string }) => {
           {data && data.length > 0 ? (
             data
               .slice(0, CAROUSEL_DATA_SIZE)
-              .map((recipe: Recipe) => (
+              .map((recipe: Recipe, idx) => (
                 <RecipeCard
                   key={recipe.recipeId}
                   recipe={recipe}
                   $style={{ margin: '0 1rem' }}
                   observer={observer}
-                  currentPage={currentPage}
+                  shouldEagerLoad={idx < eagerLoadCount.current}
                 />
               ))
           ) : (
