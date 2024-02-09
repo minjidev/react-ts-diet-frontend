@@ -2,12 +2,12 @@ import React from 'react';
 import { styled, css } from 'styled-components';
 import { BsFillPlusCircleFill, BsTrash3Fill } from 'react-icons/bs';
 import { useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 import { Styles } from 'styled-components/dist/types';
 import { Recipe, UserRecipe } from '../../types/types';
 import { userState } from '../../recoil/atoms/userState';
-import { useModal, useUserRecipes } from '../../hooks';
+import { useUserRecipes } from '../../hooks';
 import { RecipeDetailModal, AddRecipeModal, CancelRecipeModal, LazyImg, EagerImg } from '../index';
+import useRecipeModal from '../../hooks/useRecipeModal';
 
 type RecipeCardStyles = {
   cardBorderRadius?: string;
@@ -24,54 +24,15 @@ interface RecipeCardProps {
 const RecipeCard = ({ recipe, selected, $style, observer, shouldEagerLoad }: RecipeCardProps) => {
   const user = useRecoilValue(userState);
   const userRecipes = useUserRecipes(user?._id)?.data;
-  const navigate = useNavigate();
-
-  const {
-    isOpen: isRecipeModalOpen,
-    open: openRecipeModal,
-    close: closeRecipeModal,
-    content: recipeContent,
-    setContent: setRecipeContent,
-  } = useModal<Recipe>();
-
-  const {
-    isOpen: isAddModalOpen,
-    open: openAddModal,
-    close: closeAddModal,
-    content: addContent,
-    setContent: setAddContent,
-  } = useModal<Recipe>();
-
-  const {
-    isOpen: isCancelModalOpen,
-    open: openCancelModal,
-    close: closeCancelModal,
-    content: cancelContent,
-    setContent: setCancelContent,
-  } = useModal<Recipe>();
+  const { recipeModalState, addModalState, cancelModalState, actionHandlers } =
+    useRecipeModal(recipe);
+  const { isRecipeModalOpen, recipeContent, closeRecipeModal } = recipeModalState;
+  const { isAddModalOpen, addContent, closeAddModal } = addModalState;
+  const { isCancelModalOpen, cancelContent, closeCancelModal } = cancelModalState;
+  const { handleAddButtonClick, handleCancelButtonClick, handleImgClick } = actionHandlers;
 
   const checkRecipeSaved = (recipeId: string) =>
     userRecipes?.find((userRecipe: UserRecipe) => userRecipe.recipe.recipeId === recipeId);
-
-  const handleAddButtonClick = () => {
-    if (!user) navigate('/login');
-
-    openAddModal();
-    setAddContent(recipe);
-  };
-
-  const handleCancelButtonClick = () => {
-    if (!user) navigate('/login');
-
-    openCancelModal();
-    setCancelContent(recipe);
-  };
-
-  const handleImgClick = () => {
-    openRecipeModal();
-
-    setRecipeContent(recipe);
-  };
 
   const { recipeId, label, calories, dietLabels, images, image } = recipe;
   const imgInfo = {
