@@ -9,10 +9,12 @@ const useObserver = (data: Recipe[] | SavedRecipesByDate | undefined) => {
       const observerInst = new IntersectionObserver(
         entries =>
           entries.forEach(entry => {
-            const { isIntersecting, target } = entry;
-
-            if (isIntersecting && target instanceof HTMLImageElement) {
-              target.src = target.dataset.src || '';
+            const { isIntersecting, target: img } = entry;
+            const highResSrc = img.getAttribute('data-src');
+            if (isIntersecting && img instanceof HTMLImageElement && highResSrc) {
+              img.src = img.dataset.src || '';
+              observer?.unobserve(img);
+              img.removeAttribute('data-src');
             }
           }),
         { rootMargin: '0px 0px 10px 0px' },
