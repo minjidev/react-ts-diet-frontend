@@ -1,5 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { loadLazy } from '../utils/index';
+import { QueryClient } from '@tanstack/react-query';
+import { loadLazy, categorizedRecipesLoader } from '../utils/index';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -13,6 +16,7 @@ const router = createBrowserRouter([
       {
         path: 'main',
         element: loadLazy('Main'),
+        loader: categorizedRecipesLoader(queryClient),
       },
       {
         path: 'login',
