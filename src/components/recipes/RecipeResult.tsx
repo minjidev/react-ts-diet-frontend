@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { useSearchRecipes, useObserver } from '../../hooks';
 import { RecipeCard } from '../index';
-import { searchRecipesKey } from '../../constants';
 
 const RecipeResult = () => {
-  const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('keyword');
   const { data: recipes } = useSearchRecipes(searchKeyword);
   const observer = useObserver(recipes);
-
-  useEffect(() => {
-    queryClient.invalidateQueries([...searchRecipesKey, searchKeyword]);
-  }, [searchKeyword]);
 
   return (
     <>
@@ -26,12 +19,13 @@ const RecipeResult = () => {
           <h2 id="search-result" className="sr-only">
             Recipe Search Result
           </h2>
-          {recipes?.map(recipe => (
+          {recipes?.map((recipe, idx) => (
             <RecipeCard
               key={recipe.recipeId}
               recipe={recipe}
               $style={{ height: '100%', border: 'none', borderRadius: '1rem' }}
               observer={observer}
+              shouldEagerLoad={idx < 10}
             />
           ))}
         </RecipeCardContainer>

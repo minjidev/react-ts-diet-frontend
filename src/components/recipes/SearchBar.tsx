@@ -3,11 +3,13 @@ import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSearchParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { Keyword } from '../index';
+import { searchRecipesQuery } from '../../utils/query/searchRecipesQuery';
 
 interface SearchProps {
   keyword: string;
-  setKeyword: (keyword: string) => void;
+  setKeyword: (word: string) => void;
 }
 
 const HISTORY_LIST_LEN = 8;
@@ -30,6 +32,7 @@ const healthCategory = [
 const dishTypeCategory = ['Bread', 'Cereal', 'Dessert', 'Drinks', 'Salad', 'Pancakes'];
 
 const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
+  const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [history, setHistory] = useState(JSON.parse(localStorage.getItem('keyword') ?? '[]'));
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,11 +50,28 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     setSearchParams({ keyword });
   };
 
+  const prefetchSearchResults = async (value: string) => {
+    await queryClient.prefetchQuery({
+      ...searchRecipesQuery(value),
+      staleTime: 1000 * 10,
+    });
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputRef.current || !inputRef.current.value) return;
+    const inputValue = inputRef.current?.value;
+    if (!inputValue) return;
 
-    updateHistory(inputRef.current.value);
+    await prefetchSearchResults(inputValue);
+    updateHistory(inputValue);
+  };
+
+  const handleKeywordSearch = (keyword: string) => async () => {
+    if (!inputRef.current) return;
+
+    inputRef.current.value = keyword;
+    await prefetchSearchResults(keyword);
+    updateHistory(keyword);
   };
 
   const handleClickCloseButton = () => {
@@ -65,11 +85,6 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
 
     localStorage.setItem('keyword', JSON.stringify(newHistory));
     setHistory(newHistory);
-  };
-
-  const handleKeywordSearch = (keyword: string) => () => {
-    updateHistory(keyword);
-    if (inputRef.current) inputRef.current.value = keyword;
   };
 
   useEffect(() => {
