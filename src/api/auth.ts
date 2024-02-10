@@ -23,7 +23,6 @@ const register = async ({
 };
 
 const logout = async () => {
-  console.log(baseURL);
   await axios.post(`${URL}/signout`);
 };
 
