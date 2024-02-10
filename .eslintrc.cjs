@@ -42,6 +42,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/no-shadow': 'off',
     'react/prop-types': 'off',
+    'react/no-unused-prop-types': 'off',
     'react/require-default-props': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],

@@ -1,54 +1,27 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { Keyword } from '../index';
+import { KeywordList } from '../index';
 import { searchRecipesQuery } from '../../utils/query/searchRecipesQuery';
+import { useSearchHistory } from '../../hooks';
 
 interface SearchProps {
   keyword: string;
-  setKeyword: (word: string) => void;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
 }
-
-const HISTORY_LIST_LEN = 8;
-const dietCategory = [
-  'balanced',
-  'high-fiber',
-  'high-protein',
-  'low-carb',
-  'low-fat',
-  'low-sodium',
-];
-const healthCategory = [
-  'alcohol-free',
-  'dairy-free',
-  'gluten-free',
-  'keto-friendly',
-  'Mediterranean',
-];
-
-const dishTypeCategory = ['Bread', 'Cereal', 'Dessert', 'Drinks', 'Salad', 'Pancakes'];
 
 const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [history, setHistory] = useState(JSON.parse(localStorage.getItem('keyword') ?? '[]'));
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('keyword');
-  const historyDisplay = history.slice(0, HISTORY_LIST_LEN);
-
-  const updateHistory = (keyword: string) => {
-    const newHistory = history.includes(keyword)
-      ? [keyword, ...history.filter((search: string) => search !== keyword)]
-      : [keyword, ...history];
-
-    localStorage.setItem('keyword', JSON.stringify(newHistory));
-    setKeyword(keyword);
-    setHistory(newHistory);
-    setSearchParams({ keyword });
-  };
+  const {
+    history,
+    updateHistory: { addHistory, removeHistory },
+  } = useSearchHistory({ setKeyword });
 
   const prefetchSearchResults = async (value: string) => {
     await queryClient.prefetchQuery({
@@ -62,29 +35,21 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     const inputValue = inputRef.current?.value;
     if (!inputValue) return;
 
-    await prefetchSearchResults(inputValue);
-    updateHistory(inputValue);
+    prefetchSearchResults(inputValue);
+    addHistory(inputValue);
   };
 
   const handleKeywordSearch = (keyword: string) => async () => {
     if (!inputRef.current) return;
 
     inputRef.current.value = keyword;
-    await prefetchSearchResults(keyword);
-    updateHistory(keyword);
+    prefetchSearchResults(keyword);
+    addHistory(keyword);
   };
 
   const handleClickCloseButton = () => {
     if (!inputRef.current) return;
     inputRef.current.value = '';
-  };
-
-  const handleRemoveClick = (keyword: string) => (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const newHistory = history.filter((search: string) => search !== keyword);
-
-    localStorage.setItem('keyword', JSON.stringify(newHistory));
-    setHistory(newHistory);
   };
 
   useEffect(() => {
@@ -108,35 +73,11 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
         )}
       </Form>
       {!searchKeyword?.length && (
-        <Recommendation aria-label="search recommendation">
-          {history.length > 0 && (
-            <Keyword
-              title="Recent"
-              label="recent search"
-              keywords={historyDisplay}
-              handleKeywordSearch={handleKeywordSearch}
-              handleRemoveClick={handleRemoveClick}
-            />
-          )}
-          <Keyword
-            title="Diet"
-            label="diet category"
-            keywords={dietCategory}
-            handleKeywordSearch={handleKeywordSearch}
-          />
-          <Keyword
-            title="Health"
-            label="health category"
-            keywords={healthCategory}
-            handleKeywordSearch={handleKeywordSearch}
-          />
-          <Keyword
-            title="Dish Type"
-            label="dish type category"
-            keywords={dishTypeCategory}
-            handleKeywordSearch={handleKeywordSearch}
-          />
-        </Recommendation>
+        <KeywordList
+          history={history}
+          handleKeywordSearch={handleKeywordSearch}
+          handleRemoveClick={removeHistory}
+        />
       )}
     </Container>
   );
@@ -192,13 +133,6 @@ const SearchIcon = styled(BsSearch)`
   left: 20px;
   transform: translateY(-50%);
   top: 50%;
-`;
-
-const Recommendation = styled.section`
-  position: absolute;
-  top: 80px;
-  left: 0;
-  width: 100%;
 `;
 
 export default SearchBar;

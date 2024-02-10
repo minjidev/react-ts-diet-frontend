@@ -36,7 +36,6 @@ const Keyword = ({
 };
 
 const iconStyle = css`
-  cursor: pointer;
   width: 24px;
   height: 24px;
 `;
@@ -45,6 +44,7 @@ const Container = styled.section`
   font-family: 'Rubik';
   width: 100%;
   padding: 20px 0;
+  cursor: pointer;
 `;
 
 const Subtitle = styled.h2<{ $isrecent: boolean }>`

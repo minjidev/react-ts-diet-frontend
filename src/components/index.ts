@@ -27,6 +27,7 @@ export { default as NutritionInfo } from './dashboard/NutritionInfo';
 
 export { default as SearchBar } from './recipes/SearchBar';
 export { default as RecipeResult } from './recipes/RecipeResult';
+export { default as KeywordList } from './recipes/KeywordList';
 
 export { default as AboutContent } from './about/AboutContent';
 export { default as HomeContent } from './home/HomeContent';

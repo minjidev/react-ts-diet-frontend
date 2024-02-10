@@ -96,6 +96,23 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
+interface Categories {
+  diet: string[];
+  health: string[];
+  dishType: string[];
+}
+
+interface SearchKeywords {
+  title: string;
+  label: keyof Categories;
+}
+
+interface KeywordsInfo {
+  HISTORY_LIST_LEN: number;
+  categories: Categories;
+  searchKeywords: SearchKeywords[];
+}
+
 export type {
   TotalDailyType,
   TotalNutrientsType,
@@ -108,4 +125,6 @@ export type {
   RecipeData,
   ButtonProps,
   RawRecipe,
+  SearchKeywords,
+  KeywordsInfo,
 };
