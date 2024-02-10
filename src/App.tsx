@@ -1,21 +1,7 @@
 import React, { useEffect } from 'react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 import GlobalStyle from './styles/GlobalStyle';
-import router from './router/router';
-
-// data-theme='light'
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0, // default 3
-      suspense: true,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+import useRouter from './router/useRouter';
 
 const App = () => {
   useEffect(() => {
@@ -23,15 +9,12 @@ const App = () => {
     window.scrollTo({ top: 0 });
   }, []);
 
+  const router = useRouter();
+
   return (
     <>
       <GlobalStyle />
-      <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </RecoilRoot>
+      <RouterProvider router={router} />
     </>
   );
 };
