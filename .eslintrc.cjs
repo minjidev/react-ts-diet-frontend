@@ -48,6 +48,7 @@ module.exports = {
     'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'import/no-cycle': 'off',
   },
   globals: {
     ...vitest.environments.env.globals,
