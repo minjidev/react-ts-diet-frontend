@@ -3,9 +3,7 @@ import { styled, css } from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSearchParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { KeywordList } from '../index';
-import { searchRecipesQuery } from '../../utils/query/searchRecipesQuery';
 import { useSearchHistory } from '../../hooks';
 
 interface SearchProps {
@@ -14,7 +12,6 @@ interface SearchProps {
 }
 
 const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
-  const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('keyword');
@@ -23,19 +20,11 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     updateHistory: { addHistory, removeHistory },
   } = useSearchHistory({ setKeyword });
 
-  const prefetchSearchResults = async (value: string) => {
-    await queryClient.prefetchQuery({
-      ...searchRecipesQuery(value),
-      staleTime: 1000 * 10,
-    });
-  };
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const inputValue = inputRef.current?.value;
     if (!inputValue) return;
 
-    prefetchSearchResults(inputValue);
     addHistory(inputValue);
   };
 
@@ -43,7 +32,6 @@ const SearchBar = ({ keyword, setKeyword }: SearchProps) => {
     if (!inputRef.current) return;
 
     inputRef.current.value = keyword;
-    prefetchSearchResults(keyword);
     addHistory(keyword);
   };
 

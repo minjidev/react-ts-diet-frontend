@@ -1,6 +1,8 @@
 import React from 'react';
 import { styled, css } from 'styled-components';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useQueryClient } from '@tanstack/react-query';
+import { searchRecipesQuery } from '../../utils/query/searchRecipesQuery';
 
 interface KeywordProps {
   title: string;
@@ -19,13 +21,33 @@ const Keyword = ({
 }: KeywordProps) => {
   const isRecent = title === 'Recent';
   const handleRemoveButtonClick = handleRemoveClick ?? (() => () => {});
+  const queryClient = useQueryClient();
+
+  const prefetchSearchResults = async (value: string) => {
+    await queryClient.prefetchQuery({
+      ...searchRecipesQuery(value),
+      staleTime: 1000 * 10,
+    });
+  };
+
+  const handleKeywordHover = (keyword: string) => async () => {
+    // If already fetched the key, then don't prefetch it again
+    const searchRecipes = queryClient.getQueryData(searchRecipesQuery(keyword).queryKey);
+    if (searchRecipes) return;
+
+    await prefetchSearchResults(keyword);
+  };
 
   return (
     <Container aria-label={label}>
       <Subtitle $isrecent={isRecent}>{title}</Subtitle>
       <KeywordList>
         {keywords.map((keyword: string) => (
-          <KeywordItem key={keyword} $isrecent={isRecent} onClick={handleKeywordSearch(keyword)}>
+          <KeywordItem
+            key={keyword}
+            $isrecent={isRecent}
+            onClick={handleKeywordSearch(keyword)}
+            onMouseEnter={handleKeywordHover(keyword)}>
             {keyword}
             {isRecent && <RemoveButton onClick={handleRemoveButtonClick(keyword)} />}
           </KeywordItem>
