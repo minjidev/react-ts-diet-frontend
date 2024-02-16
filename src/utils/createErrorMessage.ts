@@ -10,7 +10,7 @@ const errorMessages: { [key: number]: string } = {
 
 const DEFAULT_ERROR_MESSAGE = "Something didn't go as planned, but we're on it! Try again soon.";
 
-const createErrorMessage = (errorCode: number): string =>
-  errorMessages[errorCode] || DEFAULT_ERROR_MESSAGE;
+const createErrorMessage = (errorCode: number | undefined): string =>
+  (errorCode && errorMessages[errorCode]) || DEFAULT_ERROR_MESSAGE;
 
 export default createErrorMessage;

@@ -15,7 +15,7 @@ const ErrorFallback = ({ error, showFullErrorMessage = true }: ErrorFallbackProp
   return (
     <Container>
       {showFullErrorMessage ? (
-        <p> {createErrorMessage(error.response.status)} </p>
+        <p> {createErrorMessage(error.response?.status)} </p>
       ) : (
         <p>Please Try Again</p>
       )}
