@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, SyntheticEvent } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface LazyImgProps {
@@ -12,19 +12,25 @@ interface LazyImgProps {
 }
 
 const LazyImg = ({ imgInfo, handleImgClick, observer }: LazyImgProps) => {
-  const imgRef = useRef(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = '/images/no_img.svg';
+  };
 
   useEffect(() => {
-    if (observer && imgRef.current) {
-      observer.observe(imgRef.current);
+    const currentImgRef = imgRef.current;
+
+    if (observer && currentImgRef) {
+      observer.observe(currentImgRef);
     }
 
     return () => {
-      if (observer && imgRef.current) {
-        observer.unobserve(imgRef.current);
+      if (observer && currentImgRef) {
+        observer.unobserve(currentImgRef);
       }
     };
-  }, [observer]);
+  }, [observer, imgRef]);
 
   return (
     <RecipeImg
@@ -34,9 +40,7 @@ const LazyImg = ({ imgInfo, handleImgClick, observer }: LazyImgProps) => {
       data-src={imgInfo.high}
       alt={imgInfo.label}
       onClick={handleImgClick}
-      onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
-        e.currentTarget.src = '/images/no_img.svg';
-      }}
+      onError={handleImgError}
     />
   );
 };
