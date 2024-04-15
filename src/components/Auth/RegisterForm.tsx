@@ -40,7 +40,7 @@ const RegisterForm = () => {
       reset(defaultValues);
       navigate('/login');
     }
-  }, [isSubmitSuccessful, reset]);
+  }, [isSubmitSuccessful, reset, navigate]);
 
   const onSubmitRegister = async (data: RegisterSchema) => {
     try {

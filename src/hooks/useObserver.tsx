@@ -22,7 +22,7 @@ const useObserver = (data: Recipe[] | SavedRecipesByDate | undefined) => {
 
       setObserver(observerInst);
     }
-  }, [data]);
+  }, [data, observer]);
 
   return observer;
 };

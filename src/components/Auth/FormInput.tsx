@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import {
   useController,
@@ -8,9 +8,9 @@ import {
   Path,
 } from 'react-hook-form';
 import { AxiosError } from 'axios';
+import { debounce } from 'lodash';
 import { checkEmailDuplicated, checkUsernameDuplicated } from '../../api/auth';
 import Button from '../common/Button';
-import { useDebounce } from '../../hooks/index';
 import { mobileQuery } from '../../utils/index';
 
 type InputProps<T extends FieldValues> = {
@@ -61,11 +61,14 @@ const Input = <T extends FieldValues>({
     }
   };
 
-  const deboucedPwCheckTrigger = useDebounce(
-    () => trigger('passwordConfirm' as Path<T>),
-    TRIGGER_DEBOUNCE_DELAY_TIME,
-  );
-  const debouncedTrigger = useDebounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);
+  const deboucedPwCheckTrigger = useCallback(() => {
+    debounce(() => trigger('passwordConfirm' as Path<T>), TRIGGER_DEBOUNCE_DELAY_TIME);
+  }, [trigger]);
+
+  const debouncedTrigger = useCallback(() => {
+    debounce(() => trigger(name), TRIGGER_DEBOUNCE_DELAY_TIME);
+  }, [name, trigger]);
+
   return (
     <>
       <Label htmlFor={name} className="sr-only">
