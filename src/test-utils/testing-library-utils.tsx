@@ -16,7 +16,7 @@ const createWrapper = () => {
     },
   });
 
-  return function ({ children }: { children: React.ReactNode }) {
+  return function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <RecoilRoot>
         <QueryClientProvider client={queryClient}>

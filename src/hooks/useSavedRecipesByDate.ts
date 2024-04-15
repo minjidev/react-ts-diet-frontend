@@ -14,7 +14,6 @@ const useSavedRecipesByDate = ({ date, userId }: UseSavedRecipesByDateProps) => 
   return useQuery<SavedRecipesByDate, AxiosError>({
     queryKey: [...savedRecipesByDateKey, userId, formatDate(date ?? new Date())],
     queryFn: getSavedRecipesByDate({ date, userId }),
-    onError: (error: AxiosError) => console.error(error),
   });
 };
 
