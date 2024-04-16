@@ -51,7 +51,7 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/no-cycle': 'off',
     'import/extensions': [
-      'error',
+      'warn',
       'ignorePackages',
       {
         js: 'never',
