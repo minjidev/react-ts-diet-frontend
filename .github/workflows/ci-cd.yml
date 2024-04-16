@@ -60,10 +60,10 @@ jobs:
         with:
           python-version: '3.12.0'
 
-      - name: Install AWS Cli
-        run: |
-          python -m pip install --upgrade pip
-          pip install awscli
+      # - name: Install AWS Cli
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install awscli
 
       - name: Install dependencies
         if: ${{ needs.setup.outputs.cache-hit != 'true' }}
