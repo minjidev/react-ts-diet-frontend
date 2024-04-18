@@ -8,7 +8,7 @@ const RecipeResult = () => {
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('keyword');
   const { data: recipes } = useSearchRecipes(searchKeyword);
-  const observer = useObserver(recipes);
+  const observer = useObserver();
 
   return (
     <>

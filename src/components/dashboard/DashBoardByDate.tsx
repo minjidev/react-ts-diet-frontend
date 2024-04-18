@@ -17,7 +17,7 @@ const DashBoardByDate = () => {
     date: selected ?? new Date(),
     userId: user?._id,
   });
-  const observer = useObserver(savedRecipes);
+  const observer = useObserver();
   const handleDateClick = () => {
     setIsOpen(true);
   };

@@ -15,7 +15,7 @@ type RecipeCardStyles = {
 
 interface RecipeCardProps {
   recipe: Recipe;
-  observer: IntersectionObserver | null;
+  observer?: IntersectionObserver | null;
   selected?: Date | undefined;
   $style?: RecipeCardStyles;
   shouldEagerLoad?: boolean;

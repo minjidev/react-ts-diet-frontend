@@ -8,7 +8,7 @@ interface LazyImgProps {
     label: string;
   };
   handleImgClick: (e: React.MouseEvent) => void;
-  observer: IntersectionObserver | null;
+  observer?: IntersectionObserver | null;
 }
 
 const LazyImg = ({ imgInfo, handleImgClick, observer }: LazyImgProps) => {

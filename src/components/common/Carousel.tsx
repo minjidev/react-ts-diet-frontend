@@ -12,7 +12,7 @@ const Carousel = ({
   observer,
 }: {
   category: string;
-  observer: IntersectionObserver | null;
+  observer?: IntersectionObserver | null;
 }) => {
   const { data } = useCategorizedRecipes(category);
   const [currentPage, setCurrentPage] = useState(0);
