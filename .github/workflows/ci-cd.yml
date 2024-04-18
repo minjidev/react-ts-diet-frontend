@@ -60,6 +60,13 @@ jobs:
         with:
           python-version: '3.12.0'
 
+      - name: env setting
+        run: |
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
+          echo "VITE_EDAMAM_APP_ID=${{ secrets.VITE_EDAMAM_APP_ID }}" >> .env
+          echo "VITE_EDAMAM_APP_KEY=${{ secrets.VITE_EDAMAM_APP_KEY }}" >> .env
+          echo "VITE_EDAMAM_BASE_URL=${{ secrets.VITE_EDAMAM_BASE_URL }}" >> .env
+
       - name: Install dependencies
         if: ${{ needs.setup.outputs.cache-hit != 'true' }}
         run: npm install
