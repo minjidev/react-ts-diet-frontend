@@ -4,7 +4,6 @@ import { HttpResponse, delay, http } from 'msw';
 import { ErrorBoundary } from 'react-error-boundary';
 import { render, screen } from '../../test-utils/testing-library-utils';
 import { server } from '../../tools/tests/server';
-
 import { Carousel, CarouselSkeleton, ErrorFallback } from '../index';
 
 describe('Carousel', () => {
