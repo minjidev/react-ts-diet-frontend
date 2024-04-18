@@ -2,19 +2,23 @@ import React, { useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { GoDot, GoDotFill } from 'react-icons/go';
-import { useCategorizedRecipes, useObserver } from '../../hooks/index';
+import { useCategorizedRecipes } from '../../hooks/index';
 import { RecipeCard } from '../index';
 import { Recipe } from '../../types/types';
 import { capitalizeFirstLetter, carouselConfig } from '../../utils/index';
 
-const Carousel = ({ category }: { category: string }) => {
+const Carousel = ({
+  category,
+  observer,
+}: {
+  category: string;
+  observer: IntersectionObserver | null;
+}) => {
   const { data } = useCategorizedRecipes(category);
   const [currentPage, setCurrentPage] = useState(0);
   const { CAROUSEL_DATA_SIZE, CAROUSEL_DATA_SIZE_PER_PAGE, getEagerLoadCount } = carouselConfig;
 
   const eagerLoadCount = useRef(getEagerLoadCount());
-
-  const observer = useObserver(data);
 
   const handleClick = (type: string) => () => {
     if (type === 'prev') setCurrentPage(currentPage - 1);

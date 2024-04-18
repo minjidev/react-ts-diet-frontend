@@ -30,7 +30,7 @@ const LazyImg = ({ imgInfo, handleImgClick, observer }: LazyImgProps) => {
         observer.unobserve(currentImgRef);
       }
     };
-  }, [observer, imgRef]);
+  }, [observer]);
 
   return (
     <RecipeImg
