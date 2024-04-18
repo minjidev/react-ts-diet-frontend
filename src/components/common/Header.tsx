@@ -41,8 +41,6 @@ const Header = () => {
         icon: '✅',
       });
     } catch (error) {
-      console.error(error);
-
       notify({
         status: 'error',
         message: 'Something Went Wrong!',

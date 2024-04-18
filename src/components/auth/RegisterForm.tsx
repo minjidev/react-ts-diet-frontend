@@ -51,7 +51,6 @@ const RegisterForm = () => {
         icon: '🎉',
       });
     } catch (e) {
-      console.error(e);
       notify({
         status: 'error',
         message: 'Registration Failed..',

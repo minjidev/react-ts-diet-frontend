@@ -32,7 +32,6 @@ const LoginForm = () => {
         navigate(state);
       } else navigate('/');
     } catch (e) {
-      console.error(e);
       notify({ status: 'error', message: 'Log In Failed..', icon: '🥹' });
     }
   };
