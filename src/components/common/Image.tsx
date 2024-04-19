@@ -7,7 +7,7 @@ interface ImgProp {
   handleImgClick?: (e: React.MouseEvent) => void;
 }
 
-const Image = ({ imgSrc, alt, handleImgClick }: ImgProp) => {
+const Image = ({ imgSrc, alt, handleImgClick, ...props }: ImgProp) => {
   return (
     <div>
       <RecipeImg
@@ -17,6 +17,7 @@ const Image = ({ imgSrc, alt, handleImgClick }: ImgProp) => {
         onError={(e: SyntheticEvent<HTMLImageElement, Event>) => {
           e.currentTarget.src = '/images/no_img.svg';
         }}
+        {...props}
       />
     </div>
   );

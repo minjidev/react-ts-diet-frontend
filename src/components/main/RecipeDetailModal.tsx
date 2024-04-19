@@ -104,9 +104,8 @@ const Img = styled(Image)`
   width: 18rem;
   height: 18rem;
   margin: 1rem 0;
-
   border-radius: 1rem;
-  cursor: none;
+  cursor: auto;
 `;
 
 const Description = styled.div`
