@@ -13,6 +13,21 @@ const GlobalStyle = createGlobalStyle`
     justify-content: center;
     align-items: center;
    
+
+  }
+
+
+
+  body {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    box-sizing: border-box;
+    min-height: 100%;
+    width: 100%;
+    
     --red: #FC2B0A; 
     --dark-red: #C32020;
     --green: #22C745;
@@ -33,20 +48,7 @@ const GlobalStyle = createGlobalStyle`
     --border-primary: #ababab;
     --border-secondary: #eee;
     --border-tertiary: #000;
-  }
 
-
-
-  body {
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
-    box-sizing: border-box;
-    min-height: 100%;
-    width: 100%;
-    
 
     background-color: var(--bg-color);
     color: var(--font-color);

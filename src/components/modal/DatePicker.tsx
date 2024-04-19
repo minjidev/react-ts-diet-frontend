@@ -116,6 +116,7 @@ const CalendarIcon = styled(BsCalendarPlus)`
 
 const DayPickerContainer = styled.div<{ direction: string }>`
   position: absolute;
+  background: white;
   top: ${({ direction }) => (direction === 'bottom' ? '-6px' : '')};
   bottom: ${({ direction }) => (direction === 'top' ? '0' : '')};
   left: 0;
